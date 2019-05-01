@@ -10,7 +10,7 @@
                 <br />
                 <li>Configuración</li>
                 <br />
-                <li class="@Html.IsActive("Parametro")">@Html.ActionMenuRole("Parámetros", "zmdi zmdi-settings", "Index", "Parametro", Email)</li>
+                @*<li class="@Html.IsActive("Parametro")">@Html.ActionMenuRole("Parámetros", "zmdi zmdi-settings", "Index", "Parametro", Email)</li>*@
                 @if (Html.VerifyAccess(Email, "Index", "Usuario") || Html.VerifyAccess(Email, "Index", "Perfil"))
                 {
                     <li class="navigation__sub  @Html.IsActive("Perfil", IsGroup: true) @Html.IsActive("Usuario", IsGroup: true)">
@@ -21,9 +21,9 @@
                                 @Html.ActionMenuRole("Gestión de Usuarios", "", "Index", "Usuario", Email)
                             </li>
 
-                            <li class="@Html.IsActive("Perfil", "Index")">
+                            @*<li class="@Html.IsActive("Perfil", "Index")">
                                 @Html.ActionMenuRole("Gestión de Perfiles", "", "Index", "Perfil", Email)
-                            </li>
+                            </li>*@
                         </ul>
                     </li>
                 }
