@@ -32,14 +32,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>appsettings.cs</LastGenOutput>
     </None>
-    <None Update="CodeTemplates\NombreProyecto.txt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NombreProyecto.cs</LastGenOutput>
-    </None>
-    <None Update="CodeTemplates\Tablas.txt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Tablas.cs</LastGenOutput>
-    </None>
     <None Update="IConcretarContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IConcretarContext.cs</LastGenOutput>
@@ -67,21 +59,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="appsettings.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>appsettings.json</DependentUpon>
-    </Compile>
-    <Compile Update="CodeTemplates\NombreProyecto.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NombreProyecto.txt</DependentUpon>
-    </Compile>
-    <Compile Update="CodeTemplates\Tablas.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Tablas.txt</DependentUpon>
-    </Compile>
     <Compile Update="IConcretarContext.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -107,6 +84,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>UnitOfWork.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CodeTemplates\" />
   </ItemGroup>
 
 </Project>

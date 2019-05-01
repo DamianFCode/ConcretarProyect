@@ -26,18 +26,7 @@ namespace Concretar.Entities
             builder.ConfigureWarnings(w => w.Throw(RelationalEventId.QueryClientEvaluationWarning));
             context = new ConcretarContext(builder.Options);
     }
-						private Repository<Auditoria> auditoriaRepository;
-		public IRepository<Auditoria> AuditoriaRepository
-		{
-			get
-			{
-				if (this.auditoriaRepository == null)
-				{
-					this.auditoriaRepository = new Repository<Auditoria>(context);
-				}
-				return auditoriaRepository;
-			}
-		}
+					
 						private Repository<Parametro> parametroRepository;
 		public IRepository<Parametro> ParametroRepository
 		{
@@ -122,78 +111,7 @@ namespace Concretar.Entities
 				return vistaRepository;
 			}
 		}
-						private Repository<AsuntoFormContacto> asuntoFormContactoRepository;
-		public IRepository<AsuntoFormContacto> AsuntoFormContactoRepository
-		{
-			get
-			{
-				if (this.asuntoFormContactoRepository == null)
-				{
-					this.asuntoFormContactoRepository = new Repository<AsuntoFormContacto>(context);
-				}
-				return asuntoFormContactoRepository;
-			}
-		}
-						private Repository<FormContacto> formContactoRepository;
-		public IRepository<FormContacto> FormContactoRepository
-		{
-			get
-			{
-				if (this.formContactoRepository == null)
-				{
-					this.formContactoRepository = new Repository<FormContacto>(context);
-				}
-				return formContactoRepository;
-			}
-		}
-						private Repository<Producto> productoRepository;
-		public IRepository<Producto> ProductoRepository
-		{
-			get
-			{
-				if (this.productoRepository == null)
-				{
-					this.productoRepository = new Repository<Producto>(context);
-				}
-				return productoRepository;
-			}
-		}
-						private Repository<ArchivoProducto> archivoProductoRepository;
-		public IRepository<ArchivoProducto> ArchivoProductoRepository
-		{
-			get
-			{
-				if (this.archivoProductoRepository == null)
-				{
-					this.archivoProductoRepository = new Repository<ArchivoProducto>(context);
-				}
-				return archivoProductoRepository;
-			}
-		}
-						private Repository<FormSolicitudProducto> formSolicitudProductoRepository;
-		public IRepository<FormSolicitudProducto> FormSolicitudProductoRepository
-		{
-			get
-			{
-				if (this.formSolicitudProductoRepository == null)
-				{
-					this.formSolicitudProductoRepository = new Repository<FormSolicitudProducto>(context);
-				}
-				return formSolicitudProductoRepository;
-			}
-		}
-						private Repository<FormGestionesUsuario> formGestionesUsuarioRepository;
-		public IRepository<FormGestionesUsuario> FormGestionesUsuarioRepository
-		{
-			get
-			{
-				if (this.formGestionesUsuarioRepository == null)
-				{
-					this.formGestionesUsuarioRepository = new Repository<FormGestionesUsuario>(context);
-				}
-				return formGestionesUsuarioRepository;
-			}
-		}
+						
 						private Repository<UsuarioToken> usuarioTokenRepository;
 		public IRepository<UsuarioToken> UsuarioTokenRepository
 		{
