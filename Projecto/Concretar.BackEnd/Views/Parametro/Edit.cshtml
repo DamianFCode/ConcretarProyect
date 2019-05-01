@@ -1,0 +1,62 @@
+﻿@model Concretar.Services.Models.ParametroModel
+@{
+    ViewData["Title"] = "Editar Parametro";
+}
+
+<header class="content__title">
+    <h1>@ViewData["Title"]</h1>
+    <div class="actions">
+        @Html.ActionLink("", "Index", "Parametro", null, new { @class = "actions__item zmdi zmdi-long-arrow-left text-danger", @title = "Volver" })
+    </div>
+</header>
+<form asp-action="Edit" asp-controller="Parametro" method="post" id="#EditParametro">
+    @Html.HiddenFor(m => m.ParametroId)
+    @Html.HiddenFor(m => m.Categoria)
+    @Html.HiddenFor(m => m.Clave)
+    @Html.HiddenFor(m => m.Descripcion)
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title h2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span>@Model.Descripcion</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-block">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group form-group--float">
+                        @Html.TextBoxFor(m => m.Valor, new { @class = "form-control", @required = "required" })
+                        @Html.Label("Valor")
+                        <i class="form-group__bar"></i>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Valor, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button id="submit-btn" type="submit" class="btn btn-primary btn--icon-text waves-effect float-right">
+                <i class="zmdi zmdi-save"></i>
+                Guardar
+            </button>
+        </div>
+    </div>
+</form>
+@section Scripts
+    {
+    <script>
+        
+        $("#submit-btn").click(function (event) {
+            $("#submit-btn").html("<i class='zmdi zmdi-spinner fa-spin'></i> Procesando...");
+            $("#submit-btn").addClass("disabled");
+            $("#EditParametro").submit();
+            
+        });
+
+    </script>
+
+}

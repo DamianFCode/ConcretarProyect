@@ -1,0 +1,39 @@
+﻿@using NonFactors.Mvc.Grid
+@using Concretar.Backend.Extensions
+@model IEnumerable<Concretar.Services.Models.ParametroModel>
+@{
+    var Email = @User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+    ViewData["Title"] = "Parametros";
+    var edit = Html.ColumnTablePermission("Edit", "Parametro", Email);
+}
+
+<header class="content__title">
+    <h1>@ViewData["Title"]</h1>
+</header>
+<div class="card">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-md-12">
+                @foreach (var catList in Model.GroupBy(x => x.Categoria).ToList())
+                {
+                    <b>@catList.FirstOrDefault().Categoria.ToUpper()</b>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @(Html.Grid(catList)
+                                    .Build(columns =>
+                                    {
+                                        columns.Add(m => m.Descripcion).Titled("Descripción");
+                                        columns.Add(m => m.Valor).Titled("Valor");
+                                        columns.Add(m => Html.ActionLink("", "Edit", "Parametro", new { Id = m.ParametroId }, new { @class = "zmdi zmdi-edit text-warning", @title = "Editar" })).Css("action-cell " + edit).Titled("Editar");
+
+                                    })
+                                    .Empty("No se encontró ningún registro")
+                                    .Css("table table-hover")
+                            )
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

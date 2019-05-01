@@ -1,0 +1,46 @@
+﻿@using NonFactors.Mvc.Grid
+@using Concretar.Backend.Extensions
+@model IEnumerable<Concretar.Entities.Usuario>
+@{
+    var Email = @User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+    ViewData["Title"] = "Usuarios";
+    var edit = Html.ColumnTablePermission("Edit", "Usuario", Email);
+    var delete = Html.ColumnTablePermission("Delete", "Usuario", Email);
+}
+
+<style>
+    .row-father {
+        font-weight: bold;
+    }
+
+    .row-child > td {
+        padding-left: 5%;
+    }
+</style>
+<header class="content__title">
+    <h1>@ViewData["Title"]</h1>
+    <div class="actions">
+        @Html.ActionLinkRole("", "actions__item zmdi zmdi-plus text-success", "Create", "Usuario", Email)
+    </div>
+</header>
+<div class="card">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-md-12">
+                @(Html.Grid(Model)
+                        .Build(columns =>
+                        {
+                            columns.Add(m => m.Nombre).Titled("Nombre").Sortable(true);
+                            columns.Add(m => m.Apellido).Titled("Apellido");
+                            columns.Add(m => m.Email).Titled("Email");
+                            columns.Add(m => Html.ActionLink("", "Edit", "Usuario", new { Id = m.UsuarioId }, new { @class = "zmdi zmdi-edit text-warning", @title = "Editar" })).Css("action-cell " + edit).Titled("Editar");
+                            columns.Add(m => Html.ActionLink("", "Delete", "Usuario", new { Id = m.UsuarioId }, new { @class = "zmdi zmdi-delete text-danger swal-delete", @title = "Eliminar" })).Css("action-cell " + delete).Titled("Eliminar");
+                        })
+                        .Pageable(pager => { pager.RowsPerPage = 15; })
+                        .Empty("No se encontró ningún registro")
+                        .Css("table table-hover")
+                )
+            </div>
+        </div>
+    </div>
+</div>

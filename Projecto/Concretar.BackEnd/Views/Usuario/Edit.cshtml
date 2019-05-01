@@ -1,0 +1,134 @@
+﻿@model Concretar.Services.Models.UsuarioViewModel
+@{
+    ViewData["Title"] = "Editar usuario";
+    var selectRoles = (IEnumerable<SelectListItem>)ViewData["Roles"];
+}
+<style>
+    span.select2-container {
+        z-index: 150515;
+    }
+
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        white-space: normal !important;
+    }
+
+    .select2-container {
+        width: 800px !important;
+    }
+</style>
+
+<header class="content__title">
+    <h1>@ViewData["Title"]</h1>
+    <div class="actions">
+        <a href="@Url.Action("Index", "Usuario")" class="actions__item zmdi zmdi-arrow-left text-danger" title="Volver"></a>
+    </div>
+</header>
+<form asp-action="Edit" asp-controller="Usuario" method="post" id="EditUserForm">
+    @Html.HiddenFor(m => m.UsuarioId)
+    <div class="card">
+        <div class="card-block">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group form-group--float">
+                        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+                        @Html.Label("Nombre")
+                        <i class="form-group__bar"></i>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Nombre, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group form-group--float">
+                        @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control" })
+                        @Html.Label("Apellido")
+                        <i class="form-group__bar"></i>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Apellido, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group form-group--float">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.Label("Email")
+                        <i class="form-group__bar"></i>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-block">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Label("Perfiles")
+                    <div class="form-group">
+                        @Html.DropDownList("roles", selectRoles, new { @class = "roles", aria_hidden = "true", tabindex = "-1", @id = "RolesDropDown" })
+                        @Html.HiddenFor(m => m.ArrayRoles)
+                    </div>
+                    <span class="text-danger field-validation-error" data-valmsg-for="arrayRoles" data-valmsg-replace="true">
+                        <span class="text-arrayRoles-error"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" id="submit-btn" class="btn btn-primary btn--icon-text waves-effect float-right">
+                <i class="zmdi zmdi-save"></i>
+                Guardar
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $('.roles').select2();
+
+    });
+
+    $("#submit-btn").click(function (event) {
+        event.preventDefault();
+        var rolesSelect = $("#RolesDropDown").val();
+        var statusRoles = checkStatusRoles(rolesSelect);
+
+        if ($('#EditUserForm').valid() && statusRoles) {
+            $("#submit-btn").html("<i class='zmdi zmdi-spinner fa-spin'></i> Procesando...");
+            $("#submit-btn").addClass("disabled");
+            document.getElementById("submit-btn").style.pointerEvents = "none";
+            SendForm();
+        }
+    });
+
+    function SendForm(obj) {
+        var arrayRoles = $("#RolesDropDown").val();
+        $("#ArrayRoles").val(arrayRoles.toString());
+        var formName = $(obj).data("form");
+        var theForm = document.getElementById("EditUserForm");/*.forms[formName];*/
+        theForm.submit();
+    }
+
+    function checkStatusRoles(rolesSelect) {
+        var status = false;
+        if (rolesSelect.length === 0) {
+            $(".text-arrayRoles-error").text("Debe seleccionar al menos un Perfil");
+            status = false;
+        } else {
+            status = true;
+        }
+        return status;
+    }
+
+    $(".roles").change(function () {
+        var rolesSelect = $("#RolesDropDown").val();
+        if (rolesSelect != null || rolesSelect.length <= 1) {
+            $(".text-arrayRoles-error").text("");
+        } else {
+            $(".text-arrayRoles-error").text("Debe seleccionar al menos un Perfil");
+        }
+    });
+
+</script>

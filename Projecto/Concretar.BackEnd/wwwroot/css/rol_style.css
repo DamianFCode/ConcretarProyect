@@ -1,0 +1,132 @@
+﻿/***************************************************************************
+    Hoja de estilos de ABM Rol - Estilos de los radios y checkboxs usados.
+***************************************************************************/
+
+#titulo {
+    text-transform: uppercase;
+}
+
+.c-checkbox,
+.c-radio {
+    margin-left: 4px;
+}
+
+    .c-checkbox *,
+    .c-radio * {
+        cursor: pointer;
+    }
+
+    .c-checkbox input,
+    .c-radio input {
+        opacity: 0;
+        position: absolute;
+        margin-right: 0 !important;
+    }
+
+    .c-checkbox span,
+    .c-radio span {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        /*margin-right: -20px;*/
+        width: 20px;
+        height: 20px;
+        border-radius: 2px;
+        border: 1px solid #ccc;
+        margin-left: 5px;
+        text-align: center;
+    }
+
+        .c-checkbox span:before,
+        .c-radio span:before {
+            margin-right: 1px;
+        }
+
+    .c-checkbox:hover span,
+    .c-radio:hover span {
+        border-color: #5d9cec;
+    }
+
+.form-inline .c-checkbox span,
+.form-inline .c-radio span {
+    margin-right: 0;
+}
+
+.c-checkbox.c-checkbox-rounded span,
+.c-radio.c-checkbox-rounded span,
+.c-checkbox.c-radio-rounded span,
+.c-radio.c-radio-rounded span {
+    border-radius: 500px;
+}
+
+.c-checkbox span:before,
+.c-radio span:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    opacity: 0;
+    text-align: center !important;
+    font-size: 12px;
+    line-height: 18px;
+    vertical-align: middle;
+}
+
+/* Checked state */
+
+.c-checkbox,
+.c-radio {
+    /* override for radio */
+    /* Disable state */
+    /* override for radio */
+}
+
+    .c-checkbox input[type=checkbox]:checked + span:before,
+    .c-radio input[type=checkbox]:checked + span:before,
+    .c-checkbox input[type=radio]:checked + span:before,
+    .c-radio input[type=radio]:checked + span:before {
+        color: #fff;
+        opacity: 1;
+        transition: color 0.3s ease-out;
+    }
+
+    .c-checkbox input[type=checkbox]:checked + span,
+    .c-radio input[type=checkbox]:checked + span,
+    .c-checkbox input[type=radio]:checked + span,
+    .c-radio input[type=radio]:checked + span {
+        border-color: #05C3DE;
+        background-color: #05C3DE;
+    }
+
+    .c-checkbox input[type=radio]:checked + span,
+    .c-radio input[type=radio]:checked + span {
+        background-color: #fff;
+    }
+
+        .c-checkbox input[type=radio]:checked + span:before,
+        .c-radio input[type=radio]:checked + span:before {
+            color: #5d9cec;
+        }
+
+    .c-checkbox input[type=checkbox]:disabled + span,
+    .c-radio input[type=checkbox]:disabled + span,
+    .c-checkbox input[type=radio]:disabled + span,
+    .c-radio input[type=radio]:disabled + span {
+        border-color: #dddddd !important;
+        background-color: #dddddd !important;
+    }
+
+    .c-checkbox input[type=radio]:disabled + span,
+    .c-radio input[type=radio]:disabled + span {
+        background-color: #fff !important;
+    }
+
+        .c-checkbox input[type=radio]:disabled + span:before,
+        .c-radio input[type=radio]:disabled + span:before {
+            color: #dddddd;
+        }
+
+.checkbox label::before {
+    content: initial !important;
+}

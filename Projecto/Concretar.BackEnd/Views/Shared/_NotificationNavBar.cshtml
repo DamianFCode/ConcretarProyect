@@ -1,0 +1,66 @@
+﻿@using Concretar.Backend.Models
+@{ 
+
+}
+<style>
+    .notifications-tran-box {
+        background-color: #e65d5d;
+        color: floralwhite;
+        width: 30px !important;
+        border-radius: 4px;
+    }
+</style>
+<li class="dropdown top-nav__notifications">
+    <a title="Devoluciones Pendientes" href="" data-toggle="dropdown" class="@(Model.NotificacionesDev.Count > 0 ? "top-nav__notify" : "")">
+        <i class="zmdi zmdi-@(Model.NotificacionesDev.Count > 0 ? "notifications-active" : "notifications")"></i><br />
+        <i class="zmdi zmdi-undo"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right dropdown-menu--block">
+        <div class="listview listview--hover">
+            <div class="listview__header">
+                Devoluciones Pendientes
+            </div>
+            <div class="listview__scroll scrollbar-inner">
+            </div>
+            <div class="p-1"></div>
+            <a href="" class="view-more">Ver todas las transacciones</a>
+        </div>
+    </div>
+</li>
+<li class="dropdown top-nav__notifications">
+   
+    <div class="dropdown-menu dropdown-menu-right dropdown-menu--block">
+        <div class="listview listview--hover">
+            <div class="listview__header">
+                Transacciones Recientes
+            </div>
+            <div class="listview__scroll scrollbar-inner">
+                @if (Model.NotificacionesTran.Count > 0 && Model.NotificacionesTran != null)
+                {
+                    foreach (var noti in Model.NotificacionesTran)
+                    {
+                        <a onclick='VerDetalle(@noti.TransaccionId)' class="listview__item">
+                            <div class="listview__content">
+                                <div class="listview__heading"><strong>#@noti.TransaccionId - @noti.ComercioNombre - @noti.Plataforma</strong></div>
+                                <p>Total transacción: </p>
+                                <p>Fecha: @noti.Fecha.ToShortDateString()</p>
+                            </div>
+                        </a>
+                    }
+
+                }
+                else
+                {
+                    <a href="#" class="listview__item">
+                        <div class="listview__content">
+                            <p>No hay transacciones pendientes</p>
+                        </div>
+                    </a>
+                }
+            </div>
+            <div class="p-1"></div>
+            <a href="" class="view-more">Transacciones restantes <span class="notifications-tran-box">&nbsp;@Model.RestantesTran&nbsp;</span></a>
+        </div>
+    </div>
+</li>
+

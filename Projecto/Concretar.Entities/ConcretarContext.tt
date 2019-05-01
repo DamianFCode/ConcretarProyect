@@ -1,0 +1,87 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.IO" #>
+<# string fileName = this.Host.ResolvePath("./CodeTemplates/Tablas.txt");
+  string [] properties = File.ReadLines(fileName).ToArray();
+  fileName = this.Host.ResolvePath("./CodeTemplates/NombreProyecto.txt");
+  string proyecto = File.ReadLines(fileName).ToArray()[0];
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Entities.AuditExtensions;
+using Microsoft.EntityFrameworkCore;
+
+namespace <#=proyecto#>.Entities
+{
+	public class <#=proyecto#>Context : EFCoreAudit
+	{
+		public <#=proyecto#>Context(DbContextOptions<<#=proyecto#>Context> options) : base(options)
+		{
+            //Database.SetInitializer<<#=proyecto#>Context>(new <#=proyecto#>Initializer());
+			//Configuration.LazyLoadingEnabled = false;
+			//Configuration.ProxyCreationEnabled = false;
+		}
+
+	
+		//Tablas
+		<# foreach (string propertyName in properties) { #>public DbSet<<#= propertyName #>> <#= propertyName #> { set; get; }
+		<# } #>
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+            
+            //Habilitado
+            modelBuilder.Entity<Auditoria>()
+           .HasQueryFilter(auditoria => EF.Property<bool>(auditoria, "Habilitado") == true);
+            modelBuilder.Entity<Usuario>()
+           .HasQueryFilter(usuario => EF.Property<bool>(usuario, "Habilitado") == true);
+
+            //Relationships
+
+            //rol-permiso
+            modelBuilder.Entity<RolPermiso>()
+            .HasKey(e => new { e.RolId, e.PermisoId });
+            modelBuilder.Entity<RolPermiso>()
+            .HasOne(x => x.Rol)
+            .WithMany(x => x.RolPermisos)
+            .HasForeignKey(x => x.RolId);
+            modelBuilder.Entity<RolPermiso>()
+            .HasOne(x => x.Permiso)
+            .WithMany(x => x.RolPermisos)
+            .HasForeignKey(x => x.PermisoId);
+
+            //usuario backend - rol
+            modelBuilder.Entity<UsuarioRol>()
+            .HasKey(e => new { e.RolId, e.UsuarioId });
+            modelBuilder.Entity<UsuarioRol>()
+            .HasOne(x => x.Usuario)
+            .WithMany(x => x.UsuarioRoles)
+            .HasForeignKey(x => x.UsuarioId);
+            modelBuilder.Entity<UsuarioRol>()
+            .HasOne(x => x.Rol)
+            .WithMany(x => x.UsuarioRoles)
+            .HasForeignKey(x => x.RolId);
+
+			//producto - archivo
+            modelBuilder.Entity<ArchivoProducto>()
+                .HasOne(x => x.Producto)
+                .WithMany(x => x.Archivos)
+                .HasForeignKey(x => x.ProductoId);
+        }
+
+    }
+}

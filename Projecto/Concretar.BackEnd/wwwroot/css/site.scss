@@ -1,0 +1,306 @@
+﻿@charset "UTF-8";
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+/*table th + th, table td + td {
+    border-left: 1px solid #ddd;
+}*/
+
+/*table td {
+    border-bottom: 1px solid #ddd;
+}*/
+
+table.table .action-cell {
+    text-align: center;
+    padding: 7px;
+    width: 45px;
+}
+
+table.table .action-cell + .action-cell {
+    border-left: none;
+    padding-left: 0;
+    width: 35px;
+}
+
+/*---------------------------------------------------- Inicio de sesión ---------------------------------------------------- */
+.row-login {
+    margin-left: -270px;
+}
+
+/*---------------------------------------------------- Mensajes de error ---------------------------------------------------- */
+.validation-summary-errors ul {
+    padding-left: 12px;
+}
+/*---------------------------------------------------- Sobrecargas a template -------------------------------------------------*/
+.sidebar {
+    padding: 55px 2rem .5rem;
+}
+/*.content:not(.content--boxed):not(.content--full) {
+    padding: 55px 30px 0 270px;
+}*/
+.user__email {
+    font-size: 11px;
+}
+
+.user__info {
+    flex-direction: column;
+}
+
+.user__name {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: 400;
+}
+/*---------------------------------------------------- botones flotantes -------------------------------------------------*/
+
+
+ul.float-buttons {
+    position: fixed;
+    right: 12px;
+    padding-left: 0px;
+    padding-bottom: 20px;
+    bottom: 95px;
+    z-index: 100;
+}
+
+ul.float-buttons li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+ul.float-buttons li a {
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 2px 2px 3px #999;
+    width: 45px;
+    height: 45px;
+    display: block;
+}
+
+ul.float-buttons:hover {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+
+.float-buttons-icon {
+    font-size: 16px;
+    margin-top: 15px;
+    color: #FFF !important;
+}
+
+.label-container {
+    position: fixed;
+    right: 60px;
+    display: table;
+    visibility: hidden;
+}
+
+#float-publish .label-container {
+    bottom: 140px;
+}
+
+#float-save .label-container {
+    bottom: 250px;
+}
+
+#float-preview .label-container {
+    bottom: 200px;
+}
+
+
+.label-text {
+    color: #FFF;
+    background-color: #000000;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+i.label-arrow {
+    display: table-cell;
+    vertical-align: middle;
+    color: #000000;
+}
+
+
+a#float-publish-link + div.label-container {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s ease;
+}
+
+a#float-publish-link:hover + div.label-container {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+a#float-save-link + div.label-container {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s ease;
+}
+
+a#float-save-link:hover + div.label-container {
+    visibility: visible;
+    opacity: 1;
+}
+
+a#float-preview-link + div.label-container {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s ease;
+}
+
+a#float-preview-link:hover + div.label-container {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/*---------------------------------------------------- Loader Spin -------------------------------------------------*/
+.loader {
+    border: 5px solid #f3f3f3;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    border-top: 5px solid #707070;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/*--------------------------------------HIDDEN COLUMN TABLE------------------------------------------------*/
+.table-col-hidden {
+    display: none !important;
+}
+
+/*--------------------------------------BG SECTION COLOR------------------------------------------------*/
+.btn-dark.active {
+    background-color: #595959 !important;
+}
+
+.btn-medium.active {
+    background-color: #a8a8a8 !important;
+}
+
+.btn-light.active {
+    background-color: #E6E6E6 !important;
+    color: #000000 !important;
+    font-weight: 600;
+}
+
+.btn-white.active {
+    background-color: #FFFFFF !important;
+    border: solid !important;
+    border-width: 1px !important;
+    color: #000000 !important;
+    font-weight: 600;
+}
+
+.not-active {
+    pointer-events: none !important;
+}
+
+.header__logo_img {
+    height: 50px;
+}
+
+.content:not(.content--boxed):not(.content--full) {
+    padding: 42px 30px 0 270px;
+}
+
+.table-warning, .table-warning > td, .table-warning > th {
+    background-color: #ffefc1;
+}
+
+.table-danger, .table-danger > td, .table-danger > th {
+    background-color: #ffd6d5;
+}
+
+.action-cell {
+    vertical-align: middle;
+}
+
+.t-status, .d-status {
+    font-size: 18px;
+}
+
+/*CREADA*/
+.t-status-1:before {
+    content: '\f26d'; 
+}
+/*EN_PAGO*/
+.t-status-2:before {
+    content: '\f179';
+}
+/*REALIZADA*/
+.t-status-3:before {
+    content: '\f269';
+}
+/*RECHAZADA*/
+.t-status-4:before {
+    content: '\f119';
+}
+
+/*PENDIENTE DE APROBACION*/
+.d-status-1:before {
+    content: '\f26d';
+}
+/*DEVOLUCION APROBADA*/
+.d-status-2:before {
+    content: '\f269';
+}
+/*DEVOLUCION NO APROBADA*/
+.d-status-3:before {
+    content: '\f135';
+}
+/*DEVOLUCION RECHAZADA*/
+.d-status-4:before {
+    content: '\f119';
+}

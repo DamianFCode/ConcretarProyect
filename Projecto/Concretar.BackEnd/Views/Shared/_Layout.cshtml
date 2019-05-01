@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @using Microsoft.Extensions.Configuration
+    @inject IConfiguration Configuration
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="version" content="1.1.2" />
+    <title>@ViewData["AppTitle"] - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/template/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/jasny-bootstrap/css/jasny-bootstrap.min.css" />
+    <link href="~/template/material-design-iconic-font/dist/css/material-design-iconic-font.css" rel="stylesheet" />
+    <link href="~/template/animate.css/animate.css" rel="stylesheet" />
+    <link href="~/template/jquery.scrollbar/jquery.scrollbar.css" rel="stylesheet" />
+    <link href="~/css/MvcGrid/mvc-grid.css" rel="stylesheet" />
+    <link href="~/lib/chosen/chosen.css" rel="stylesheet" />
+    <link href="~/lib/rangeSlider/ion.rangeSlider.css" rel="stylesheet" />
+    <link href="~/lib/rangeSlider/normalize.css" rel="stylesheet" />
+    <link href="~/lib/rangeSlider/ion.rangeSlider.skinHTML5.css" rel="stylesheet" />
+    <link href="~/lib/multi-select/bootstrap-multiselect.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome-js/css/fa-svg-with-js.css" rel="stylesheet" />
+    <link href="~/css/MvcLookup/mvc-lookup.css" rel="stylesheet" />
+    <link href="~/template/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    <link href="~/template/select2/select2.min.css" rel="stylesheet" />
+    <link href="~/js/Notify/boostrap-notify.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="~/fav-1.ico" sizes="16x16" />
+    <link href="~/css/flatpickr.min.css" rel="stylesheet" />
+    <link href="~/template/lightgallery/css/lightgallery.css" rel="stylesheet" />
+    <link href="~/template/css/app.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/manifest.json" rel="manifest">
+
+    <style>
+        .modal-header {
+            background-color: #3F51B5;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        #LargeModalTitle {
+            margin-bottom: 10px;
+            color: #f8f5f5;
+            margin-top: -13px;
+        }
+
+        .close {
+            margin-bottom: 10px;
+            color: #f8f5f5;
+            margin-top: -13px;
+        }
+
+            .close:hover {
+                color: #f8f5f5;
+            }
+    </style>
+</head>
+
+<body data-ma-theme="indigo">
+    <main class="main">
+        <script src="~/template/jquery/dist/jquery.min.js"></script>
+
+        @Html.Partial("_NavBar")
+
+
+        @Html.Partial("_SideBar")
+
+        <section class="content">
+            <div class="page-loader">
+                <div class="page-loader__spinner">
+                    <svg viewBox="25 25 50 50">
+                        <circle cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                    </svg>
+                </div>
+            </div>
+            @RenderBody()
+        </section>
+    </main>
+
+    <script src="~/template/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/lib/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
+    <script defer src="~/lib/font-awesome-js/js/fontawesome-all.min.js"></script>
+    <!-- Template Scripts -->
+    <script src="~/template/tether/dist/js/tether.min.js"></script>
+    <script src="~/template/popper/js/popper.min.js"></script>
+    <script src="~/template/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/template/Waves/dist/waves.min.js"></script>
+    <script src="~/template/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="~/template/jquery-scrollLock/jquery-scrollLock.min.js"></script>
+    <script src="~/template/autosize/dist/autosize.js"></script>
+    <script src="~/template/flot/jquery.flot.js"></script>
+    <script src="~/template/flot/jquery.flot.resize.js"></script>
+    <script src="~/template/salvattore/dist/salvattore.min.js"></script>
+    <script src="~/template/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/template/sweetalert2/dist/sweetalert2.js"></script>
+    <script src="~/template/select2/select2.full.min.js"></script>
+    <script src="~/js/MvcLookup/mvc-lookup.js"></script>
+    <script src="~/js/MvcGrid/mvc-grid.js"></script>
+    <script src="~/js/Notify/boostrap-notify.min.js" rel="stylesheet"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/chosen/chosen.jquery.js" async></script>
+    <script src="~/lib/chosen/chosen.proto.min.js"></script>
+    <script src="~/lib/rangeSlider/ion.rangeSlider.js"></script>
+    <script src="~/lib/multi-select/bootstrap-multiselect.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/template/js/flatpickr.min.js"></script>
+    <script src="~/js/PrettyJson/underscore-min.js"></script>
+    <script src="~/js/PrettyJson/backbone-min.js"></script>
+    <script src="~/js/PrettyJson/pretty-json-min.js"></script>
+    <script src="~/lib/SweetAlert2IE/polyfill.js"></script>
+    <script type="text/JavaScript" src="~/js/jquery.print/jQuery.print.min.js"></script>
+    <script src="~/js/site.min.js"></script>
+
+    <script>
+        $('.mvc-grid').mvcgrid();
+    </script>
+
+    <script src="~/js/app.utils.js"></script>
+    <script src="~/js/app.min.js"></script>
+
+    <script>
+
+    $('[title]').tooltip();
+
+    $(document).ready(function () {
+        // Muestro las alertas
+        setTimeout(function () { verNotificaciones(); }, 500);
+
+        $(".form-group--float").each(function () { 0 == !$(this).find(".form-control").val().length && $(this).find(".form-control").addClass("form-control--active") });
+        $(document).on('focusout', ".form-group--float > .form-control", function () {
+            if (0 == !$(this).val().length) {
+                $(this).addClass("form-control--active");
+
+            } else {
+                $(this).removeClass("form-control--active");
+            }
+        });
+    });
+
+    function verNotificaciones()
+    {
+        @foreach(var i in TempData.Keys)
+        {
+            if (TempData[i].ToString().Contains("error"))
+            {
+                @: nError('@Html.Raw(TempData["message"].ToString().Replace("'", "\""))', "error");
+            }
+            if (TempData[i].ToString().Contains("success"))
+            {
+                @: nSuccess('@Html.Raw(TempData["message"].ToString().Replace("'", "\""))', "success");
+            }
+        }
+    }
+
+    $('.swal-delete').click(function (e) {
+        var href = $(this).attr('href');
+        e.preventDefault();
+        swal({
+            title: "Confirmar",
+            text: "El registro se eliminará ¿Está Seguro?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+        }).then((result) => {
+            if (result) {
+                window.location = href;
+            } else {
+                swal("Cancelado", "Su registro no fue eliminado", "error")
+            }
+        });
+    });
+
+    $('.swal-resetPass').click(function (e) {
+        var href = $(this).attr('href');
+        var id = $(this).attr('id');
+        console.log(id);
+        e.preventDefault();
+        swal({
+            title: "Confirmar",
+            text: "Se enviará un mail al usuario para restablecer su contraseña. ¿Está Seguro?",
+            type: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3F51B5",
+            confirmButtonText: "Enviar Email",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result) {
+                window.location = href;
+                $("#" + id).removeClass("zmdi zmdi-lock text-primary");
+                $("#" + id).html("<i class='zmdi zmdi-rotate-right zmdi-hc-spin'></i> Enviando...");
+                $('.swal-resetPass').addClass("disabled");
+                swal({
+                    text: 'Enviando e-mail...',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                })
+                swal.showLoading()
+            } else {
+                swal("Cancelado", "El mail no fue enviado", "info")
+            }
+        });
+    });
+
+
+    function OnConfirmRefund(data) {
+        obj = JSON.parse(data);
+        var id = obj.id;
+        var status = obj.status;
+        $('.modal').modal('hide');
+        nSuccess("Devolución " + obj.action + " exitosamente para la transacción #" + id);
+    }
+
+    function OnFailureRefund(data) {
+        $('.modal').modal('hide');
+        nError("Error al intentar confirmar la solicitud de Devolución.");
+    }
+
+    </script>
+
+    <div class="modal fade bd-example-modal-lg" id="ConfirmarDevolucionModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="title" id="LargeModalTitle"></h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="ConfirmarDevolucion">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="VerDetalleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="title" id="LargeModalTitle"></h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="VerDetalle">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

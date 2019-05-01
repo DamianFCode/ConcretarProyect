@@ -1,0 +1,94 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+
+@{
+    ViewData["Title"] = ViewBag.Motivo;
+}
+
+@{
+    Layout = "";
+}
+
+<style>
+    .text-danger {
+        color: red;
+        margin-left: 40px;
+        font-size: 12px;
+    }
+
+    .btn-sub {
+        background-color: #141b4d !important;
+    }
+
+    .card .card-title {
+        font-size: 35px !important;
+        margin-top: 55px !important;
+        font-weight: 400 !important;
+        text-align: center !important;
+    }
+
+    .message-text {
+        margin-left: 40px;
+        margin-right: 40px;
+        text-align: center;
+        padding: 5px;
+        margin-bottom: 55px;
+    }
+</style>
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta name="version" content="1.1.1">
+    <title>Establecer Contraseña</title>
+    <link rel="icon" type="image/x-icon" href="~/fav-1.ico" sizes="16x16" />
+    <link rel="apple-touch-icon-precomposed" href="~/favicon.png">
+    <meta name="msapplication-TileColor" content="#00bcd4">
+    <meta name="msapplication-TileImage" content="~/favicon.png">
+    <link href="~/js/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="~/js/style.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="~/js/page-center.css" type="text/css" rel="stylesheet" media="screen,projection">
+
+    <link href="~/js/prism.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="~/js/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="~/template/material-design-iconic-font/dist/css/material-design-iconic-font.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/template/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body class="grey">
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+    <div class="card card-columns" style="width: 40rem;">
+        <div class="card-body">
+            <div class="row">
+                <div class="input-field col s12 center pt-3">
+                    <img src="~/images/Asset 1as4.png" alt="" class="responsive-img valign">
+                </div>
+            </div>
+            <h2 class="card-title">¡ @ViewData["Title"] !</h2>
+            <br />
+            <div class="message-text">
+                @ViewBag.Content<br /><br />
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <p>Para mayor información, contáctese con <strong>@ViewBag.MailSoporte</strong></p>
+                }
+            </div>
+        </div>
+    </div>
+    <script src="~/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="~/js/materialize.min.js"></script>
+    <script type="text/javascript" src="~/js/prism.js"></script>
+    <script type="text/javascript" src="~/js/perfect-scrollbar.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/template/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/template/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

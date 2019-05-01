@@ -1,0 +1,389 @@
+﻿/*!
+ * Mvc.Lookup 2.2.0
+ * https://github.com/NonFactors/MVC6.Lookup
+ *
+ * Copyright © NonFactors
+ *
+ * Licensed under the terms of the MIT License
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+
+.mvc-lookup {
+    display: table;
+    width: 100%;
+}
+
+.mvc-lookup-control {
+    box-shadow: rgba(0, 0, 0, 0.0745098) 0 1px 1px inset;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    padding: 2px 2.4em 2px 6px;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    display: table-cell;
+    position: relative;
+}
+
+    .mvc-lookup-control input {
+        font: inherit;
+        padding: 2px;
+        border: none;
+        margin: 2px;
+        float: left;
+        width: 100%;
+    }
+
+.mvc-lookup-item {
+    transition: background linear 0.3s;
+    border: 1px solid #DDDDDD;
+    background: #F8F8F8;
+    border-radius: 3px;
+    padding: 1px 6px;
+    color: #999999;
+    margin: 2px;
+    float: left;
+}
+
+    .mvc-lookup-item:hover {
+        border-color: #CCCCCC;
+        background: #F0F0F0;
+    }
+
+.mvc-lookup-close {
+    margin-left: 6px;
+    cursor: pointer;
+}
+
+    .mvc-lookup-close:hover {
+        color: #000000;
+    }
+
+.mvc-lookup-readonly .mvc-lookup-control,
+.mvc-lookup-readonly .mvc-lookup-control input {
+    background: #EEEEEE;
+}
+
+.mvc-lookup-readonly .mvc-lookup-close {
+    display: none;
+}
+
+.mvc-lookup-browseless .mvc-lookup-control {
+    border-radius: 4px;
+}
+
+.mvc-lookup-browse {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    border: 1px solid #CCCCCC;
+    background-color: #EEEEEE;
+    vertical-align: middle;
+    display: table-cell;
+    padding: 0 12px;
+    cursor: pointer;
+    border-left: 0;
+    line-height: 1;
+    width: 1%;
+}
+
+.mvc-lookup-icon {
+    transform: rotate(310deg);
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0 2px 2px 0;
+    border-radius: 50%;
+    border: 2px solid;
+    height: 0.8em;
+    width: 0.8em;
+}
+
+    .mvc-lookup-icon:before {
+        box-shadow: inset 0 0 0 32px;
+        transform: translateX(-50%);
+        border-radius: 1px;
+        position: absolute;
+        height: 0.5em;
+        content: '';
+        width: 3px;
+        top: 0.6em;
+        left: 45%;
+    }
+
+.mvc-lookup-widget .ui-dialog-title {
+    line-height: 1.4em;
+    min-height: 1.4em;
+}
+
+.mvc-lookup-dialog,
+.mvc-lookup-widget,
+.mvc-lookup-widget:after,
+.mvc-lookup-widget:before {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+    .mvc-lookup-widget .mvc-lookup-dialog {
+        padding: 1em;
+    }
+
+.mvc-lookup-dialog {
+    font-size: 0.9em;
+    min-width: 428px;
+    display: none;
+}
+
+.mvc-lookup-search-group {
+    height: calc(2em + 12px);
+    position: relative;
+}
+
+.mvc-lookup-search-box {
+    position: absolute;
+    display: table;
+}
+
+.mvc-lookup-search {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    border: 1px solid #CCCCCC;
+    line-height: 1.42857143;
+    box-sizing: border-box;
+    display: table-cell;
+    padding: 6px 12px;
+    width: 100%;
+}
+
+.mvc-lookup-rows {
+    vertical-align: top;
+    display: table-cell;
+    width: 1%;
+}
+
+    .mvc-lookup-rows .ui-spinner {
+        border-radius: 0 5px 5px 0;
+        border-right: medium none;
+        box-sizing: content-box;
+        border-left: 0 none;
+        height: 100%;
+    }
+
+    .mvc-lookup-rows input {
+        background-color: #EEEEEE;
+        padding: 6px 1.6em 6px 0;
+        line-height: 1.42857143;
+        box-sizing: border-box;
+        text-align: center;
+        width: 5em;
+        margin: 0;
+    }
+
+    .mvc-lookup-rows a.ui-spinner-button {
+        border: 1px solid #CCCCCC;
+        border-bottom: none;
+        border-top: none;
+        width: 1.6em;
+    }
+
+    .mvc-lookup-rows a.ui-spinner-down {
+        border-top: 1px solid #CCCCCC;
+    }
+
+    .mvc-lookup-rows .ui-icon {
+        margin-left: -8px;
+        cursor: pointer;
+        left: 50%;
+    }
+
+.mvc-lookup-selector {
+    vertical-align: middle;
+    white-space: nowrap;
+    display: table-cell;
+    width: 1%;
+}
+
+    .mvc-lookup-selector button {
+        background-color: rgba(94, 186, 103, 0.81);
+        border: 1px solid #5C9845;
+        border-radius: 4px;
+        margin-left: 10px;
+        padding: 5px 8px;
+        min-width: 7em;
+        color: #FFFFFF;
+    }
+
+        .mvc-lookup-selector button:hover {
+            background-color: rgba(92, 175, 100, 0.81);
+        }
+
+.mvc-lookup-control-loader {
+    animation: mvc-lookup-spin 1s infinite linear;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s linear;
+    border-top-color: #444444;
+    box-sizing: border-box;
+    top: calc(3px + 0.4em);
+    border-radius: 50%;
+    position: absolute;
+    right: 0.8em;
+    height: 1em;
+    opacity: 0;
+    width: 1em;
+}
+
+.mvc-lookup-loading + .mvc-lookup-control-loader {
+    transition: opacity 1.5s linear;
+    opacity: 1;
+}
+
+.mvc-lookup-content {
+    padding-right: 1px;
+    position: relative;
+    min-height: 7.3em;
+}
+
+.mvc-lookup-error,
+.mvc-lookup-dialog-loader {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+    .mvc-lookup-dialog-loader > span {
+        animation: mvc-lookup-spin 1s infinite linear;
+        border: 0.5em solid rgba(0, 0, 0, 0.2);
+        border-top-color: #444444;
+    }
+
+        .mvc-lookup-dialog-loader > span,
+        .mvc-lookup-dialog-loader > span:after {
+            border-radius: 50%;
+            height: 5em;
+            width: 5em;
+        }
+
+.mvc-lookup-error {
+    background-color: #FFF6F6;
+    border-color: #EBCCD1;
+    color: #A94442;
+}
+
+@keyframes mvc-lookup-spin {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.mvc-lookup-dialog table {
+    border-collapse: collapse;
+    border: none;
+    width: 100%;
+}
+
+.mvc-lookup-dialog tbody tr:hover {
+    background-color: #ECECEC;
+}
+
+.mvc-lookup-dialog .selected {
+    background-color: #F5F5F5;
+}
+
+.mvc-lookup-dialog tr {
+    cursor: pointer;
+}
+
+.mvc-lookup-asc::after {
+    padding-left: 3px;
+    content: '\2193';
+}
+
+.mvc-lookup-desc::after {
+    padding-left: 3px;
+    content: '\2191';
+}
+
+.mvc-lookup-dialog th,
+.mvc-lookup-dialog td {
+    border: 1px solid #DDDDDD;
+    line-height: 1.42857143;
+    padding: 0.3em 0.6em;
+}
+
+.mvc-lookup-split td {
+    background-color: #FFFFFF;
+    cursor: default;
+    border: none;
+}
+
+.mvc-lookup-dialog td:not(:first-child):last-child {
+    box-sizing: border-box;
+    text-align: center;
+    font-weight: bold;
+    width: 2.5em;
+}
+
+    .mvc-lookup-dialog td:not(:first-child):last-child::after {
+        content: '\25CF';
+    }
+
+.mvc-lookup-dialog tr:hover td:not(:first-child):last-child::after,
+.mvc-lookup-dialog .selected td:not(:first-child):last-child::after {
+    content: '\2714';
+    color: #5CB85C;
+}
+
+.mvc-lookup-dialog .selected:hover td:not(:first-child):last-child::after {
+    content: '\2718';
+    color: #D65A5A;
+}
+
+.mvc-lookup-empty {
+    text-align: center;
+}
+
+.mvc-lookup-dialog ul {
+    padding-top: 0.8em;
+    text-align: right;
+    margin: 0;
+}
+
+    .mvc-lookup-dialog ul li {
+        display: inline;
+        cursor: pointer;
+    }
+
+        .mvc-lookup-dialog ul li + li span {
+            border-left: 0;
+        }
+
+    .mvc-lookup-dialog ul span {
+        border: 1px solid #DDDDDD;
+        box-sizing: content-box;
+        display: inline-block;
+        padding: 0.4em 0.6em;
+        text-align: center;
+        min-width: 0.9em;
+        color: #777777;
+    }
+
+        .mvc-lookup-dialog ul span:focus,
+        .mvc-lookup-dialog ul span:hover {
+            background-color: #EEEEEE;
+            color: #777777;
+        }
+
+.mvc-lookup-dialog .active span,
+.mvc-lookup-dialog .active span:hover {
+    background-color: rgba(77, 78, 80, 0.76);
+    border-color: rgba(77, 78, 80, 0.76);
+    color: #FFFFFF;
+}

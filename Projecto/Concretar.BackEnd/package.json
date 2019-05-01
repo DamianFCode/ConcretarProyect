@@ -1,0 +1,25 @@
+{
+  "name": "peiback",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "wbp": "webpack",
+    "prod": "exit 0"
+  },
+  "author": "silnose",
+  "license": "ISC",
+  "devDependencies": {
+    "bower": "1.7.9",
+    "gulp": "^3.9.1"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "fs": "0.0.1-security",
+    "gulp-util": "^3.0.8",
+    "path": "^0.12.7",
+    "request": "^2.87.0",
+    "vinyl-source-stream": "^2.0.0"
+  }
+}

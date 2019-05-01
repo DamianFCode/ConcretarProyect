@@ -1,0 +1,118 @@
+﻿@model Concretar.DTO.LoginDTO
+
+@{
+    ViewData["Title"] = "Ingresar";
+}
+
+@{
+    Layout = "";
+}
+<style>
+    .text-danger {
+        color: red;
+        margin-left: 40px;
+        font-size: 12px;
+    }
+    .btn-sub {
+        background-color: #141b4d !important;
+    }
+    .zmdi-account:before, .zmdi-lock:before {
+        padding-top: 7px !important;
+    }
+    #rememberme {
+        margin-top: 8px;
+    }
+    .card-body {
+        margin-bottom: -37px;
+    }
+    
+</style>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta name="version" content="1.1.2" />
+    <title>Ingresar</title>
+    <link rel="icon" type="image/x-icon" href="~/fav-1.ico" sizes="16x16" />
+    <link rel="apple-touch-icon-precomposed" href="~/favicon.png">
+    <meta name="msapplication-TileColor" content="#00bcd4">
+    <meta name="msapplication-TileImage" content="~/favicon.png">
+    <link href="~/js/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="~/js/style.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="~/js/page-center.css" type="text/css" rel="stylesheet" media="screen,projection">
+
+    <link href="~/js/prism.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="~/js/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="~/template/material-design-iconic-font/dist/css/material-design-iconic-font.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/template/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+</head>
+
+<body class="grey">
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+    <div class="card card-columns" style="width: 25rem;">
+        @ViewBag.error
+        <div class="card-body">
+            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                <div class="row">
+                    <div class="input-field col s12 center pt-3">
+                        <img src="~/images/a2dc2d250540d76f8c8d8b2b213836ec.png" alt="" class="responsive-img valign" id="image">
+                    </div>
+                </div>
+                <div class="row margin">
+                    <div class="input-field col s12">
+                        <i class="zmdi zmdi-account prefix"></i>
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger text"></span>
+                    </div>
+                </div>
+                <div class="row margin">
+                    <div class="input-field col s12 fixedfixed">
+                        <i class="zmdi zmdi-lock prefix"></i>
+                        <label asp-for="Contrasena">Contraseña</label>
+                        @Html.PasswordFor(m => m.Contrasena, new { @class = "form-control", @Value = Model.Contrasena })
+                        <span asp-validation-for="Contrasena" class="text-danger text-center"></span>
+                    </div>
+                </div>
+                <span class="text-danger text input-field">@TempData["ErrorMessage"]</span>
+                <div class="row margin mt-4 fixed">
+                    <div class="input-field col s12 m12 l12  login-text">
+                        <input asp-for="Recordarme" type="checkbox" id="Recordarme" value="false" />
+                        <label for="Recordarme" id="rememberme">Recordarme</label>
+                    </div>
+                    <div class="input-field col s8">
+                        @Html.ActionLink("Olvidé mi contraseña", "ForgotPassword", "Account", null, new { @Class = "float-right forgot-pass" })
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="input-field col s12">
+                        <button type="submit" class="btn-sub btn  col s12">Ingresar</button>
+                    </div>
+                </div>
+                <div class="row margin mt-4">
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="~/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="~/js/materialize.min.js"></script>
+    <script type="text/javascript" src="~/js/prism.js"></script>
+    <script type="text/javascript" src="~/js/perfect-scrollbar.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins.min.js"></script>
+    <script src="~/template/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+<script>
+    $('#Recordarme').change(function () {
+        cb = $(this);
+        cb.val(cb.prop('checked'));
+    });
+    setTimeout(function () { $('.input-field label:not("#rememberme")').addClass('active'); }, 800);
+</script>

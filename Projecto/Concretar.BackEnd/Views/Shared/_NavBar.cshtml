@@ -1,0 +1,62 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+<header class="header">
+    <div class="navigation-trigger hidden-xl-up" data-ma-action="aside-open" data-ma-target=".sidebar">
+        <div class="navigation-trigger__inner">
+            <i class="navigation-trigger__line"></i>
+            <i class="navigation-trigger__line"></i>
+            <i class="navigation-trigger__line"></i>
+        </div>
+    </div>
+
+    <div class="header__logo hidden-sm-down">
+        <h1><a href="/"><img class="header__logo_img" src="~/images/a2dc2d250540d76f8c8d8b2b213836ec.png" title="Qualia" alt="Qualia" /></a> &nbsp;&nbsp;<b><span class="color-white"></span></b></h1>
+
+    </div>
+    <div class="logout">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle navbar-link" data-toggle="dropdown">
+                    <i class="zmdi zmdi-account"></i>
+                    <span class="glyphicon glyphicon-user"></span>
+                    <strong>@User.Claims.FirstOrDefault(x => x.Type == "Name").Value</strong>
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <div class="navbar-login">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <p class="text-center">
+                                        <img class="header__logo_img" src="~/images/login.png" title="User" alt="User" />
+                                    </p>
+                                </div>
+                                <div class="col-lg-8">
+                                    <p class="text-left"><strong>@String.Format("{0} {1}", User.Claims.FirstOrDefault(x => x.Type == "Name").Value, User.Claims.FirstOrDefault(x => x.Type == "FullName").Value)</strong></p>
+                                    <p class="text-left small">@User.Claims.FirstOrDefault(x => x.Type == "Email").Value</p>
+                                    <p class="text-left">
+                                        <a href="@Url.Action("ChangePass", "Account")" class="btn btn-primary btn-block btn-sm">Actualizar Credenciales</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <div class="navbar-login navbar-login-session">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <p>
+                                        <a href="@Url.Action("LogOut","Account")" class="btn btn-danger btn-block">Cerrar Sesion</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+</header>

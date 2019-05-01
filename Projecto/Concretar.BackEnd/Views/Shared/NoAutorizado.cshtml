@@ -1,0 +1,29 @@
+﻿@using Concretar.Backend.Models
+@*@model System.Web.Mvc.HandleErrorInfo*@
+
+@{
+    ViewData["Title"] = "No Autorizado - No es posible acceder";
+}
+
+<div class="row justify-content-md-center">
+    <div class="col-md-6 col-sm-6 col-xs-12 card mt-5 pt-5 pb-5">
+        <div class="card-body">
+            <h3>No posee permisos para acceder a esta sección.</h3>
+            <p>
+                Comuníquese con un administrador.
+            </p>            
+            <p>
+                <br />
+                <a class="btn btn-danger text-white pull-right" onclick="goBack()">
+                    <i class="zmdi zmdi-long-arrow-left"></i>&nbsp; Volver
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>

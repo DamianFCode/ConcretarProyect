@@ -1,0 +1,49 @@
+﻿@using Concretar.Backend.Models
+
+<style>
+    .bg-gold {
+        background-color: #cec01f;
+    }
+</style>
+
+<br />
+<div id="widgets">
+    <div class="row quick-stats">
+        <div class="col-sm-6 col-md-3">
+            <div class="quick-stats__item bg-light-blue">
+                <div class="quick-stats__info">
+                    <h2>@Model.Widgets.TransaccionesTotalToday</h2>
+                    <small>Transacciones Totales HOY</small>
+                </div>
+                <div class="quick-stats__chart sparkline-bar-stats"></div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="quick-stats__item bg-light-blue">
+                <div class="quick-stats__info">
+                    <h2>@Model.Widgets.TransaccionesTotalWeek</h2>
+                    <small>Transacciones Totales ESTA SEMANA</small>
+                </div>
+                <div class="quick-stats__chart sparkline-bar-stats"></div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="quick-stats__item bg-gold">
+                <div class="quick-stats__info">
+                    <h2>$ @String.Format("{0:N2}", Model.Widgets.MontoTotalToday)</h2>
+                    <small>Montos Transaccionados HOY</small>
+                </div>
+                <div class="quick-stats__chart sparkline-bar-stats"></div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="quick-stats__item bg-gold">
+                <div class="quick-stats__info">
+                    <h2>$ @String.Format("{0:N2}", Model.Widgets.MontoTotalWeek)</h2>
+                    <small>Montos Transaccionados ESTA SEMANA</small>
+                </div>
+                <div class="quick-stats__chart sparkline-bar-stats"></div>
+            </div>
+        </div>
+    </div>
+</div>

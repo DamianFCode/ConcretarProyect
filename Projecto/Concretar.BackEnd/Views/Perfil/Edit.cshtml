@@ -1,0 +1,107 @@
+﻿@using Concretar.Backend.Models
+@using Concretar.Services.Models
+@model Concretar.Services.Models.PerfilModel
+@{
+    ViewBag.Title = "Editar Perfil";
+}
+<link href="~/css/rol_style.css" rel="stylesheet" />
+<header class="content__title">
+    <h1>@ViewBag.Title*</h1>
+    <div class="actions">
+        <a href="@Url.Action("Index", "Perfil")" class="actions__item zmdi zmdi-arrow-left text-danger" title="Volver"></a>
+    </div>
+</header>
+@using (Html.BeginForm("Edit", "Perfil", FormMethod.Post, new { role = "form" }))
+{
+    <div class="card">
+        <div class="card-block">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.RolId)
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.ValidationMessageFor(model => model.NombreRol, null, new { @class = "text-danger" })
+                    <div class="form-group form-group--float">
+                        @Html.TextBoxFor(model => model.NombreRol, new { @class = "form-control" })
+                        <label>Nombre</label>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-block">
+            <div class="row">
+                <div class="col-md-12 centerDiv">
+                    @{
+                        var contador = 0;
+                    }
+                    <h4>Permisos</h4>
+                    <table class="table">
+                        @foreach (var vista in Model.ListaVistaPermiso.GroupBy(x => x.Permiso.VistaId))
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @vista.FirstOrDefault().Permiso.Vista.Nombre
+                                        <input type="hidden" name="ListaVistaPermiso[@contador].Permiso.Vista.Nombre" value="@vista.FirstOrDefault().Permiso.Vista.Nombre" />
+                                    </td>
+                                    <td>
+                                        @foreach (var permiso in vista)
+                                        {
+                                            <div class="form-group" style="margin-left:20px">
+                                                <input type="hidden" name="ListaVistaPermiso[@contador].Permiso.VistaId" value="@permiso.Permiso.VistaId" />
+                                                <input type="hidden" name="ListaVistaPermiso[@contador].Permiso.PermisoId" value="@permiso.Permiso.PermisoId" />
+                                                <input type="hidden" name="ListaVistaPermiso[@contador].Permiso.Descripcion" value="@permiso.Permiso.Descripcion" />
+                                                <input type="hidden" name="ListaVistaPermiso[@contador].Permiso.Funcionalidad" value="@permiso.Permiso.Funcionalidad" />
+                                                <div class="checkbox c-checkbox" style="width:100%">
+                                                    <label>
+                                                        @if (Model.IsPerfilAdmin)
+                                                        {
+                                                            <input type="checkbox" name="ListaVistaPermiso[@contador].Activo" onclick="return false" value="true" @(permiso.Activo ? "checked=''" : "")>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" name="ListaVistaPermiso[@contador].Activo" value="true" @(permiso.Activo ? "checked=''" : "")>
+                                                        }
+                                                        @*<input type="checkbox" name="ListaVistaPermiso[@contador].Activo" value="true" @(permiso.Activo ? "checked=''" : "")>*@
+                                                        <span class="zmdi zmdi-check"></span>&nbsp;@permiso.Permiso.Descripcion
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            contador++;
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-end">
+        <div class="col-auto">
+            <button type="submit" id="#submit-btn" class="btn btn-primary btn--icon-text waves-effect text-white btn-loading">
+                <i class="zmdi zmdi-save"></i>
+                Guardar
+            </button>
+        </div>
+    </div>
+}
+
+
+@section Scripts
+    {
+    <script>
+        $("#submit-btn").click(function (event) {
+            event.preventDefault();
+            if ($('form').valid()) {
+                $("#submit-btn").html("<i class='zmdi zmdi-spinner fa-spin'></i> Procesando...");
+                $("#submit-btn").addClass("disabled");
+                document.getElementById("submit-btn").style.pointerEvents = "none";
+                $('form').submit();
+            }
+        });
+    </script>
+}

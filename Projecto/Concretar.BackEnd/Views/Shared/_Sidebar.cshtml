@@ -1,0 +1,34 @@
+﻿@using Concretar.Backend.Extensions
+@{
+    var Email = @User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+}
+<aside class="sidebar" style="overflow-y: auto;">
+    <div class="scrollbar-inner scroll-content d-flex h-100 flex-column" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 800.5px;">
+        <div class="scrollbar-inner scroll-content d-flex h-100 flex-column" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 800.5px;">
+            <ul class="navigation">
+                <li class="@Html.IsActive("Home")">@Html.ActionMenuRole("Dashboard", "zmdi zmdi-chart", "Index", "Home", Email)</li>
+                <br />
+                <li>Configuración</li>
+                <br />
+                <li class="@Html.IsActive("Parametro")">@Html.ActionMenuRole("Parámetros", "zmdi zmdi-settings", "Index", "Parametro", Email)</li>
+                @if (Html.VerifyAccess(Email, "Index", "Usuario") || Html.VerifyAccess(Email, "Index", "Perfil"))
+                {
+                    <li class="navigation__sub  @Html.IsActive("Perfil", IsGroup: true) @Html.IsActive("Usuario", IsGroup: true)">
+                        <a href=""><i class="zmdi zmdi-account"></i>Usuarios</a>
+
+                        <ul style=" @Html.IsActiveGroup("Perfil") @Html.IsActiveGroup("Usuario")">
+                            <li class="@Html.IsActive("Usuario", "Index")">
+                                @Html.ActionMenuRole("Gestión de Usuarios", "", "Index", "Usuario", Email)
+                            </li>
+
+                            <li class="@Html.IsActive("Perfil", "Index")">
+                                @Html.ActionMenuRole("Gestión de Perfiles", "", "Index", "Perfil", Email)
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</aside>
+

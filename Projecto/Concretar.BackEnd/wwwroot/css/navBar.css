@@ -1,0 +1,36 @@
+﻿
+.navbar-login {
+    width: 305px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+.navbar-login-session {
+    padding: 10px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.icon-size {
+    font-size: 87px;
+}
+
+.logout {
+    margin-left: 73% !important;
+}
+
+.css {
+    font-size: 18px;
+    color: #f3f2f2;
+}
+
+@@media only screen and (min-width: 1367px) {
+     .logout{
+         margin-left: 80% !important;
+     }
+ }
+a:focus, a:hover {
+    color: #ffffff !important;
+    text-decoration: none;
+    font-weight: 800;
+}
