@@ -17,6 +17,7 @@ namespace Concretar.Entities
 		IRepository<UsuarioRol> UsuarioRolRepository {get;}
 		IRepository<Vista> VistaRepository {get;}
 		IRepository<UsuarioToken> UsuarioTokenRepository {get;}
+        IRepository<Cliente> ClienteRepository { get; }
         IRepository<Lote> LoteRepository { get; }
 
         int Save();

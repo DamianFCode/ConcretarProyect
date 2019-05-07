@@ -27,6 +27,7 @@ namespace Concretar.Entities
 		public DbSet<Vista> Vista { set; get; }
 		public DbSet<UsuarioToken> UsuarioToken { set; get; }
         public DbSet<Lote> Lote { set; get; }
+        public DbSet<Cliente> Cliente { set; get; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

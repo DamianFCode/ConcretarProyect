@@ -136,6 +136,19 @@ namespace Concretar.Entities
                 return loteRepository;
             }
         }
+        private Repository<Cliente> clienteRepository;
+        public IRepository<Cliente> ClienteRepository
+        {
+            get
+            {
+                if (this.clienteRepository == null)
+                {
+                    this.clienteRepository = new Repository<Cliente>(context);
+                }
+                return clienteRepository;
+            }
+        }
+
 
 
 
