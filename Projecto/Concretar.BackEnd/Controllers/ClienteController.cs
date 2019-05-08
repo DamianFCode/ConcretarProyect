@@ -91,6 +91,22 @@ namespace Concretar.Backend.Controllers
                 return BadRequest("Ocurrio un error al editar el cliente");
             }
         }
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                ClienteService clienteService = new ClienteService(_logger);
+                clienteService.Delete(id);
+                SetTempData("Cliente Eliminado.");
+                _logger.LogInformation("Cliente eliminado correctamente");
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("No se pudo eliminar el cliente para el Id: <{0}>. Error {1}", id, e);
+                return BadRequest("Ocurrio un error el cliente la marca");
+            }
+        }
 
 
     }

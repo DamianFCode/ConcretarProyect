@@ -78,6 +78,13 @@ namespace Concretar.Services
             _uow.ClienteRepository.Update(cliente);
             _uow.ClienteRepository.Save();
         }
+        public void Delete(int clienteId)
+        {
+            var cliente = _uow.ClienteRepository.Find(x => x.ClienteId == clienteId);
+            _uow.ClienteRepository.Delete(cliente);
+            _uow.ClienteRepository.Save();
+        }
+
 
     }
 }
