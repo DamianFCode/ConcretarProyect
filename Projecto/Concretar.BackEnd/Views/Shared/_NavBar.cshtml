@@ -1,62 +1,155 @@
 ﻿@using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
 
-<header class="header">
-    <div class="navigation-trigger hidden-xl-up" data-ma-action="aside-open" data-ma-target=".sidebar">
-        <div class="navigation-trigger__inner">
-            <i class="navigation-trigger__line"></i>
-            <i class="navigation-trigger__line"></i>
-            <i class="navigation-trigger__line"></i>
+<style>
+    .header {
+        background-color: #bf5800 !important;
+    }
+
+    .container-navbar {
+        width: auto;
+    }
+
+    .logo__entidad {
+        max-width: 133px;
+        max-height: 30px;
+    }
+
+    .logo__pp {
+        max-width: 150px;
+        max-height: 37px;
+        margin-top: 2px;
+    }
+
+    @@media (max-width: 991px) {
+        .logo__entidad {
+            max-width: 98px;
+            max-height: 22px;
+        }
+
+        .logo__pp {
+            max-width: 137px;
+            max-height: 32px;
+            margin-top: 2px;
+        }
+    }
+
+    @@media (max-width: 425px) {
+        .logo__entidad {
+            max-width: 98px;
+            max-height: 22px;
+        }
+
+        .logo__pp {
+            max-width: 137px;
+            max-height: 32px;
+            margin-top: 2px;
+        }
+
+        .dropdown-menu-user {
+            font-size: 3rem !important;
+        }
+    }
+
+    .logo-panel {
+        text-align: center;
+    }
+
+    .dropdown-menu-user {
+        font-size: 3.5rem;
+        padding-bottom: 46px;
+        color: #fff6f6;
+    }
+
+    @@media (max-width: 991px) {
+        .dropdown-menu-user {
+            margin-right: -3px;
+        }
+    }
+
+    .dropdown-position {
+        margin-top: 20px;
+        text-align: left !important;
+    }
+
+    .user__img {
+        margin-right: 0rem !important;
+    }
+
+    .button_nav {
+        padding-left: 0.5rem;
+        margin-left: -24px;
+    }
+
+    .user-panel-menu {
+        text-align: right;
+        margin-left: -14px;
+    }
+
+    .user-info-center {
+        text-align: center;
+        margin-bottom: -0.5rem;
+    }
+
+    .dropdown-box-user {
+        width: 17rem;
+        border: solid;
+        border-color: lightgray;
+        border-width: 1px;
+        margin-top: 3rem;
+        width: 17rem;
+    }
+
+    .dropdown-item {
+        margin-bottom: -0.5rem;
+    }
+
+    .date-user-panel {
+        font-size: 13px;
+        font-style: oblique;
+    }
+
+    .name-user-panel {
+        font-size: 1.1rem;
+    }
+</style>
+<div id="app" class="container-navbar">
+    <header class="navbar fixed-top navbar-expand-lg navbar-light header">
+        <div class="row" style="width:100%;">
+            <div class="col-1 d-none d-sm-block d-md-none d-block d-sm-none d-none d-md-block d-lg-none button_nav">
+                <div id="iconToggled">
+                    <button data-ma-action="aside-open" data-ma-target=".sidebar" id="hide-show" class="btn btn-secondary btn--icon waves-effect btn_hideShow hidden-xl-up d-inline"><i class="zmdi zmdi-menu"></i></button>
+                </div>
+            </div>
+            <div class="col-10 col-lg-11 col-xl-11 logo-panel" style="z-index:-1;">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 style="color: white">CONCRETAR</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-1 col-lg-1 col-1 user-panel-menu">
+                <div class="dropdown actions__item dropdown-menu-user user-panel-menu">
+                    <span class="color-hover-menu" data-toggle="dropdown"><i class="zmdi zmdi-account d-inline"></i>&nbsp;<i class="zmdi zmdi-more-vert d-inline"></i></span>
+                    <div class="dropdown-box-user dropdown-menu dropdown-menu-right dropdown-position">
+                        <div class="user-info-center">
+                            <img class="user__img waves-effect" src="~/images/login.png" width="40" height="40" /><br />
+                            <span class="name-user-panel">
+                                <strong>@String.Format("{0} {1}", User.Claims.FirstOrDefault(x => x.Type == "Name").Value, User.Claims.FirstOrDefault(x => x.Type == "FullName").Value)</strong>
+                                <br />
+                                @User.Claims.FirstOrDefault(x => x.Type == "Email").Value
+                            </span>
+                            <br />
+                            <span class="date-user-panel">
+                                @DateTime.Now.ToLongDateString()
+                            </span>
+                            <hr />
+                        </div>
+                        <a href="@Url.Action("ChangePass", "Account")" class="dropdown-item color-hover-menu"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;Editar Credenciales</a>
+                        <a href="@Url.Action("LogOut","Account")" class="dropdown-item color-hover-menu"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Cerrar Sesión</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="header__logo hidden-sm-down">
-        @*<h1><a href="/"><img class="header__logo_img" src="~/images/a2dc2d250540d76f8c8d8b2b213836ec.png" title="Qualia" alt="Qualia" /></a> &nbsp;&nbsp;<b><span class="color-white"></span></b></h1>*@
-        <h3 style="color: white">CONCRETAR</h3>
-    </div>
-    <div class="logout">
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle navbar-link" data-toggle="dropdown">
-                    <i class="zmdi zmdi-account"></i>
-                    <span class="glyphicon glyphicon-user"></span>
-                    <strong>@User.Claims.FirstOrDefault(x => x.Type == "Name").Value</strong>
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <div class="navbar-login">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <p class="text-center">
-                                        <img class="header__logo_img" src="~/images/login.png" title="User" alt="User" />
-                                    </p>
-                                </div>
-                                <div class="col-lg-8">
-                                    <p class="text-left"><strong>@String.Format("{0} {1}", User.Claims.FirstOrDefault(x => x.Type == "Name").Value, User.Claims.FirstOrDefault(x => x.Type == "FullName").Value)</strong></p>
-                                    <p class="text-left small">@User.Claims.FirstOrDefault(x => x.Type == "Email").Value</p>
-                                    <p class="text-left">
-                                        <a href="@Url.Action("ChangePass", "Account")" class="btn btn-primary btn-block btn-sm">Actualizar Credenciales</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <div class="navbar-login navbar-login-session">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <p>
-                                        <a href="@Url.Action("LogOut","Account")" class="btn btn-danger btn-block">Cerrar Sesion</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-
-</header>
+    </header>
+</div>
