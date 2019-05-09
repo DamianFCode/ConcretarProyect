@@ -8,7 +8,7 @@
     "wbp": "webpack",
     "prod": "exit 0"
   },
-  "author": "silnose",
+  "author": "user",
   "license": "ISC",
   "devDependencies": {
     "bower": "1.7.9",
