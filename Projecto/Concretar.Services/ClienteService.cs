@@ -19,12 +19,12 @@ namespace Concretar.Services
         public List<ClienteViewModel> GetAll()
         {
             var model = _uow.ClienteRepository.All();
-            var marca = new List<ClienteViewModel>();
+            var cliente = new List<ClienteViewModel>();
             foreach (var value in model)
             {
-                marca.Add(new ClienteViewModel { ClienteId = value.ClienteId, Nombre = value.Nombre, Apellido = value.Apellido, Telefono = value.Telefono, Correo = value.Correo });
+                cliente.Add(new ClienteViewModel { ClienteId = value.ClienteId, Nombre = value.Nombre, Apellido = value.Apellido, Telefono = value.Telefono, Correo = value.Correo });
             }
-            return marca;
+            return cliente;
         }
         public void Create(ClienteViewModel model)
         {
