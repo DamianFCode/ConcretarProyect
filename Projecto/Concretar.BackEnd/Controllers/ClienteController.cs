@@ -29,13 +29,13 @@ namespace Concretar.Backend.Controllers
             {
                 ClienteService clienteService = new ClienteService(_logger);
                 var model = clienteService.GetAll();
-                _logger.LogInformation("Listado de marcas obtenido correctamente");
+                _logger.LogInformation("Listado de clientes obtenido correctamente");
                 return View(model);
             }
             catch (Exception e)
             {
-                _logger.LogError("Ocurrio un error al obtener el listado de Marcas. Error {0}", e);
-                return BadRequest("Ocurrio un error al obtener el listado de marcas");
+                _logger.LogError("Ocurrio un error al obtener el listado de Clientes. Error {0}", e);
+                return BadRequest("Ocurrio un error al obtener el listado de clientes");
             }
         }
         public IActionResult Create()
