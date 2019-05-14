@@ -63,9 +63,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="manifest.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="wwwroot\js\Highcharts\exporting.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
