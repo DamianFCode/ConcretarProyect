@@ -124,7 +124,34 @@ namespace Concretar.Entities
 				return usuarioTokenRepository;
 			}
 		}
-		
+        private Repository<Lote> loteRepository;
+        public IRepository<Lote> LoteRepository
+        {
+            get
+            {
+                if (this.loteRepository == null)
+                {
+                    this.loteRepository = new Repository<Lote>(context);
+                }
+                return loteRepository;
+            }
+        }
+        private Repository<Cliente> clienteRepository;
+        public IRepository<Cliente> ClienteRepository
+        {
+            get
+            {
+                if (this.clienteRepository == null)
+                {
+                    this.clienteRepository = new Repository<Cliente>(context);
+                }
+                return clienteRepository;
+            }
+        }
+
+
+
+
         public int Save()
 		{
 			return context.SaveChanges();

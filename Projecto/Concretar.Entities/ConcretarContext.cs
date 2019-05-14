@@ -26,8 +26,10 @@ namespace Concretar.Entities
 		public DbSet<UsuarioRol> UsuarioRol { set; get; }
 		public DbSet<Vista> Vista { set; get; }
 		public DbSet<UsuarioToken> UsuarioToken { set; get; }
-		
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DbSet<Lote> Lote { set; get; }
+        public DbSet<Cliente> Cliente { set; get; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
             base.OnModelCreating(modelBuilder);

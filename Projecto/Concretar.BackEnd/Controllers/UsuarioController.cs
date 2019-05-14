@@ -106,16 +106,16 @@ namespace Concretar.Backend.Controllers
 
                     return View(model);
                 }
-                else
-                {
-                    SetTempData(message);
-                }
+                //else
+                //{
+                //    SetTempData(message);
+                //}
             }
             catch (Exception e)
             {
                 SetTempData(e.Message, "error");
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("LogOut", "Account");
         }
 
 

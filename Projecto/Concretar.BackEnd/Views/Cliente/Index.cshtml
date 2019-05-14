@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Concretar.Services.Models.ClienteViewModel>
+@using NonFactors.Mvc.Grid
+@using Concretar.Backend.Extensions
+@{
+    var Email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+    var edit = Html.ColumnTablePermission("Edit", "Cliente", Email);
+    var delete = Html.ColumnTablePermission("Delete", "Cliente", Email);
+    ViewData["Title"] = "Clientes";
+}
+<header class="content__title">
+    <h1>@ViewData["Title"]</h1>
+    <div class="actions">
+        @Html.ActionLinkRole("", "actions__item zmdi zmdi-plus text-success", "Create", "Cliente", Email)
+    </div>
+</header>
+<div class="card">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        @(Html.Grid(Model)
+                                    .Build(columns =>
+                                    {
+                                        columns.Add(m => m.Nombre).Titled("Nombre");
+                                        columns.Add(m => m.Apellido).Titled("Apellido");
+                                        columns.Add(m => m.Telefono).Titled("Teléfono");
+                                        columns.Add(m => m.Correo).Titled("Correo");
+                                        columns.Add(m => Html.ActionLink("", "Edit", "Cliente", new { Id = m.ClienteId }, new { @class = "zmdi zmdi-edit text-warning", @title = "Editar" })).Css("action-cell " + edit).Titled("Editar");
+                                        columns.Add(m => Html.ActionLink("", "Delete", "Cliente", new { Id = m.ClienteId }, new { @class = "zmdi zmdi-delete text-danger swal-delete", @title = "Eliminar" })).Css("action-cell " + delete).Titled("Eliminar");
+                                    })
+                                    .Empty("No se encontró ningún registro")
+                                    .Css("table table-hover")
+                        )
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

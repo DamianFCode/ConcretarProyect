@@ -7,6 +7,15 @@
         <div class="scrollbar-inner scroll-content d-flex h-100 flex-column" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 800.5px;">
             <ul class="navigation">
                 <li class="@Html.IsActive("Home")">@Html.ActionMenuRole("Dashboard", "zmdi zmdi-chart", "Index", "Home", Email)</li>
+                <li class="@Html.IsActive("Cliente")">@Html.ActionMenuRole("Clientes", "zmdi zmdi-account-box-mail", "Index", "Cliente", Email)</li>
+                <li class="@Html.IsActive("Lote")">@Html.ActionMenuRole("Lotes", "zmdi zmdi-pin", "Index", "Lote", Email)</li>
+                <li class="@Html.IsActive("Proyecto")">@Html.ActionMenuRole("Proyectos", "zmdi zmdi-folder", "Index", "Proyecto", Email)</li>
+                <li class="@Html.IsActive("Venta")">@Html.ActionMenuRole("Ventas", "zmdi zmdi-file-text", "Index", "Venta", Email)</li>
+                <li class="@Html.IsActive("Estadistica")">@Html.ActionMenuRole("Estadisticas", "zmdi zmdi-equalizer", "Index", "Estadistica", Email)</li>
+                <li class="@Html.IsActive("Reunione")">@Html.ActionMenuRole("Reuniones", "zmdi zmdi-calendar", "Index", "Reunion", Email)</li>
+                <li class="@Html.IsActive("Notificacione")">@Html.ActionMenuRole("Notificaciones", "zmdi zmdi-notifications", "Notificacion", "Home", Email)</li>
+                <li class="@Html.IsActive("Mail")">@Html.ActionMenuRole("Mail", "zmdi zmdi-email", "Index", "Mail", Email)</li>
+
                 <br />
                 <li>Configuración</li>
                 <br />
@@ -22,8 +31,8 @@
                             </li>
 
                             @*<li class="@Html.IsActive("Perfil", "Index")">
-                                @Html.ActionMenuRole("Gestión de Perfiles", "", "Index", "Perfil", Email)
-                            </li>*@
+                        @Html.ActionMenuRole("Gestión de Perfiles", "", "Index", "Perfil", Email)
+                    </li>*@
                         </ul>
                     </li>
                 }
