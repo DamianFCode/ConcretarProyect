@@ -14,6 +14,7 @@ namespace Concretar.Services.Models
         [Required(ErrorMessage = "El campo Apellido es obligatorio")]
         public string Apellido { get; set; }
         public int Edad { get; set; }
+
         public DateTime FechaNacimiento { get; set; }
         [Required(ErrorMessage = "El campo Correo es obligatorio")]
         public string Correo { get; set; }
