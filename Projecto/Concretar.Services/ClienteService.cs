@@ -3,6 +3,7 @@ using Concretar.Services.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Concretar.Services
@@ -16,15 +17,41 @@ namespace Concretar.Services
         {
             _logger = logger;
         }
-        public List<ClienteViewModel> GetAll()
+        public GridClienteModel GetAll(int rowPerPages, string nombre = null, string apellido = null, string dni = null, int? page = null, int? rows = null)
         {
             var model = _uow.ClienteRepository.All();
-            var cliente = new List<ClienteViewModel>();
-            foreach (var value in model)
+            var gridClienteModel = new GridClienteModel();
+            if (!string.IsNullOrEmpty(nombre))
             {
-                cliente.Add(new ClienteViewModel { ClienteId = value.ClienteId, Nombre = value.Nombre, Apellido = value.Apellido, Telefono = value.Telefono, Correo = value.Correo });
+                model = model.Where(x => x.Nombre == nombre);
             }
-            return cliente;
+            if (!string.IsNullOrEmpty(apellido))
+            {
+                model = model.Where(x => x.Apellido == apellido);
+            }
+
+            var totalRows = model.Count();
+            model = model.Skip((page - 1 ?? 0) * (rows ?? rowPerPages)).Take(rows ?? rowPerPages);
+            // Reglas de order by y sort:                    
+            gridClienteModel.TotalRows = totalRows;
+
+            var cliente = model.Select(x => new ClienteViewModel()
+            {
+                Apellido = x.Apellido,
+                ClienteId = x.ClienteId,
+                Correo = x.Correo,
+                DNI = x.DNI,
+                Domicilio = x.Domicilio,
+                Edad = x.Edad,
+                FechaNacimiento = x.FechaNacimiento,
+                Nombre = x.Nombre,
+                NumeroDomicilio = x.NumeroDomicilio,
+                Observacion = x.Observacion,
+                Telefono = x.Telefono
+            });
+            gridClienteModel.ListClientes = cliente.ToList();
+
+            return gridClienteModel;
         }
         public void Create(ClienteViewModel model)
         {
@@ -33,6 +60,7 @@ namespace Concretar.Services
                 Nombre = model.Nombre,
                 Apellido = model.Apellido,
                 Edad = model.Edad,
+                DNI = model.DNI,
                 FechaNacimiento = model.FechaNacimiento,
                 Correo = model.Correo,
                 Telefono = model.Telefono,
@@ -53,6 +81,7 @@ namespace Concretar.Services
                 Nombre = model.Nombre,
                 Apellido = model.Apellido,
                 Edad = model.Edad,
+                DNI = model.DNI,
                 FechaNacimiento = model.FechaNacimiento,
                 Correo = model.Correo,
                 Telefono = model.Telefono,
@@ -74,7 +103,7 @@ namespace Concretar.Services
             cliente.Domicilio = model.Domicilio;
             cliente.NumeroDomicilio = model.NumeroDomicilio;
             cliente.Observacion = model.Observacion;
-
+            cliente.DNI = model.DNI;
             _uow.ClienteRepository.Update(cliente);
             _uow.ClienteRepository.Save();
         }
@@ -84,7 +113,5 @@ namespace Concretar.Services
             _uow.ClienteRepository.Delete(cliente);
             _uow.ClienteRepository.Save();
         }
-
-
     }
 }

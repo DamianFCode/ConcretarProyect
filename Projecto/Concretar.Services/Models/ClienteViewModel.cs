@@ -21,6 +21,8 @@ namespace Concretar.Services.Models
         public int Telefono { get; set; }
         [Required(ErrorMessage = "El campo Calle es obligatorio")]
         public string Domicilio { get; set; }
+        [MaxLength(10, ErrorMessage = "El DNI no puede contener más de 10 digitos")]
+        public string DNI { get; set; }
         [Required(ErrorMessage = "El campo Número de calle es obligatorio")]
         public int NumeroDomicilio { get; set; }
         public string Observacion { get; set; }
