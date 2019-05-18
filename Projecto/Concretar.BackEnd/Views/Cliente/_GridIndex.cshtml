@@ -1,0 +1,28 @@
+﻿@model Concretar.Services.Models.GridClienteModel
+@{
+    var Email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+    var edit = Html.ColumnTablePermission("Edit", "Cliente", Email);
+    var delete = Html.ColumnTablePermission("Delete", "Cliente", Email);
+}
+
+@(Html.Grid(Model.ListClientes)
+        .Build(columns =>
+        {
+            columns.Add(m => m.Nombre).Titled("Nombre");
+            columns.Add(m => m.Apellido).Titled("Apellido");
+            columns.Add(m => m.DNI).Titled("DNI");
+            columns.Add(m => m.Telefono).Titled("Teléfono");
+            columns.Add(m => m.Correo).Titled("Correo");
+            columns.Add(m => Html.ActionLink("", "Edit", "Cliente", new { Id = m.ClienteId }, new { @class = "zmdi zmdi-edit text-warning", @title = "Editar" })).Css("action-cell " + edit).Titled("Editar");
+            columns.Add(m => Html.ActionLink("", "Delete", "Cliente", new { Id = m.ClienteId }, new { @class = "zmdi zmdi-delete text-danger swal-delete", @title = "Eliminar" })).Css("action-cell " + delete).Titled("Eliminar");
+        })
+        .Pageable(pager =>
+        {
+            pager.ProcessorType = GridProcessorType.Manual;
+            pager.RowsPerPage = AppSettings.Value.Paging.RowsPerPage;
+            pager.TotalRows = Model.TotalRows;
+        })
+        .Empty("No se encontró ningún registro")
+        .Css("table table-hover")
+)
+

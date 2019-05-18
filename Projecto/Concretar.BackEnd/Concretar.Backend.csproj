@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\Datepicker\js\bootstrap-datepicker.js" />
     <None Include="wwwroot\lib\chosen\chosen.jquery.js" />
     <None Include="wwwroot\lib\chosen\chosen.jquery.min.js" />
     <None Include="wwwroot\lib\chosen\chosen.proto.min.js" />
