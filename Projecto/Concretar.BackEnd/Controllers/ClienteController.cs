@@ -31,7 +31,6 @@ namespace Concretar.Backend.Controllers
             try
             {
                 ClienteService clienteService = new ClienteService(_logger);
-                //var model = clienteService.GetAll();
                 _logger.LogInformation("Listado de clientes obtenido correctamente");
                 return View();
             }
@@ -119,7 +118,5 @@ namespace Concretar.Backend.Controllers
                 return BadRequest("Ocurrio un error el cliente la marca");
             }
         }
-
-
     }
 }

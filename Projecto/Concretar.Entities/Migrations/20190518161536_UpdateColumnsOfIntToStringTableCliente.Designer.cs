@@ -11,9 +11,10 @@ using System;
 namespace Concretar.Entities.Migrations
 {
     [DbContext(typeof(ConcretarContext))]
-    partial class ConcretarContextModelSnapshot : ModelSnapshot
+    [Migration("20190518161536_UpdateColumnsOfIntToStringTableCliente")]
+    partial class UpdateColumnsOfIntToStringTableCliente
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,26 +103,6 @@ namespace Concretar.Entities.Migrations
                     b.HasIndex("VistaId");
 
                     b.ToTable("Permiso");
-                });
-
-            modelBuilder.Entity("Concretar.Entities.Proyecto", b =>
-                {
-                    b.Property<int>("ProyectoId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Descripcion");
-
-                    b.Property<string>("Dimencion");
-
-                    b.Property<string>("Nombre");
-
-                    b.Property<float>("Precio");
-
-                    b.Property<string>("Ubicacion");
-
-                    b.HasKey("ProyectoId");
-
-                    b.ToTable("Proyecto");
                 });
 
             modelBuilder.Entity("Concretar.Entities.Rol", b =>

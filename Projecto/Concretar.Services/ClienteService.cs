@@ -29,10 +29,13 @@ namespace Concretar.Services
             {
                 model = model.Where(x => x.Apellido == apellido);
             }
+            if (!string.IsNullOrEmpty(dni))
+            {
+                model = model.Where(x => x.DNI == dni);
+            }
 
             var totalRows = model.Count();
             model = model.Skip((page - 1 ?? 0) * (rows ?? rowPerPages)).Take(rows ?? rowPerPages);
-            // Reglas de order by y sort:                    
             gridClienteModel.TotalRows = totalRows;
 
             var cliente = model.Select(x => new ClienteViewModel()
@@ -43,7 +46,7 @@ namespace Concretar.Services
                 DNI = x.DNI,
                 Domicilio = x.Domicilio,
                 Edad = x.Edad,
-                FechaNacimiento = x.FechaNacimiento,
+                FechaNacimiento = Convert.ToDateTime(x.FechaNacimiento.ToString("dd/MM/yyyy")),
                 Nombre = x.Nombre,
                 NumeroDomicilio = x.NumeroDomicilio,
                 Observacion = x.Observacion,
@@ -59,9 +62,9 @@ namespace Concretar.Services
             {
                 Nombre = model.Nombre,
                 Apellido = model.Apellido,
-                Edad = model.Edad,
+                Edad = !string.IsNullOrEmpty(model.Edad) ? model.Edad : GetEdad(model.FechaNacimiento).ToString(),
                 DNI = model.DNI,
-                FechaNacimiento = model.FechaNacimiento,
+                FechaNacimiento = model.FechaNacimiento.Date,
                 Correo = model.Correo,
                 Telefono = model.Telefono,
                 Domicilio = model.Domicilio,
@@ -82,7 +85,7 @@ namespace Concretar.Services
                 Apellido = model.Apellido,
                 Edad = model.Edad,
                 DNI = model.DNI,
-                FechaNacimiento = model.FechaNacimiento,
+                FechaNacimiento = Convert.ToDateTime(model.FechaNacimiento.Date.ToString("dd/MM/yyyy")),
                 Correo = model.Correo,
                 Telefono = model.Telefono,
                 Domicilio = model.Domicilio,
@@ -96,7 +99,7 @@ namespace Concretar.Services
             var cliente = _uow.ClienteRepository.Find(x => x.ClienteId == model.ClienteId);
             cliente.Nombre = model.Nombre;
             cliente.Apellido = model.Apellido;
-            cliente.Edad = model.Edad;
+            cliente.Edad = !string.IsNullOrEmpty(model.Edad) ? model.Edad : GetEdad(model.FechaNacimiento).ToString();
             cliente.FechaNacimiento = model.FechaNacimiento;
             cliente.Correo = model.Correo;
             cliente.Telefono = model.Telefono;
@@ -112,6 +115,18 @@ namespace Concretar.Services
             var cliente = _uow.ClienteRepository.Find(x => x.ClienteId == clienteId);
             _uow.ClienteRepository.Delete(cliente);
             _uow.ClienteRepository.Save();
+        }
+
+        public int GetEdad(DateTime date)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - date.Year;
+            if (today.DayOfWeek < date.Date.DayOfWeek) {
+                age = age - 1;
+            }
+            age = today.Year - date.Year;
+
+            return age;
         }
     }
 }
