@@ -7,6 +7,9 @@ using Concretar.Helper;
 using Concretar.Helper.Extensions;
 using Concretar.Services;
 using Concretar.Services.Models;
+using Concretar.Backend.Models;
+using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace Concretar.Backend.Controllers
 {
@@ -14,9 +17,12 @@ namespace Concretar.Backend.Controllers
     {
         private readonly ILogger<ProyectoController> _logger;
         private readonly IConfiguration _configuration;
-        public ProyectoController(ILogger<ProyectoController> logger, IConfiguration configuration)
+        private readonly IOptions<AppSettings> _appSettings;
+        public ProyectoController(ILogger<ProyectoController> logger, IConfiguration configuration, IOptions<AppSettings> options)
         {
             _logger = logger;
+            _appSettings = options;
+
             _configuration = configuration;
         }
         public IActionResult Index()
@@ -24,9 +30,8 @@ namespace Concretar.Backend.Controllers
             try
             {
                 ProyectoService proyectoService = new ProyectoService(_logger);
-                var model = proyectoService.GetAll();
                 _logger.LogInformation("Listado de proyectos obtenido correctamente");
-                return View(model);
+                return View();
             }
             catch (Exception e)
             {
@@ -34,6 +39,15 @@ namespace Concretar.Backend.Controllers
                 return BadRequest("Ocurrio un error al obtener el listado de proyectos");
             }
         }
+        public async Task<IActionResult> GridProyecto(string nombre = null, string ubicacion = null, string dimencion = null, string precio = null, int? page = null, int? rows = null)
+        {
+            ProyectoService proyectoService = new ProyectoService(_logger);
+            var model = new GridProyectoModel();
+            var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
+            await Task.Run(() => model = proyectoService.GetAll(rowsPerPages, nombre, ubicacion, dimencion, precio, page, rows));
+            return PartialView("_GridIndex", model);
+        }
+
         public IActionResult Create()
         {
             return View();
@@ -83,8 +97,8 @@ namespace Concretar.Backend.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError("No se pudo editar el cliente. Error <{0}>", e);
-                return BadRequest("Ocurrio un error al editar el cliente");
+                _logger.LogError("No se pudo editar el proyecto. Error <{0}>", e);
+                return BadRequest("Ocurrio un error al editar el proyecto");
             }
         }
         public IActionResult Delete(int id)

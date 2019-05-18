@@ -14,27 +14,85 @@
     </div>
 </header>
 <div class="card">
-    <div class="card-block">
-        <div class="row">
-            <div class="col-md-12">
+    <div id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="card-header" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordionGeneral" href="#collapseGeneral" aria-expanded="true" aria-controls="collapseGeneral" style="cursor: pointer;">
+            <h3 class="card-title">Filtros&nbsp;&nbsp;<i class="icon zmdi zmdi-chevron-up zmdi-hc-lg"></i></h3>
+        </div>
+        <div id="collapseGeneral" class="collapse show" role="tabpanel" aria-labelledby="headingGeneral">
+            <div class="card-block fix-padding">
                 <div class="row">
-                    <div class="col-lg-12">
-                        @(Html.Grid(Model)
-                                            .Build(columns =>
-                                            {
-                                                columns.Add(m => m.Nombre).Titled("Nombre");
-                                                columns.Add(m => m.Ubicacion).Titled("Apellido");
-                                                columns.Add(m => m.Dimencion).Titled("Dimencion en m2");
-                                                columns.Add(m => m.Precio).Titled("Precio");
-                                                columns.Add(m => Html.ActionLink("", "Edit", "Proyecto", new { Id = m.ProyectoId }, new { @class = "zmdi zmdi-edit text-warning", @title = "Editar" })).Css("action-cell " + edit).Titled("Editar");
-                                                columns.Add(m => Html.ActionLink("", "Delete", "Proyecto", new { Id = m.ProyectoId }, new { @class = "zmdi zmdi-delete text-danger swal-delete", @title = "Eliminar" })).Css("action-cell " + delete).Titled("Eliminar");
-                                            })
-                                            .Empty("No se encontró ningún registro")
-                                            .Css("table table-hover")
-                        )
+                    <div class="col-lg-4 col-md-12">
+                        <div class="form-group">
+                            <label for="numTran-filtro">Nombre</label>
+                            <input type="text" placeholder="Ej.: Tirasso" id="Nombre" name="Nombre" class="form-control input-filtro" required pattern="^([a-zA-Z\u00C0-\u017F]+[,.]?[ ]?|[a-zA-Z\u00C0-\u017F]+)+$" />
+                            <i class="form-group__bar"></i>
+                            @Html.Hidden("nombre")
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="col-auto float-right">
+                        <a id="btn-clean" class="btn btn-danger btn--icon-text waves-effect text-white">
+                            <i class="zmdi zmdi-close"></i>
+                            Borrar
+                        </a>
+                        <a id="btn-filter" onclick="reloadGrid(this)" class="btn btn-dark btn--icon-text waves-effect text-white">
+                            <i class="zmdi zmdi-filter-list"></i>
+                            Filtrar
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="card">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.AjaxGrid(Url.Action("GridProyecto", "Proyecto"))
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#btn-clean").click(function () {
+        $(".input-filtro").val(null).removeClass("form-control--active");
+        $("#Sucursal").attr('disabled', true);
+        $("#Sucursal").val(null);
+        $('.select2').val(null).trigger('change');
+        reloadGrid();
+    });
+    $(".input-filtro").keypress(function (event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            filtrar($("#btn-filter"));
+        }
+    });
+    function borrarFiltro(btn) {
+        $("#Sucursal").prop('disabled', false);
+        $("#Sucursal").val(null);
+        $(".input-filtro").val(null).removeClass("form-control--active");
+        reloadGrid(btn, "<i class='zmdi zmdi-close'></i> Borrar");
+    }
+    function reloadGrid(btn, text) {
+        $('.mvc-grid').mvcgrid({
+            requestType: 'get',
+            query: 'nombre=' + $("#Nombre").val(),
+            reloadStarted: function () {
+                $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
+                $("#btn-clean, #btn-filter").addClass("disabled");
+                $("#btn-filter").html("<i class='zmdi zmdi-spinner fa-spin'></i> Procesando");
+            },
+            reloadEnded: function () {
+                $("#btn-clean, #btn-filter").removeClass("disabled");
+                $("#btn-filter").html("<i class='zmdi zmdi-filter-list'></i> Filtrar");
+            },
+            showLoading: true,
+            reload: true
+        });
+    }
+    $(document).ready(function () {
+        $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
+    });
+</script>
