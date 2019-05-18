@@ -28,7 +28,7 @@ namespace Concretar.Entities
 		public DbSet<UsuarioToken> UsuarioToken { set; get; }
         public DbSet<Lote> Lote { set; get; }
         public DbSet<Cliente> Cliente { set; get; }
-
+        public DbSet<Proyecto> Proyecto { set; get; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

@@ -148,9 +148,20 @@ namespace Concretar.Entities
                 return clienteRepository;
             }
         }
+        private Repository<Proyecto> proyectoRepository;
+        public IRepository<Proyecto> ProyectoRepository
+        {
+            get
+            {
+                if(this.proyectoRepository == null)
+                {
+                    this.proyectoRepository = new Repository<Proyecto>(context);
+                }
+                return proyectoRepository;
+            }
+        }
 
-
-
+        public IRepository<Proyecto> Proyecto => throw new NotImplementedException();
 
         public int Save()
 		{

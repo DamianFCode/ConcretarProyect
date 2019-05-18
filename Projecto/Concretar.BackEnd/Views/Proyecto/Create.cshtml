@@ -1,0 +1,86 @@
+﻿@using Concretar.Backend.Models
+@using Concretar.Services.Models
+@model Concretar.Services.Models.ProyectoViewModel
+@{
+    ViewBag.Title = "Nuevo proyecto";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+<link href="~/css/rol_style.css" rel="stylesheet" />
+<header class="content__title">
+    <h1>@ViewBag.Title</h1>
+    <div class="actions">
+        <a href="@Url.Action("Index", "Proyecto")" class="actions__item zmdi zmdi-arrow-left text-danger" title="Volver"></a>
+    </div>
+</header>
+
+<form asp-action="Create" asp-controller="Proyecto" method="post" id="ProyectoForm">
+    <div class="card">
+        <div class="card-block">
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group form-group--float">
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", tabindex = "1", autocomplete = "off" })
+                        <label>Nombre</label>
+                        <i class="form-group__bar"></i>
+                    </div>
+                    <span asp-validation-for="Nombre" id="text-nombre-error" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group--float">
+                        @Html.TextBoxFor(model => model.Ubicacion, new { @class = "form-control", tabindex = "1", autocomplete = "off" })
+                        <label>Ubicacion</label>
+                        <i class="form-group__bar"></i>
+                    </div>
+                    <span asp-validation-for="Ubicacion" id="text-nombre-error" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group--float">
+                        @Html.TextBoxFor(model => model.Dimencion, new { type = "number", @class = "form-control", tabindex = "1", autocomplete = "off" })
+                        <label>Dimencion</label>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group--float">
+                        @Html.TextBoxFor(model => model.Precio, new { @class = "form-control", type = "number", tabindex = "1", autocomplete = "off" })
+                        <label>Precio</label>
+                        <i class="form-group__bar"></i>
+                    </div>
+                    <span asp-validation-for="Precio" id="text-nombre-error" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group form-group--float">
+                        @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", tabindex = "1", autocomplete = "off" })
+                        <label>Descripcion</label>
+                        <i class="form-group__bar"></i>
+                    </div>
+                    <span asp-validation-for="Descripcion" id="text-nombre-error" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-end">
+        <div class="col-auto">
+            <button id="submit-btn" class="btn btn-primary btn--icon-text waves-effect float-right" tabindex="2">
+                <i class="zmdi zmdi-save"></i>
+                Guardar
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    $("#submit-btn").click(function (event) {
+        event.preventDefault();
+        if ($("#ProyectoForm").valid()) {
+            $("#submit-btn").html("<i class='zmdi zmdi-spinner fa-spin'></i> Procesando...");
+            $("#submit-btn").addClass("disabled");
+            document.getElementById("submit-btn").style.pointerEvents = "none";
+            $("#ProyectoForm").submit();
+        }
+    });
+</script>

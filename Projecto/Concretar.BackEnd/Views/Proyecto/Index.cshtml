@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Concretar.Services.Models.ProyectoViewModel>
+@using NonFactors.Mvc.Grid
+@using Concretar.Backend.Extensions
+@{
+    var Email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+    var edit = Html.ColumnTablePermission("Edit", "Proyecto", Email);
+    var delete = Html.ColumnTablePermission("Delete", "Proyecto", Email);
+    ViewData["Title"] = "Proyecto";
+}
+<header class="content__title">
+    <h1>@ViewData["Title"]</h1>
+    <div class="actions">
+        @Html.ActionLinkRole("", "actions__item zmdi zmdi-plus text-success", "Create", "Proyecto", Email)
+    </div>
+</header>
+<div class="card">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        @(Html.Grid(Model)
+                                            .Build(columns =>
+                                            {
+                                                columns.Add(m => m.Nombre).Titled("Nombre");
+                                                columns.Add(m => m.Ubicacion).Titled("Apellido");
+                                                columns.Add(m => m.Dimencion).Titled("Dimencion en m2");
+                                                columns.Add(m => m.Precio).Titled("Precio");
+                                                columns.Add(m => Html.ActionLink("", "Edit", "Proyecto", new { Id = m.ProyectoId }, new { @class = "zmdi zmdi-edit text-warning", @title = "Editar" })).Css("action-cell " + edit).Titled("Editar");
+                                                columns.Add(m => Html.ActionLink("", "Delete", "Proyecto", new { Id = m.ProyectoId }, new { @class = "zmdi zmdi-delete text-danger swal-delete", @title = "Eliminar" })).Css("action-cell " + delete).Titled("Eliminar");
+                                            })
+                                            .Empty("No se encontró ningún registro")
+                                            .Css("table table-hover")
+                        )
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
