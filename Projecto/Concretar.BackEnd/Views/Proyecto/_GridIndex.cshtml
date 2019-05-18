@@ -9,9 +9,9 @@
             .Build(columns =>
             {
                 columns.Add(m => m.Nombre).Titled("Nombre");
-                columns.Add(m => m.Dimencion).Titled("Apellido");
-                columns.Add(m => m.Ubicacion).Titled("DNI");
-                columns.Add(m => m.Precio).Titled("Teléfono");
+                columns.Add(m => m.Dimencion).Titled("Dimencion en m2");
+                columns.Add(m => m.Ubicacion).Titled("Ubicacion");
+                columns.Add(m => m.Precio).Titled("Precio");
                 columns.Add(m => Html.ActionLink("", "Edit", "Proyecto", new { Id = m.ProyectoId }, new { @class = "zmdi zmdi-edit text-warning", @title = "Editar" })).Css("action-cell " + edit).Titled("Editar");
                 columns.Add(m => Html.ActionLink("", "Delete", "Proyecto", new { Id = m.ProyectoId }, new { @class = "zmdi zmdi-delete text-danger swal-delete", @title = "Eliminar" })).Css("action-cell " + delete).Titled("Eliminar");
             })

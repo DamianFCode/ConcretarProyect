@@ -56,7 +56,26 @@
     </div>
 </div>
 <script>
-        function reloadGrid(btn, text) {
+    $("#btn-clean").click(function () {
+        $(".input-filtro").val(null).removeClass("form-control--active");
+        $("#Sucursal").attr('disabled', true);
+        $("#Sucursal").val(null);
+        $('.select2').val(null).trigger('change');
+        reloadGrid();
+    });
+    $(".input-filtro").keypress(function (event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            filtrar($("#btn-filter"));
+        }
+    });
+    function borrarFiltro(btn) {
+        $("#Sucursal").prop('disabled', false);
+        $("#Sucursal").val(null);
+        $(".input-filtro").val(null).removeClass("form-control--active");
+        reloadGrid(btn, "<i class='zmdi zmdi-close'></i> Borrar");
+    }
+    function reloadGrid(btn, text) {
         $('.mvc-grid').mvcgrid({
             requestType: 'get',
             query: 'nombre=' + $("#Nombre").val(),
@@ -72,5 +91,8 @@
             showLoading: true,
             reload: true
         });
-
+    }
+    $(document).ready(function () {
+        $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
+    });
 </script>
