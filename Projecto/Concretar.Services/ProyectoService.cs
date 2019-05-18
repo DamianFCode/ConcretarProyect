@@ -3,6 +3,7 @@ using Concretar.Services.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Concretar.Services
@@ -16,15 +17,40 @@ namespace Concretar.Services
         {
             _logger = logger;
         }
-        public List<ProyectoViewModel> GetAll()
+        public GridProyectoModel GetAll(int rowPerPages, string nombre = null, string ubicacion = null, string dimencion = null, string precio = null, int? page = null, int? rows = null)
         {
             var model = _uow.ProyectoRepository.All();
-            var proyecto = new List<ProyectoViewModel>();
-            foreach (var value in model)
+            var gridProyectoModel = new GridProyectoModel();
+            if (!string.IsNullOrEmpty(nombre))
             {
-                proyecto.Add(new ProyectoViewModel { ProyectoId = value.ProyectoId, Nombre = value.Nombre, Ubicacion = value.Ubicacion, Dimencion = value.Dimencion, Precio = value.Precio, Descripcion = value.Descripcion });
+                model = model.Where(x => x.Nombre == nombre);
             }
-            return proyecto;
+            if (!string.IsNullOrEmpty(ubicacion))
+            {
+                model = model.Where(x => x.Ubicacion == ubicacion);
+            }
+            if (!string.IsNullOrEmpty(dimencion))
+            {
+                model = model.Where(x => x.Dimencion == dimencion);
+            }
+            if (!string.IsNullOrEmpty(precio))
+            {
+                model = model.Where(x => x.Precio == precio);
+            }
+            var totalRows = model.Count();
+            model = model.Skip((page - 1 ?? 0) * (rows ?? rowPerPages)).Take(rows ?? rowPerPages);
+            gridProyectoModel.TotalRows = totalRows;
+            //GET ALL 
+            var proyecto = model.Select(x => new ProyectoViewModel()
+            {
+                Nombre = x.Nombre,
+                Ubicacion = x.Ubicacion,
+                Dimencion = x.Dimencion,
+                Precio = x.Precio,
+            });
+            gridProyectoModel.ListProyecto = proyecto.ToList();
+
+            return gridProyectoModel;
         }
         public void Create(ProyectoViewModel model)
         {
