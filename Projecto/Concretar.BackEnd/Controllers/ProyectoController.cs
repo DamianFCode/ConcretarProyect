@@ -22,7 +22,6 @@ namespace Concretar.Backend.Controllers
         {
             _logger = logger;
             _appSettings = options;
-
             _configuration = configuration;
         }
         public IActionResult Index()
@@ -117,8 +116,5 @@ namespace Concretar.Backend.Controllers
                 return BadRequest("Ocurrio un error en el proyecto");
             }
         }
-
-
-
     }
 }
