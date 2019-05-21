@@ -1,5 +1,6 @@
 ﻿using Concretar.Entities;
 using Concretar.Services.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -40,9 +41,9 @@ namespace Concretar.Services
             var totalRows = model.Count();
             model = model.Skip((page - 1 ?? 0) * (rows ?? rowPerPages)).Take(rows ?? rowPerPages);
             gridProyectoModel.TotalRows = totalRows;
-            //GET ALL 
             var proyecto = model.Select(x => new ProyectoViewModel()
             {
+                ProyectoId = x.ProyectoId,
                 Nombre = x.Nombre,
                 Ubicacion = x.Ubicacion,
                 Dimencion = x.Dimencion,
@@ -52,6 +53,20 @@ namespace Concretar.Services
 
             return gridProyectoModel;
         }
+        public IEnumerable<SelectListItem> GetProyectoDropDown(string selectedId = null)
+        {
+            var proyecto = _uow.ProyectoRepository.All().OrderBy(x => x.Nombre).ToList();
+
+            var listproyecto = proyecto.Select(x => new SelectListItem()
+            {
+                Selected = (x.ProyectoId.ToString() == selectedId),
+                Text = x.Nombre,
+                Value = x.ProyectoId.ToString()
+            }).OrderBy(x => x.Text);
+
+            return listproyecto;
+        }
+
         public void Create(ProyectoViewModel model)
         {
             var proyecto = new Proyecto()
@@ -92,8 +107,8 @@ namespace Concretar.Services
         }
         public void Delete(int proyectoId)
         {
-            var cliente = _uow.ProyectoRepository.Find(x => x.ProyectoId == proyectoId);
-            _uow.ProyectoRepository.Delete(cliente);
+            var proyecto = _uow.ProyectoRepository.Find(x => x.ProyectoId == proyectoId);
+            _uow.ProyectoRepository.Delete(proyecto);
             _uow.ProyectoRepository.Save();
         }
 
