@@ -7,6 +7,7 @@ using Concretar.Helper;
 using Concretar.Helper.Extensions;
 using Concretar.Services;
 using Concretar.Services.Models;
+using System.Security.Claims;
 
 namespace Concretar.Backend.Controllers
 {
@@ -31,8 +32,8 @@ namespace Concretar.Backend.Controllers
         {
             ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
             UsuarioService us = new UsuarioService(_logger);
-                ViewData["Roles"] = us.GetRolesDropDown();
-                return View(new UsuarioViewModel());
+            ViewData["Roles"] = us.GetRolesDropDown();
+            return View(new UsuarioViewModel());
         }
         [HttpPost]
         public IActionResult Create(UsuarioViewModel model)
@@ -137,13 +138,31 @@ namespace Concretar.Backend.Controllers
 
                 ViewData["Roles"] = us.GetRolesDropDown(usuario.ArrayRoles.Split(',').ToList());
                 return View(model);
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError("", ex.Message);
                 SetTempData("Error al intentar editar un usuario que no existe", "error");
                 return RedirectToAction("Index", "Usuario");
             }
-        
+
+        }
+        public IActionResult EditRedirect(string email = null, int? UsuarioId = null)
+        {
+            try
+            {
+                UsuarioService usuarioService = new UsuarioService(_logger);
+                email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+                UsuarioId = usuarioService.GetUsuarioByEmail(email);
+                _logger.LogInformation("Usuario obtenido para el Id: <{0}>", UsuarioId);
+                return RedirectToAction("Edit", "Usuario", new { @id = UsuarioId });
+            }
+            catch
+            {
+                _logger.LogError("No se pudo obtener el Usuario");
+                return BadRequest("Ocurrio un error al obtener el Usuario");
+
+            }
         }
 
         public IActionResult EmailExists(string email, string usuarioId)
