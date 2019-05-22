@@ -315,5 +315,10 @@ namespace Concretar.Services
 
             return listUsuarios;
         }
+        public int GetUsuarioByEmail( string email)
+        {
+            var UsuarioId = _uow.UsuarioRepository.Find(x => x.Email == email);
+            return UsuarioId.UsuarioId;
+        }
     }
 }
