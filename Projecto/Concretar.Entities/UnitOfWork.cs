@@ -163,6 +163,19 @@ namespace Concretar.Entities
 
         public IRepository<Proyecto> Proyecto => throw new NotImplementedException();
 
+        private Repository<Reunion> reunionRepository;
+        public IRepository<Reunion> ReunionRepository
+        {
+            get
+            {
+                if (this.reunionRepository == null)
+                {
+                    this.reunionRepository = new Repository<Reunion>(context);
+                }
+                return reunionRepository;
+            }
+        }
+
         public int Save()
 		{
 			return context.SaveChanges();

@@ -1,5 +1,6 @@
 ﻿using Concretar.Entities;
 using Concretar.Services.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -127,6 +128,19 @@ namespace Concretar.Services
             age = today.Year - date.Year;
 
             return age;
+        }
+
+        public IEnumerable<SelectListItem> GetClientesDropDown(string selectedId = null)
+        {
+            var clientes = _uow.ClienteRepository.All().OrderBy(x => x.Nombre).ToList();
+            var listClientes = clientes.Select(x => new SelectListItem()
+            {
+                Selected = (x.ClienteId.ToString() == selectedId),
+                Text = x.Nombre + " " + x.Apellido,
+                Value = x.ClienteId.ToString()
+            }).OrderBy(x => x.Text);
+
+            return listClientes;
         }
     }
 }

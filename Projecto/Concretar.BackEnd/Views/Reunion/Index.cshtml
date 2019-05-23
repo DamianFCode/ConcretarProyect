@@ -1,0 +1,168 @@
+﻿@model IEnumerable<Concretar.Services.Models.ReunionViewModel>
+@{
+    var Email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+    var create = Html.ColumnTablePermission("Create", "Cliente", Email);
+    ViewData["Title"] = "Reuniones";
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<header class="content__title">
+    <h1>@ViewData["Title"]</h1>
+    <div class="actions">
+        <a class="btn btn-success @create" href="@Url.Action("Create", "Reunion")"><i class="zmdi zmdi-plus">Agregar Reunion</i></a>
+        @*@Html.ActionLinkRole("", "actions__item zmdi zmdi-plus text-success", "Create", "Cliente", Email)*@
+    </div>
+</header>
+<div class="card">
+    <div id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="card-header" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordionGeneral" href="#collapseGeneral" aria-expanded="true" aria-controls="collapseGeneral" style="cursor: pointer;">
+            <h3 class="card-title">Filtros&nbsp;&nbsp;<i class="icon zmdi zmdi-chevron-up zmdi-hc-lg"></i></h3>
+        </div>
+        <div id="collapseGeneral" class="collapse show" role="tabpanel" aria-labelledby="headingGeneral">
+            <div class="card-block fix-padding">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-6">
+                        <div class="form-group">
+                            <label for="date-filtro">Fecha desde:</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                                <div class="form-group">
+                                    <input class="form-control flatpickr-input input-filtro fecha" id="date-filtro" placeholder="Click aquí" type="text" readonly="readonly">
+                                    <input type="hidden" name="FechaCreacionDesde" class="input-filtro" id="FechaCreacionDesde" readonly />
+                                    <i class="form-group__bar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6">
+                        <div class="form-group">
+                            <label for="date-filtro">Fecha hasta:</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                                <div class="form-group">
+                                    <input class="form-control flatpickr-input input-filtro fecha2" id="date-filtro" placeholder="Click aquí" type="text" readonly="readonly">
+                                    <input type="hidden" name="FechaCreacionHasta" class="input-filtro" id="FechaCreacionHasta" readonly />
+                                    <i class="form-group__bar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="col-auto float-right">
+                        <a id="btn-clean" class="btn btn-danger btn--icon-text waves-effect text-white">
+                            <i class="zmdi zmdi-close"></i>
+                            Borrar
+                        </a>
+                        <a id="btn-filter" onclick="reloadGrid(this)" class="btn btn-dark btn--icon-text waves-effect text-white">
+                            <i class="zmdi zmdi-filter-list"></i>
+                            Filtrar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.AjaxGrid(Url.Action("GridReunion", "Reunion"))
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    $("#btn-clean").click(function () {
+        $(".input-filtro").val(null).removeClass("form-control--active");
+        $("#Sucursal").attr('disabled', true);
+        $("#Sucursal").val(null);
+        $('.select2').val(null).trigger('change');
+        reloadGrid();
+    });
+    $(".input-filtro").keypress(function (event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            filtrar($("#btn-filter"));
+        }
+    });
+    function borrarFiltro(btn) {
+        $("#Sucursal").prop('disabled', false);
+        $("#Sucursal").val(null);
+        $(".input-filtro").val(null).removeClass("form-control--active");
+        reloadGrid(btn, "<i class='zmdi zmdi-close'></i> Borrar");
+    }
+    function reloadGrid(btn, text) {
+        $('.mvc-grid').mvcgrid({
+            requestType: 'get',
+            query: 'FechaCreacionDesde=' + $("#FechaCreacionDesde").val() + '&FechaCreacionHasta=' + $("#FechaCreacionHasta").val(),
+            reloadStarted: function () {
+                $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
+                $("#btn-clean, #btn-filter").addClass("disabled");
+                $("#btn-filter").html("<i class='zmdi zmdi-spinner fa-spin'></i> Procesando");
+            },
+            reloadEnded: function () {
+                $("#btn-clean, #btn-filter").removeClass("disabled");
+                $("#btn-filter").html("<i class='zmdi zmdi-filter-list'></i> Filtrar");
+            },
+            showLoading: true,
+            reload: true
+        });
+    }
+    $(document).ready(function () {
+        $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
+    });
+    $(".fecha").flatpickr({
+        dateFormat: "d/m/Y H:i",
+        locale: {
+            weekdays: {
+                shorthand: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                longhand: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+            },
+            months: {
+                shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nob', 'Dic'],
+                longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            },
+            firstDayOfWeek: 1,
+        },
+        //mode: 'range',
+        time_24hr: true,
+        enableTime: true,
+        onChange: function (selectedDates, dateStr, instance) {
+            var FechaFrom = null;
+            var FechaTo = null;
+            var arrayFechas = dateStr.split(" to ");
+            var FechaFrom = arrayFechas[0];
+            var FechaTo = arrayFechas[1];
+
+            $("#FechaCreacionDesde").val(FechaFrom);
+        }
+    });
+    $(".fecha2").flatpickr({
+        dateFormat: "d/m/Y H:i",
+        locale: {
+            weekdays: {
+                shorthand: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                longhand: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+            },
+            months: {
+                shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nob', 'Dic'],
+                longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            },
+            firstDayOfWeek: 1,
+        },
+        //mode: 'range',
+        time_24hr: true,
+        enableTime: true,
+        onChange: function (selectedDates, dateStr, instance) {
+            var FechaFrom = null;
+            var FechaTo = null;
+            var arrayFechas = dateStr.split(" to ");
+            var FechaFrom = arrayFechas[0];
+            var FechaTo = arrayFechas[1];
+
+            $("#FechaCreacionHasta").val(FechaFrom);
+        }
+    });
+</script>

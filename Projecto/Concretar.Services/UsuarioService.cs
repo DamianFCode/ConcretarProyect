@@ -301,5 +301,19 @@ namespace Concretar.Services
                 Email = usuario.Email,
             };
         }
+
+        public IEnumerable<SelectListItem> GetUsuariosDropDown(string selectedId = null)
+        {
+            var usuarios = _uow.UsuarioRepository.All().OrderBy(x => x.Nombre).ToList();
+
+            var listUsuarios = usuarios.Select(x => new SelectListItem()
+            {
+                Selected = (x.UsuarioId.ToString() == selectedId),
+                Text = x.Nombre + " " + x.Apellido,
+                Value = x.UsuarioId.ToString()
+            }).OrderBy(x => x.Text);
+
+            return listUsuarios;
+        }
     }
 }
