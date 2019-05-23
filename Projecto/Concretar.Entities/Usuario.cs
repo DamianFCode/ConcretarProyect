@@ -17,6 +17,7 @@ namespace Concretar.Entities
         public string Contrasena { set; get; }
         public bool ContrasenaActualizada { get; set; }
         public string Email { set; get; }
+        public string PathImagenPerfil { set; get; }
         [JsonIgnore]
         public virtual ICollection<UsuarioRol> UsuarioRoles { get; } = new List<UsuarioRol>();
     }
