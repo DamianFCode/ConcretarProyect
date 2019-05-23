@@ -36,7 +36,7 @@
                             <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                             <div class="form-group">
                                 <div class="input-filtro" id="select-date">
-                                    <input type="text" class="form-control input-filtro" Name="FechaNacimiento" id="FechaNacimiento" placeholder="Fecha Nacimiento.." name="DateMonth" readonly>
+                                    <input type="text" class="form-control input-filtro" Name="FechaNacimiento" id="FechaNacimiento" placeholder="Fecha Nacimiento.." readonly>
                                 </div>
                             </div>
                         </div>
@@ -125,13 +125,9 @@
     $(document).ready(function () {
         $('#select-date input').datepicker({
             format: "dd/mm/yyyy",
-            //viewMode: "months",
             endDate: '@DateTime.Now.ToString("dd/MM/yyyy")',
-            autoclose: true,
             toggleActive: true
-        }).on('changeDate', function (ev) {
-            $(this).datepicker('hide');
-        });;
+        });
     });
     $("#DNI, #Edad, #NumeroDomicilio, #Telefono").keydown(function (e) {
         if (e.shiftKey || e.ctrlKey || e.altKey) {

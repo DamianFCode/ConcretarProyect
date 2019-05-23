@@ -156,13 +156,13 @@
 
     function verNotificaciones()
     {
-        @foreach(var i in TempData.Keys)
+        @if (TempData.ContainsKey("type"))
         {
-            if (TempData[i].ToString().Contains("error"))
+            if (TempData["type"].ToString().Contains("error"))
             {
                 @: nError('@Html.Raw(TempData["message"].ToString().Replace("'", "\""))', "error");
             }
-            if (TempData[i].ToString().Contains("success"))
+            if (TempData["type"].ToString().Contains("success"))
             {
                 @: nSuccess('@Html.Raw(TempData["message"].ToString().Replace("'", "\""))', "success");
             }

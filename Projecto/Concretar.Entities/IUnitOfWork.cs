@@ -20,6 +20,7 @@ namespace Concretar.Entities
         IRepository<Cliente> ClienteRepository { get; }
         IRepository<Lote> LoteRepository { get; }
         IRepository<Proyecto> Proyecto { get; }
+        IRepository<Reunion> ReunionRepository { get; }
         int Save();
 	}
 }

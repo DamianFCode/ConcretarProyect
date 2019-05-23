@@ -25,4 +25,25 @@
         .Empty("No se encontró ningún registro")
         .Css("table table-hover")
 )
+<script>
+    $('.swal-delete').click(function (e) {
+        var href = $(this).attr('href');
+        e.preventDefault();
+        swal({
+            title: "Confirmar",
+            text: "El registro se eliminará ¿Está Seguro?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+        }).then((result) => {
+            if (result) {
+                window.location = href;
+            } else {
+                swal("Cancelado", "Su registro no fue eliminado", "error")
+            }
+        });
+    });
+</script>
 
