@@ -8,6 +8,8 @@ using Concretar.Helper.Extensions;
 using Concretar.Services;
 using Concretar.Services.Models;
 using System.Security.Claims;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace Concretar.Backend.Controllers
 {
@@ -78,8 +80,12 @@ namespace Concretar.Backend.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public IActionResult Edit(UsuarioViewModel model)
+        public IActionResult Edit(UsuarioViewModel model, IFormFile ImageArchivo)
         {
+            string pic = Path.GetFileName(model.PathImagenPerfil);
+            //var path = Path.Combine(System.Web.HttpContext.Current.Server("~/Images/Prolife/"), pic);
+
+            //file.SaveAs(path);
             UsuarioService us = new UsuarioService(_logger);
             try
             {
