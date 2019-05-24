@@ -25,7 +25,6 @@
 </header>
 <form asp-action="Edit" asp-controller="Usuario" method="post" id="EditUserForm" enctype="multipart/form-data">
     @Html.HiddenFor(m => m.UsuarioId)
-    <input type="hidden" name="id" value="1" />
     <div class="card">
         <div class="card-block">
             <div class="row">
@@ -118,7 +117,6 @@
             $("#PathImagenPerfil").val(e.target.result);
         };
         // read the image file as a data URL.
-        console.log(this.files[0]);
         reader.readAsDataURL(this.files[0]);
     };
     $(".img-logo").click(function () { $("#ImagenArchivo").click(); });
@@ -154,7 +152,6 @@
         $("#ArrayRoles").val(arrayRoles.toString());
         var formName = $(obj).data("form");
         var theForm = document.getElementById("EditUserForm");/*.forms[formName];*/
-        console.log(theForm);
         theForm.submit();
     }
 

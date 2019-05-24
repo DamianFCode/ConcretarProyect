@@ -84,7 +84,7 @@ namespace Concretar.Backend.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public IActionResult Edit(UsuarioViewModel model, IFormFile ImagenArchivo, int id)
+        public IActionResult Edit(UsuarioViewModel model, IFormFile ImagenArchivo)
         {
 
             //file.SaveAs(path);
