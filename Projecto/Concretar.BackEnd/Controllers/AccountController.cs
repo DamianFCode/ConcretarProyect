@@ -16,7 +16,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Encrypter = Concretar.Services.Encrypter;
 using Parametro = Concretar.Helper.Parametro;
-
+using Microsoft.AspNetCore.Http;
 
 namespace Concretar.Backend.Controllers
 {
@@ -70,6 +70,8 @@ namespace Concretar.Backend.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                var urlBackend = Parametro.GetValue("BaseUrlBackend");
+                HttpContext.Session.SetString("urlBackend", urlBackend);
                 return RedirectReturnUrl(returnUrl);
             }
             else
@@ -120,10 +122,11 @@ namespace Concretar.Backend.Controllers
                         {
                             var claimsCookie = new List<Claim>
                             {
-                            new Claim("Name", usuario.Nombre),
-                            new Claim("FullName", usuario.Apellido),
-                            new Claim("Email", usuario.Email),
-                            new Claim("Usuario", usuario.Usuario)
+                                new Claim("Name", usuario.Nombre),
+                                new Claim("FullName", usuario.Apellido),
+                                new Claim("Email", usuario.Email),
+                                new Claim("Usuario", usuario.Usuario),
+                                new Claim("FotoPerfil", usuario.PathImagenPerfil),
                             };
                             var claimsIdentity = new ClaimsIdentity(
                                 claimsCookie, CookieAuthenticationDefaults.AuthenticationScheme);

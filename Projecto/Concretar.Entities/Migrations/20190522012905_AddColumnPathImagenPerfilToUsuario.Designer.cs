@@ -11,9 +11,10 @@ using System;
 namespace Concretar.Entities.Migrations
 {
     [DbContext(typeof(ConcretarContext))]
-    partial class ConcretarContextModelSnapshot : ModelSnapshot
+    [Migration("20190522012905_AddColumnPathImagenPerfilToUsuario")]
+    partial class AddColumnPathImagenPerfilToUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,30 +129,6 @@ namespace Concretar.Entities.Migrations
                     b.ToTable("Proyecto");
                 });
 
-            modelBuilder.Entity("Concretar.Entities.Reunion", b =>
-                {
-                    b.Property<int>("ReunionId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ClienteId");
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<string>("Motivo");
-
-                    b.Property<string>("Resultado");
-
-                    b.Property<int>("UsuarioId");
-
-                    b.HasKey("ReunionId");
-
-                    b.HasIndex("ClienteId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Reunion");
-                });
-
             modelBuilder.Entity("Concretar.Entities.Rol", b =>
                 {
                     b.Property<int>("RolId")
@@ -259,19 +236,6 @@ namespace Concretar.Entities.Migrations
                     b.HasOne("Concretar.Entities.Vista", "Vista")
                         .WithMany("Permisos")
                         .HasForeignKey("VistaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Concretar.Entities.Reunion", b =>
-                {
-                    b.HasOne("Concretar.Entities.Cliente", "Cliente")
-                        .WithMany()
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Concretar.Entities.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
