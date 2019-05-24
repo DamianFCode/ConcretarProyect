@@ -31,7 +31,7 @@
                 <div class="col-md-3">
                     <div class="form-group form-group--float">
                         @Html.TextBoxFor(model => model.Ubicacion, new { @class = "form-control", tabindex = "1", autocomplete = "off" })
-                        <label>Ubicacion</label>
+                        <label>Ubicación</label>
                         <i class="form-group__bar"></i>
                     </div>
                     <span asp-validation-for="Ubicacion" id="text-nombre-error" class="text-danger"></span>
@@ -39,7 +39,7 @@
                 <div class="col-md-3">
                     <div class="form-group form-group--float">
                         @Html.TextBoxFor(model => model.Dimencion, new { type = "number", @class = "form-control", tabindex = "1", autocomplete = "off" })
-                        <label>Dimencion</label>
+                        <label>Dimensión</label>
                         <i class="form-group__bar"></i>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="col-md-12">
                     <div class="form-group form-group--float">
                         @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", tabindex = "1", autocomplete = "off" })
-                        <label>Descripcion</label>
+                        <label>Descripción</label>
                         <i class="form-group__bar"></i>
                     </div>
                     <span asp-validation-for="Descripcion" id="text-nombre-error" class="text-danger"></span>
