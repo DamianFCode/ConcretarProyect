@@ -152,7 +152,7 @@ namespace Concretar.Backend.Controllers
             {
                 UsuarioService us = new UsuarioService(_logger);
                 var usuario = us.GetUsuarioById(id);
-                var path = hostingEnv.WebRootPath;
+                var path = Parametro.GetValue("BaseUrlBackend") + "images/";
                 var model = new UsuarioViewModel()
                 {
                     Apellido = usuario.Apellido,
@@ -160,7 +160,7 @@ namespace Concretar.Backend.Controllers
                     UsuarioId = usuario.UsuarioId,
                     Email = usuario.Email,
                     ArrayRoles = usuario.ArrayRoles,
-                    PathImagenPerfil = string.Format("{0}{1}",Helper.Parametro.GetValue("BaseUrlBackend"), usuario.PathImagenPerfil)
+                    PathImagenPerfil = string.Format("{0}{1}", path, usuario.PathImagenPerfil)
                 };
 
                 ViewData["Roles"] = us.GetRolesDropDown(usuario.ArrayRoles.Split(',').ToList());
