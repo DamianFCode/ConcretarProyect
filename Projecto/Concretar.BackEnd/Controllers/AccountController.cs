@@ -126,7 +126,7 @@ namespace Concretar.Backend.Controllers
                                 new Claim("FullName", usuario.Apellido),
                                 new Claim("Email", usuario.Email),
                                 new Claim("Usuario", usuario.Usuario),
-                                new Claim("FotoPerfil", usuario.PathImagenPerfil),
+                                new Claim("FotoPerfil", usuario.PathImagenPerfil ?? ""),
                             };
                             var claimsIdentity = new ClaimsIdentity(
                                 claimsCookie, CookieAuthenticationDefaults.AuthenticationScheme);
