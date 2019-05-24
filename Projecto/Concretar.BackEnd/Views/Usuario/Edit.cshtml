@@ -23,8 +23,9 @@
         <a href="@Url.Action("Index", "Usuario")" class="actions__item zmdi zmdi-arrow-left text-danger" title="Volver"></a>
     </div>
 </header>
-<form asp-action="Edit" asp-controller="Usuario" method="post" id="EditUserForm">
+<form asp-action="Edit" asp-controller="Usuario" method="post" id="EditUserForm" enctype="multipart/form-data">
     @Html.HiddenFor(m => m.UsuarioId)
+    <input type="hidden" name="id" value="1" />
     <div class="card">
         <div class="card-block">
             <div class="row">
@@ -58,11 +59,21 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    @Html.Label("Nueva foto de perfil")
-                    @Html.TextBoxFor(m => m.PathImagenPerfil, new { @class = "form-control-file", id = "PathImagenPerfil", type = "hidden" })
-                    <div class="form-group toggler-control">
-                        <input type="file" name="ImagenArchivo" id="ImagenArchivo" class="btn btn-default btn-lg" />
+                <div class="col-md-12 col-lg-12">
+                    @Html.Label("Imagen")
+                    <div class="card img-card">
+                        <div class="card-block">
+                            <div class="col-md-12">
+                                <img class="img-responsive img-thumbnail img-logo" src="@(String.IsNullOrWhiteSpace(Model.PathImagenPerfil) ? @Url.Content("~/images/no-avatar.png") : Model.PathImagenPerfil)" style="max-height: 250px !important;">
+                            </div>
+                            <div class="col-md-12">
+                                <input type="hidden" name="PathImagenPerfil" id="PathImagenPerfil" value="@Model.PathImagenPerfil" required />
+                                <div class="form-group toggler-control" id="local">
+                                    <input type="file" class="btn btn-default btn-lg" name="ImagenArchivo" id="ImagenArchivo" required />
+                                </div>
+                            </div>
+                            <span id="UrlLogo2" class="text-danger" style="display:none;">Debe seleccionar un logo para el comercio.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,12 +110,31 @@
 
     });
     document.getElementById("ImagenArchivo").onchange = function () {
+        verifyImage();
         var reader = new FileReader();
         reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            $(".img-logo").attr("src", e.target.result);
             $("#PathImagenPerfil").val(e.target.result);
         };
-        console.log(this.file)
-        reader.readAsDataURL(this.file[0]);
+        // read the image file as a data URL.
+        console.log(this.files[0]);
+        reader.readAsDataURL(this.files[0]);
+    };
+    $(".img-logo").click(function () { $("#ImagenArchivo").click(); });
+    $("#ImagenArchivo").change(function () {
+        if ($("#PathImagenPerfil").val() === "") {
+            $("#UrlLogo2").css('display', 'none');
+
+        }
+    });
+    function verifyImage() {
+
+        if ($("#ImagenArchivo").val() === "")
+            var imgRoute = window.location.origin + "/images/no-avatar.png";
+        $(".img-logo").attr("src", imgRoute);
+        $("#PathImagenPerfil").val("");
+        $("#UrlLogo2").css('display', 'block');
     }
     $("#submit-btn").click(function (event) {
         event.preventDefault();
@@ -124,6 +154,7 @@
         $("#ArrayRoles").val(arrayRoles.toString());
         var formName = $(obj).data("form");
         var theForm = document.getElementById("EditUserForm");/*.forms[formName];*/
+        console.log(theForm);
         theForm.submit();
     }
 

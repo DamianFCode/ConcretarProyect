@@ -140,7 +140,8 @@ namespace Concretar.Services
                 Nombre = user.Nombre,
                 UsuarioId = user.UsuarioId,
                 Email = user.Email,
-                ArrayRoles = rolesArray
+                ArrayRoles = rolesArray,
+                PathImagenPerfil = user.PathImagenPerfil
             };
         }
 
@@ -190,6 +191,7 @@ namespace Concretar.Services
                     usuario.Apellido = model.Apellido;
                     usuario.Email = model.Email;
                     usuario.Nombre = model.Nombre;
+                    usuario.PathImagenPerfil = model.PathImagenPerfil;
 
                     var rolesList = _uow.UsuarioRolRepository
                         .FilterIncluding(x => x.UsuarioId == model.UsuarioId, y => y.Rol, z => z.Usuario).ToList();
@@ -299,6 +301,7 @@ namespace Concretar.Services
                 Usuario = usuario.Email,
                 Password = usuario.Contrasena,
                 Email = usuario.Email,
+                PathImagenPerfil = usuario.PathImagenPerfil
             };
         }
 

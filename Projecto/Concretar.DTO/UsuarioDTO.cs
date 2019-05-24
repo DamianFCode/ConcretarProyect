@@ -18,5 +18,6 @@ namespace Concretar.DTO
         public string Password { set; get; }
         public string Token { set; get; }
         public DateTime? Expiration { set; get; }
+        public string PathImagenPerfil { get; set; }
     }
 }

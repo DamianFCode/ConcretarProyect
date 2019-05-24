@@ -10,6 +10,8 @@ using Concretar.Services.Models;
 using System.Security.Claims;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Concretar.Backend.Controllers
 {
@@ -17,11 +19,13 @@ namespace Concretar.Backend.Controllers
     {
         private readonly ILogger<UsuarioController> _logger;
         private readonly IConfiguration _configuration;
+        private IHostingEnvironment hostingEnv;
 
-        public UsuarioController(ILogger<UsuarioController> logger, IConfiguration configuration)
+        public UsuarioController(ILogger<UsuarioController> logger, IConfiguration configuration, IHostingEnvironment env)
         {
             _logger = logger;
             _configuration = configuration;
+            hostingEnv = env;
         }
         public IActionResult Index()
         {
@@ -80,12 +84,27 @@ namespace Concretar.Backend.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public IActionResult Edit(UsuarioViewModel model, IFormFile ImageArchivo)
+        public IActionResult Edit(UsuarioViewModel model, IFormFile ImagenArchivo, int id)
         {
-            string pic = Path.GetFileName(model.PathImagenPerfil);
-            //var path = Path.Combine(System.Web.HttpContext.Current.Server("~/Images/Prolife/"), pic);
 
             //file.SaveAs(path);
+            long size = 0;
+            var path = hostingEnv.WebRootPath + "\\images";
+            if (ImagenArchivo != null)
+            {
+                var baseFilename = ContentDispositionHeaderValue
+                                .Parse(ImagenArchivo.ContentDisposition)
+                                .FileName
+                                .Trim('"');
+                var filename = string.Format("{0}\\{1}", (path).Replace("//", "\\"), baseFilename);
+                size += ImagenArchivo.Length;
+                using (FileStream fs = System.IO.File.Create(filename))
+                {
+                    ImagenArchivo.CopyTo(fs);
+                    fs.Flush();
+                }
+                model.PathImagenPerfil = baseFilename;
+            }
             UsuarioService us = new UsuarioService(_logger);
             try
             {
@@ -103,7 +122,7 @@ namespace Concretar.Backend.Controllers
                     Email = model.Email
                 };
 
-                var message = us.EditUsuario(usuario);
+                var message = us.EditUsuario(model);
                 if (message.Equals("FailModel"))
                 {
                     SetTempData("Los datos ingresados son incorrectos.", "error");
@@ -133,6 +152,7 @@ namespace Concretar.Backend.Controllers
             {
                 UsuarioService us = new UsuarioService(_logger);
                 var usuario = us.GetUsuarioById(id);
+                var path = hostingEnv.WebRootPath;
                 var model = new UsuarioViewModel()
                 {
                     Apellido = usuario.Apellido,
@@ -140,6 +160,7 @@ namespace Concretar.Backend.Controllers
                     UsuarioId = usuario.UsuarioId,
                     Email = usuario.Email,
                     ArrayRoles = usuario.ArrayRoles,
+                    PathImagenPerfil = string.Format("{0}{1}",Helper.Parametro.GetValue("BaseUrlBackend"), usuario.PathImagenPerfil)
                 };
 
                 ViewData["Roles"] = us.GetRolesDropDown(usuario.ArrayRoles.Split(',').ToList());
