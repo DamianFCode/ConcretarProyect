@@ -7,6 +7,11 @@ using Concretar.Helper;
 using Concretar.Helper.Extensions;
 using Concretar.Services;
 using Concretar.Services.Models;
+using System.Security.Claims;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Concretar.Backend.Controllers
 {
@@ -14,11 +19,13 @@ namespace Concretar.Backend.Controllers
     {
         private readonly ILogger<UsuarioController> _logger;
         private readonly IConfiguration _configuration;
+        private IHostingEnvironment hostingEnv;
 
-        public UsuarioController(ILogger<UsuarioController> logger, IConfiguration configuration)
+        public UsuarioController(ILogger<UsuarioController> logger, IConfiguration configuration, IHostingEnvironment env)
         {
             _logger = logger;
             _configuration = configuration;
+            hostingEnv = env;
         }
         public IActionResult Index()
         {
@@ -31,8 +38,8 @@ namespace Concretar.Backend.Controllers
         {
             ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
             UsuarioService us = new UsuarioService(_logger);
-                ViewData["Roles"] = us.GetRolesDropDown();
-                return View(new UsuarioViewModel());
+            ViewData["Roles"] = us.GetRolesDropDown();
+            return View(new UsuarioViewModel());
         }
         [HttpPost]
         public IActionResult Create(UsuarioViewModel model)
@@ -77,8 +84,27 @@ namespace Concretar.Backend.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public IActionResult Edit(UsuarioViewModel model)
+        public IActionResult Edit(UsuarioViewModel model, IFormFile ImagenArchivo)
         {
+
+            //file.SaveAs(path);
+            long size = 0;
+            var path = hostingEnv.WebRootPath + "\\images";
+            if (ImagenArchivo != null)
+            {
+                var baseFilename = ContentDispositionHeaderValue
+                                .Parse(ImagenArchivo.ContentDisposition)
+                                .FileName
+                                .Trim('"');
+                var filename = string.Format("{0}\\{1}", (path).Replace("//", "\\"), baseFilename);
+                size += ImagenArchivo.Length;
+                using (FileStream fs = System.IO.File.Create(filename))
+                {
+                    ImagenArchivo.CopyTo(fs);
+                    fs.Flush();
+                }
+                model.PathImagenPerfil = baseFilename;
+            }
             UsuarioService us = new UsuarioService(_logger);
             try
             {
@@ -96,7 +122,7 @@ namespace Concretar.Backend.Controllers
                     Email = model.Email
                 };
 
-                var message = us.EditUsuario(usuario);
+                var message = us.EditUsuario(model);
                 if (message.Equals("FailModel"))
                 {
                     SetTempData("Los datos ingresados son incorrectos.", "error");
@@ -126,6 +152,7 @@ namespace Concretar.Backend.Controllers
             {
                 UsuarioService us = new UsuarioService(_logger);
                 var usuario = us.GetUsuarioById(id);
+                var path = Parametro.GetValue("BaseUrlBackend") + "images/";
                 var model = new UsuarioViewModel()
                 {
                     Apellido = usuario.Apellido,
@@ -133,17 +160,36 @@ namespace Concretar.Backend.Controllers
                     UsuarioId = usuario.UsuarioId,
                     Email = usuario.Email,
                     ArrayRoles = usuario.ArrayRoles,
+                    PathImagenPerfil = string.Format("{0}{1}", path, usuario.PathImagenPerfil)
                 };
 
                 ViewData["Roles"] = us.GetRolesDropDown(usuario.ArrayRoles.Split(',').ToList());
                 return View(model);
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError("", ex.Message);
                 SetTempData("Error al intentar editar un usuario que no existe", "error");
                 return RedirectToAction("Index", "Usuario");
             }
-        
+
+        }
+        public IActionResult EditRedirect(string email = null, int? UsuarioId = null)
+        {
+            try
+            {
+                UsuarioService usuarioService = new UsuarioService(_logger);
+                email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+                UsuarioId = usuarioService.GetUsuarioByEmail(email);
+                _logger.LogInformation("Usuario obtenido para el Id: <{0}>", UsuarioId);
+                return RedirectToAction("Edit", "Usuario", new { @id = UsuarioId });
+            }
+            catch
+            {
+                _logger.LogError("No se pudo obtener el Usuario");
+                return BadRequest("Ocurrio un error al obtener el Usuario");
+
+            }
         }
 
         public IActionResult EmailExists(string email, string usuarioId)

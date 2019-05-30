@@ -29,7 +29,7 @@
     <link href="~/template/lightgallery/css/lightgallery.css" rel="stylesheet" />
     <link href="~/template/css/app.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
-    <link href="~/manifest.json" rel="manifest">
+    <link rel="stylesheet" type="text/css" href="~/js/Datepicker/css/datepicker.css" />
 
     <style>
         .modal-header {
@@ -54,14 +54,20 @@
             margin-top: -13px;
         }
 
-        .close:hover {
-            color: #f8f5f5;
-        }
+            .close:hover {
+                color: #f8f5f5;
+            }
 
-        .header h3{
+        .header h3 {
             margin-left: 1rem;
             color: white;
             margin-top: 0.5rem;
+        }
+
+        .loader-table {
+            width: 100%;
+            position: initial;
+            opacity: 0.5;
         }
     </style>
 </head>
@@ -120,6 +126,7 @@
     <script src="~/lib/SweetAlert2IE/polyfill.js"></script>
     <script type="text/JavaScript" src="~/js/jquery.print/jQuery.print.min.js"></script>
     <script src="~/js/site.min.js"></script>
+    <script src="~/js/Datepicker/js/bootstrap-datepicker.js"></script>
 
     <script>
         $('.mvc-grid').mvcgrid();
@@ -149,13 +156,13 @@
 
     function verNotificaciones()
     {
-        @foreach(var i in TempData.Keys)
+        @if (TempData.ContainsKey("type"))
         {
-            if (TempData[i].ToString().Contains("error"))
+            if (TempData["type"].ToString().Contains("error"))
             {
                 @: nError('@Html.Raw(TempData["message"].ToString().Replace("'", "\""))', "error");
             }
-            if (TempData[i].ToString().Contains("success"))
+            if (TempData["type"].ToString().Contains("success"))
             {
                 @: nSuccess('@Html.Raw(TempData["message"].ToString().Replace("'", "\""))', "success");
             }

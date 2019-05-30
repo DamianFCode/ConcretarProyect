@@ -29,19 +29,21 @@ namespace Concretar.Entities.Migrations
 
                     b.Property<string>("Correo");
 
+                    b.Property<string>("DNI");
+
                     b.Property<string>("Domicilio");
 
-                    b.Property<int>("Edad");
+                    b.Property<string>("Edad");
 
                     b.Property<DateTime>("FechaNacimiento");
 
                     b.Property<string>("Nombre");
 
-                    b.Property<int>("NumeroDomicilio");
+                    b.Property<string>("NumeroDomicilio");
 
                     b.Property<string>("Observacion");
 
-                    b.Property<int>("Telefono");
+                    b.Property<string>("Telefono");
 
                     b.HasKey("ClienteId");
 
@@ -50,18 +52,22 @@ namespace Concretar.Entities.Migrations
 
             modelBuilder.Entity("Concretar.Entities.Lote", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("LoteId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Descripcion");
 
-                    b.Property<string>("Medida");
+                    b.Property<string>("Dimension");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Nombre");
 
-                    b.Property<int>("Precio");
+                    b.Property<string>("Precio");
 
-                    b.HasKey("Id");
+                    b.Property<int>("ProyectId");
+
+                    b.Property<string>("Ubicacion");
+
+                    b.HasKey("LoteId");
 
                     b.ToTable("Lote");
                 });
@@ -100,6 +106,50 @@ namespace Concretar.Entities.Migrations
                     b.HasIndex("VistaId");
 
                     b.ToTable("Permiso");
+                });
+
+            modelBuilder.Entity("Concretar.Entities.Proyecto", b =>
+                {
+                    b.Property<int>("ProyectoId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Descripcion");
+
+                    b.Property<string>("Dimencion");
+
+                    b.Property<string>("Nombre");
+
+                    b.Property<string>("Precio");
+
+                    b.Property<string>("Ubicacion");
+
+                    b.HasKey("ProyectoId");
+
+                    b.ToTable("Proyecto");
+                });
+
+            modelBuilder.Entity("Concretar.Entities.Reunion", b =>
+                {
+                    b.Property<int>("ReunionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ClienteId");
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<string>("Motivo");
+
+                    b.Property<string>("Resultado");
+
+                    b.Property<int>("UsuarioId");
+
+                    b.HasKey("ReunionId");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Reunion");
                 });
 
             modelBuilder.Entity("Concretar.Entities.Rol", b =>
@@ -145,6 +195,8 @@ namespace Concretar.Entities.Migrations
                     b.Property<bool>("Habilitado");
 
                     b.Property<string>("Nombre");
+
+                    b.Property<string>("PathImagenPerfil");
 
                     b.Property<DateTime>("TSCreado");
 
@@ -207,6 +259,19 @@ namespace Concretar.Entities.Migrations
                     b.HasOne("Concretar.Entities.Vista", "Vista")
                         .WithMany("Permisos")
                         .HasForeignKey("VistaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Concretar.Entities.Reunion", b =>
+                {
+                    b.HasOne("Concretar.Entities.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Concretar.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

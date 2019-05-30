@@ -1,5 +1,10 @@
 ﻿@using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
+@using Microsoft.AspNetCore.Http
+@{
+    var fotoPerfil = User.Claims.FirstOrDefault(x => x.Type == "FotoPerfil").Value;
+    var baseUrl = Context.Session.GetString("urlBackend") + "images/";
+}
 
 <style>
     .header {
@@ -133,7 +138,7 @@
                     <span class="color-hover-menu" data-toggle="dropdown"><i class="zmdi zmdi-account d-inline"></i>&nbsp;<i class="zmdi zmdi-more-vert d-inline"></i></span>
                     <div class="dropdown-box-user dropdown-menu dropdown-menu-right dropdown-position">
                         <div class="user-info-center">
-                            <img class="user__img waves-effect" src="~/images/login.png" width="40" height="40" /><br />
+                            <img class="user__img waves-effect" src="@(baseUrl + fotoPerfil)" width="40" height="40" /><br />
                             <span class="name-user-panel">
                                 <strong>@String.Format("{0} {1}", User.Claims.FirstOrDefault(x => x.Type == "Name").Value, User.Claims.FirstOrDefault(x => x.Type == "FullName").Value)</strong>
                                 <br />
@@ -145,6 +150,7 @@
                             </span>
                             <hr />
                         </div>
+                        <a href="@Url.Action("EditRedirect", "Usuario")" class="dropdown-item color-hover-menu"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;Editar Datos del usuario</a>
                         <a href="@Url.Action("ChangePass", "Account")" class="dropdown-item color-hover-menu"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;Editar Credenciales</a>
                         <a href="@Url.Action("LogOut","Account")" class="dropdown-item color-hover-menu"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Cerrar Sesión</a>
                     </div>

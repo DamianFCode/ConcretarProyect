@@ -7,36 +7,47 @@ using Concretar.Helper;
 using Concretar.Helper.Extensions;
 using Concretar.Services;
 using Concretar.Services.Models;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.Extensions.Options;
+using Concretar.Backend.Models;
 
 namespace Concretar.Backend.Controllers
 {
     public class ClienteController : CommonController
     {
         private readonly ILogger<ClienteController> _logger;
+        private readonly IOptions<AppSettings> _appSettings;
         private readonly IConfiguration _configuration;
-        public ClienteController(ILogger<ClienteController> logger, IConfiguration configuration)
+        public ClienteController(ILogger<ClienteController> logger, IConfiguration configuration, IOptions<AppSettings> options)
         {
             _logger = logger;
+            _appSettings = options;
             _configuration = configuration;
         }
 
-        // GET: /<controller>/
         public IActionResult Index()
         {
             try
             {
                 ClienteService clienteService = new ClienteService(_logger);
-                var model = clienteService.GetAll();
                 _logger.LogInformation("Listado de clientes obtenido correctamente");
-                return View(model);
+                return View();
             }
             catch (Exception e)
             {
                 _logger.LogError("Ocurrio un error al obtener el listado de Clientes. Error {0}", e);
                 return BadRequest("Ocurrio un error al obtener el listado de clientes");
             }
+        }
+        [HttpGet]
+        public async Task<IActionResult> GridClientes(string nombre = null, string apellido = null, string dni = null, int? page = null, int? rows = null)
+        {
+            ClienteService clienteService = new ClienteService(_logger);
+            var model = new GridClienteModel();
+            var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
+            await Task.Run(() => model = clienteService.GetAll(rowsPerPages, nombre, apellido, dni, page, rows));
+            return PartialView("_GridIndex", model);
         }
         public IActionResult Create()
         {
@@ -107,7 +118,5 @@ namespace Concretar.Backend.Controllers
                 return BadRequest("Ocurrio un error el cliente la marca");
             }
         }
-
-
     }
 }

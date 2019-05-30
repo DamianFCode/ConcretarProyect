@@ -140,7 +140,8 @@ namespace Concretar.Services
                 Nombre = user.Nombre,
                 UsuarioId = user.UsuarioId,
                 Email = user.Email,
-                ArrayRoles = rolesArray
+                ArrayRoles = rolesArray,
+                PathImagenPerfil = user.PathImagenPerfil
             };
         }
 
@@ -190,6 +191,7 @@ namespace Concretar.Services
                     usuario.Apellido = model.Apellido;
                     usuario.Email = model.Email;
                     usuario.Nombre = model.Nombre;
+                    usuario.PathImagenPerfil = model.PathImagenPerfil;
 
                     var rolesList = _uow.UsuarioRolRepository
                         .FilterIncluding(x => x.UsuarioId == model.UsuarioId, y => y.Rol, z => z.Usuario).ToList();
@@ -299,7 +301,27 @@ namespace Concretar.Services
                 Usuario = usuario.Email,
                 Password = usuario.Contrasena,
                 Email = usuario.Email,
+                PathImagenPerfil = usuario.PathImagenPerfil
             };
+        }
+
+        public IEnumerable<SelectListItem> GetUsuariosDropDown(string selectedId = null)
+        {
+            var usuarios = _uow.UsuarioRepository.All().OrderBy(x => x.Nombre).ToList();
+
+            var listUsuarios = usuarios.Select(x => new SelectListItem()
+            {
+                Selected = (x.UsuarioId.ToString() == selectedId),
+                Text = x.Nombre + " " + x.Apellido,
+                Value = x.UsuarioId.ToString()
+            }).OrderBy(x => x.Text);
+
+            return listUsuarios;
+        }
+        public int GetUsuarioByEmail( string email)
+        {
+            var UsuarioId = _uow.UsuarioRepository.Find(x => x.Email == email);
+            return UsuarioId.UsuarioId;
         }
     }
 }

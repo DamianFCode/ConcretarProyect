@@ -1,0 +1,116 @@
+﻿@model Concretar.Services.Models.ReunionViewModel
+@{
+    ViewBag.Title = "Editar Reunion";
+    var selectClientes = (IEnumerable<SelectListItem>)ViewData["Clientes"];
+    var selectUsuarios = (IEnumerable<SelectListItem>)ViewData["Usuarios"];
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<header class="content__title">
+    <h1>@ViewBag.Title</h1>
+    <div class="actions">
+        <a href="@Url.Action("Index", "Reunion")" class="actions__item zmdi zmdi-arrow-left text-danger" title="Volver"></a>
+    </div>
+</header>
+
+<form asp-action="Edit" asp-controller="Reunion" method="post" id="EditReunionForm">
+    <div class="card">
+        <div class="card-block">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.ReunionId)
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group form-group--float">
+                        @Html.TextBoxFor(model => model.Motivo, new { @class = "form-control", tabindex = "1", autocomplete = "off" })
+                        <label>Motivo</label>
+                        <i class="form-group__bar"></i>
+                    </div>
+                    <span asp-validation-for="Motivo" id="text-motivo-error" class="text-danger"></span>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6">
+                    <div class="form-group">
+                        <label for="date-filtro">Fecha Reunion:</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                            <div class="form-group">
+                                <input class="form-control flatpickr-input input-filtro fecha" id="date-filtro" placeholder="Click aquí" type="text" readonly="readonly" name="Fecha" value="@Model.Fecha">
+                                <input type="hidden" asp-for="Fecha" name="Fecha" class="input-filtro" id="Fecha" readonly />
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Fecha" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="comercio-filtro">Clientes</label>
+                        <select asp-for="ClienteId" class="form-control select2 select2-hidden-accessible required" asp-items="selectClientes" id="select-cliente">
+                            <option value="" selected>- Seleccione Cliente -</option>
+                        </select>
+                        <i class="form-group__bar"></i>
+                    </div>
+                    <span asp-validation-for="ClienteId" class="text-danger text-cliente-error"></span>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="comercio-filtro">Usuarios</label>
+                        <select asp-for="UsuarioId" class="form-control select2 select2-hidden-accessible required" asp-items="selectUsuarios" id="select-usuarios">
+                            <option value="" selected>- Seleccione Usuario -</option>
+                        </select>
+                        <i class="form-group__bar"></i>
+                    </div>
+                    <span asp-validation-for="UsuarioId" class="text-danger text-usuario-error"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group form-group--float">
+                        @Html.TextAreaFor(model => model.Resultado, new { @class = "form-control", tabindex = "1", autocomplete = "off" })
+                        <label>Resultado</label>
+                        <i class="form-group__bar"></i>
+                    </div>
+                    <span asp-validation-for="Resultado" id="text-resultado-error" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-end">
+        <div class="col-auto">
+            <button id="submit-btn" class="btn btn-primary btn--icon-text waves-effect float-right" tabindex="2">
+                <i class="zmdi zmdi-save"></i>
+                Guardar
+            </button>
+        </div>
+    </div>
+</form>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script type="text/javascript">
+    $("#submit-btn").click(function (event) {
+        event.preventDefault();
+        if ($("#EditReunionForm").valid()) {
+            $("#submit-btn").html("<i class='zmdi zmdi-spinner fa-spin'></i> Procesando...");
+            $("#submit-btn").addClass("disabled");
+            document.getElementById("submit-btn").style.pointerEvents = "none";
+            $("#EditReunionForm").submit();
+        }
+    });
+   
+    $(".fecha").flatpickr({
+        dateFormat: "d/m/Y H:i",
+        minDate: 'today',
+        locale: {
+            weekdays: {
+                shorthand: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                longhand: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+            },
+            months: {
+                shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nob', 'Dic'],
+                longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            },
+            firstDayOfWeek: 1,
+        },
+        time_24hr: true,
+        enableTime: true,
+    });
+</script>

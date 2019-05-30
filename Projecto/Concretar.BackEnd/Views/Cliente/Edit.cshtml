@@ -4,13 +4,7 @@
 @{
     ViewBag.Title = "Nuevo cliente";
 }
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-<link href="~/css/rol_style.css" rel="stylesheet" />
 <header class="content__title">
     <h1>@ViewBag.Title</h1>
     <div class="actions">
@@ -42,17 +36,22 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group form-group--float">
-                        @Html.TextBoxFor(model => model.FechaNacimiento, new { @class = "form-control datepicker", tabindex = "1", placeholder = "Fecha de Nacimiento" })
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                            <div class="form-group">
+                                <div class="input-filtro" id="select-date">
+                                    <input type="text" class="form-control input-filtro" Name="FechaNacimiento" id="FechaNacimiento" placeholder="Fecha Nacimiento.." value="@Model.FechaNacimiento.ToString("dd/MM/yyyy")" readonly>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <span asp-validation-for="FechaNacimiento" id="text-nombre-error" class="text-danger"></span>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group form-group--float">
-                        @Html.TextBoxFor(model => model.Edad, new { type = "number", @class = "form-control", tabindex = "1" })
-                        <label>Edad</label>
+                        @Html.TextBoxFor(model => model.DNI, new { @class = "form-control", tabindex = "1", autocomplete = "off" })
+                        <label>DNI</label>
                         <i class="form-group__bar"></i>
                     </div>
-                    <span asp-validation-for="Edad" id="text-nombre-error" class="text-danger"></span>
                 </div>
             </div>
             <div class="row">
@@ -92,7 +91,15 @@
             <div class="row">
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-3">
+                    <div class="form-group form-group--float">
+                        @Html.TextBoxFor(model => model.Edad, new { @class = "form-control", tabindex = "1" })
+                        <label>Edad</label>
+                        <i class="form-group__bar"></i>
+                    </div>
+                    <span asp-validation-for="Edad" id="text-nombre-error" class="text-danger"></span>
+                </div>
+                <div class="col-md-9">
                     <div class="form-group form-group--float">
                         @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control", tabindex = "1" })
                         <label>Observacion</label>
@@ -122,9 +129,32 @@
             $("#EditClienteForm").submit();
         }
     });
-</script>
-<script type="text/javascript">
-    $(function () {
-        $('.datepicker').datepicker();
+    $(document).ready(function () {
+        $('#select-date input').datepicker({
+            format: "dd/mm/yyyy",
+            endDate: '@DateTime.Now.ToString("dd/MM/yyyy")',
+            toggleActive: true
+        });
+    });
+    $("#DNI, #Edad, #NumeroDomicilio, #Telefono").keydown(function (e) {
+        if (e.shiftKey || e.ctrlKey || e.altKey) {
+            e.preventDefault();
+            return;
+        } 
+        else {
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                (e.keyCode >= 35 && e.keyCode <= 40 && e.keyCode <= 18)) {
+                return;
+            }
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        }
+    });
+
+    $('#DNI, #Edad, #NumeroDomicilio, #Telefono').on('keyup blur', function () {
+        var node = $(this);
+        node.val(node.val().replace(/[^0-9^]/g, ''));
     });
 </script>

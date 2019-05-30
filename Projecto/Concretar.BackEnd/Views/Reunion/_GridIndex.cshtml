@@ -1,0 +1,49 @@
+﻿@model Concretar.Services.Models.GridReunionModel
+@{
+    var Email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+    var edit = Html.ColumnTablePermission("Edit", "Reunion", Email);
+    var delete = Html.ColumnTablePermission("Delete", "Reunion", Email);
+}
+
+@(Html.Grid(Model.ListReuniones)
+            .Build(columns =>
+            {
+                columns.Add(m => m.Motivo).Titled("Nombre");
+                columns.Add(m => m.Cliente.Nombre + " " + m.Cliente.Apellido).Titled("Cliente");
+                columns.Add(m => m.Usuario.Nombre + " " + m.Usuario.Apellido).Titled("Usuario");
+                columns.Add(m => m.Fecha).Titled("Fecha");
+                //columns.Add(m => m.Resultado).Titled("Resultado");
+                columns.Add(m => Html.ActionLink("", "Edit", "Reunion", new { Id = m.ReunionId }, new { @class = "zmdi zmdi-edit text-warning", @title = "Editar" })).Css("action-cell " + edit).Titled("Editar");
+                columns.Add(m => Html.ActionLink("", "Delete", "Reunion", new { Id = m.ReunionId }, new { @class = "zmdi zmdi-delete text-danger swal-delete", @title = "Eliminar" })).Css("action-cell " + delete).Titled("Eliminar");
+            })
+            .Pageable(pager =>
+            {
+                pager.ProcessorType = GridProcessorType.Manual;
+                pager.RowsPerPage = AppSettings.Value.Paging.RowsPerPage;
+                pager.TotalRows = Model.TotalRows;
+            })
+            .Empty("No se encontró ningún registro")
+            .Css("table table-hover")
+)
+
+<script>
+    $('.swal-delete').click(function (e) {
+        var href = $(this).attr('href');
+        e.preventDefault();
+        swal({
+            title: "Confirmar",
+            text: "El registro se eliminará ¿Está Seguro?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+        }).then((result) => {
+            if (result) {
+                window.location = href;
+            } else {
+                swal("Cancelado", "Su registro no fue eliminado", "error")
+            }
+        });
+    });
+</script>
