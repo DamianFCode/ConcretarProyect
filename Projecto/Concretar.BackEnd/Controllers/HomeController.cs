@@ -8,7 +8,6 @@ using Concretar.Helper;
 
 namespace Concretar.Backend.Controllers
 {
-    [Authorize]
     [Route("[controller]/[action]")]
     public class HomeController : CommonController
     {

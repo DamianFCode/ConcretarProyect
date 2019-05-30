@@ -19,11 +19,12 @@
 </style>
 <header class="content__title">
     <h1>@ViewData["Title"]</h1>
+    <div class="actions">
+        @Html.ActionLinkRole("Nuevo Usuario", "btn btn-success text-white float-right", "Create", "Usuario", Email)
+    </div>
 </header>
 <div class="card">
     <div class="card-body">
-        @*<div class="row">
-            <div class="col-md-12">*@
                 @(Html.Grid(Model)
                         .Build(columns =>
                         {
@@ -37,7 +38,5 @@
                         .Css("table table-hover")
                         .Empty("No se encontró ningún registro")
                 )
-            @*</div>
-        </div>*@
     </div>
 </div>
