@@ -42,11 +42,12 @@ namespace Concretar.Backend.Controllers
             return View(new UsuarioViewModel());
         }
         [HttpPost]
-        public IActionResult Create(UsuarioViewModel model)
+        public IActionResult Create(UsuarioViewModel model, IFormFile ImagenArchivo)
         {
             UsuarioService us = new UsuarioService(_logger);
             try
             {
+                var path = hostingEnv.WebRootPath + "\\images";
                 if (!ModelState.IsValid)
                 {
                     ViewData["Roles"] = us.GetRolesDropDown(model.ArrayRoles.Split(',').ToList());
@@ -60,7 +61,7 @@ namespace Concretar.Backend.Controllers
                     ArrayRoles = model.ArrayRoles
                 };
 
-                var message = us.CreateUsuario(user);
+                var message = us.CreateUsuario(user, ImagenArchivo, path);
                 if (message.Equals("FailModel"))
                 {
                     SetTempData("Los datos ingresados son incorrectos.", "error");
@@ -86,33 +87,17 @@ namespace Concretar.Backend.Controllers
         [HttpPost]
         public IActionResult Edit(UsuarioViewModel model, IFormFile ImagenArchivo)
         {
-
-            //file.SaveAs(path);
-            long size = 0;
-            var path = hostingEnv.WebRootPath + "\\images";
-            if (ImagenArchivo != null)
-            {
-                var baseFilename = ContentDispositionHeaderValue
-                                .Parse(ImagenArchivo.ContentDisposition)
-                                .FileName
-                                .Trim('"');
-                var filename = string.Format("{0}\\{1}", (path).Replace("//", "\\"), baseFilename);
-                size += ImagenArchivo.Length;
-                using (FileStream fs = System.IO.File.Create(filename))
-                {
-                    ImagenArchivo.CopyTo(fs);
-                    fs.Flush();
-                }
-                model.PathImagenPerfil = baseFilename;
-            }
             UsuarioService us = new UsuarioService(_logger);
+            var emailUser = string.Empty;
             try
             {
+                var path = hostingEnv.WebRootPath + "\\images";
                 if (!ModelState.IsValid)
                 {
                     ViewData["Roles"] = us.GetRolesDropDown(model.ArrayRoles.Split(',').ToList());
                     return View(model);
                 }
+                emailUser = us.GetUsuarioById(model.UsuarioId).Email;
                 var usuario = new UsuarioViewModel()
                 {
                     Apellido = model.Apellido,
@@ -122,7 +107,7 @@ namespace Concretar.Backend.Controllers
                     Email = model.Email
                 };
 
-                var message = us.EditUsuario(model);
+                var message = us.EditUsuario(model, ImagenArchivo, path);
                 if (message.Equals("FailModel"))
                 {
                     SetTempData("Los datos ingresados son incorrectos.", "error");
@@ -132,18 +117,21 @@ namespace Concretar.Backend.Controllers
 
                     return View(model);
                 }
-                //else
-                //{
-                //    SetTempData(message);
-                //}
             }
             catch (Exception e)
             {
                 SetTempData(e.Message, "error");
             }
-            return RedirectToAction("LogOut", "Account");
+            if (model.Email != emailUser)
+            {
+                return RedirectToAction("LogOut", "Account");
+            }
+            else
+            {
+                SetTempData("Usuario editado correctamente", "success");
+                return RedirectToAction("Index");
+            }
         }
-
 
         public IActionResult Edit(int id)
         {
@@ -160,7 +148,7 @@ namespace Concretar.Backend.Controllers
                     UsuarioId = usuario.UsuarioId,
                     Email = usuario.Email,
                     ArrayRoles = usuario.ArrayRoles,
-                    PathImagenPerfil = string.Format("{0}{1}", path, usuario.PathImagenPerfil)
+                    PathImagenPerfil = usuario.PathImagenPerfil != null ? string.Format("{0}{1}", path, usuario.PathImagenPerfil) : null
                 };
 
                 ViewData["Roles"] = us.GetRolesDropDown(usuario.ArrayRoles.Split(',').ToList());

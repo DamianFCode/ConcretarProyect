@@ -10,7 +10,7 @@
 <header class="content__title">
     <h1>@ViewData["Title"]</h1>
     <div class="actions">
-        <a class="btn btn-success" href="@Url.Action("Create", "Lote")"><i class="zmdi zmdi-plus">Agregar Lote</i></a>
+        @Html.ActionLinkRole("Agregar Lote", "btn btn-success text-white float-right", "Create", "Lote", Email)
     </div>
 </header>
 <div class="card">

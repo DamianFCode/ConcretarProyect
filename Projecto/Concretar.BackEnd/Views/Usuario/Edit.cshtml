@@ -54,9 +54,11 @@
                         @Html.Label("Email")
                         <i class="form-group__bar"></i>
                     </div>
+                    <span>*Si edita el email será redirigido al login</span>
                     @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
                 </div>
             </div>
+            <br />
             <div class="row">
                 <div class="col-md-12 col-lg-12">
                     @Html.Label("Imagen")
@@ -66,9 +68,9 @@
                                 <img class="img-responsive img-thumbnail img-logo" src="@(String.IsNullOrWhiteSpace(Model.PathImagenPerfil) ? @Url.Content("~/images/no-avatar.png") : Model.PathImagenPerfil)" style="max-height: 250px !important;">
                             </div>
                             <div class="col-md-12">
-                                <input type="hidden" name="PathImagenPerfil" id="PathImagenPerfil" value="@Model.PathImagenPerfil" required />
+                                <input type="hidden" name="PathImagenPerfil" id="PathImagenPerfil" value="@Model.PathImagenPerfil" />
                                 <div class="form-group toggler-control" id="local">
-                                    <input type="file" class="btn btn-default btn-lg" name="ImagenArchivo" id="ImagenArchivo" required />
+                                    <input type="file" class="btn btn-default btn-lg" name="ImagenArchivo" id="ImagenArchivo" />
                                 </div>
                             </div>
                             <span id="UrlLogo2" class="text-danger" style="display:none;">Debe seleccionar un logo para el comercio.</span>

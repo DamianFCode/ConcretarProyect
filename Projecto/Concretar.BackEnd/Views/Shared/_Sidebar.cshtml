@@ -12,7 +12,7 @@
                 <li class="@Html.IsActive("Proyecto")">@Html.ActionMenuRole("Proyectos", "zmdi zmdi-folder", "Index", "Proyecto", Email)</li>
                 <li class="@Html.IsActive("Venta")">@Html.ActionMenuRole("Ventas", "zmdi zmdi-file-text", "Index", "Venta", Email)</li>
                 <li class="@Html.IsActive("Estadistica")">@Html.ActionMenuRole("Estadisticas", "zmdi zmdi-equalizer", "Index", "Estadistica", Email)</li>
-                <li class="@Html.IsActive("Reunione")">@Html.ActionMenuRole("Reuniones", "zmdi zmdi-calendar", "Index", "Reunion", Email)</li>
+                <li class="@Html.IsActive("Reuniones")">@Html.ActionMenuRole("Reuniones", "zmdi zmdi-calendar", "Index", "Reunion", Email)</li>
                 <li class="@Html.IsActive("Notificacione")">@Html.ActionMenuRole("Notificaciones", "zmdi zmdi-notifications", "Notificacion", "Home", Email)</li>
                 <li class="@Html.IsActive("Mail")">@Html.ActionMenuRole("Mail", "zmdi zmdi-email", "Index", "Mail", Email)</li>
                 <br />
@@ -28,10 +28,9 @@
                             <li class="@Html.IsActive("Usuario", "Index")">
                                 @Html.ActionMenuRole("Gestión de Usuarios", "", "Index", "Usuario", Email)
                             </li>
-
-                            @*<li class="@Html.IsActive("Perfil", "Index")">
-                        @Html.ActionMenuRole("Gestión de Perfiles", "", "Index", "Perfil", Email)
-                    </li>*@
+                            <li class="@Html.IsActive("Perfil", "Index")">
+                                @Html.ActionMenuRole("Gestión de Perfiles", "", "Index", "Perfil", Email)
+                            </li>
                         </ul>
                     </li>
                 }

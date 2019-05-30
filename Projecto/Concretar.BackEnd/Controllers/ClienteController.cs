@@ -31,6 +31,7 @@ namespace Concretar.Backend.Controllers
             try
             {
                 ClienteService clienteService = new ClienteService(_logger);
+                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
                 _logger.LogInformation("Listado de clientes obtenido correctamente");
                 return View();
             }
@@ -51,6 +52,7 @@ namespace Concretar.Backend.Controllers
         }
         public IActionResult Create()
         {
+            ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
             return View();
         }
         [HttpPost]
@@ -75,6 +77,7 @@ namespace Concretar.Backend.Controllers
             try
             {
                 ClienteService clienteService = new ClienteService(_logger);
+                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
                 var model = clienteService.GetById(id);
                 _logger.LogInformation("Cliente obtenido para el Id: <{0}>", id);
                 return View(model);
