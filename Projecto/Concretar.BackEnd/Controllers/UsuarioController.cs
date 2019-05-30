@@ -88,6 +88,7 @@ namespace Concretar.Backend.Controllers
         public IActionResult Edit(UsuarioViewModel model, IFormFile ImagenArchivo)
         {
             UsuarioService us = new UsuarioService(_logger);
+            var emailUser = string.Empty;
             try
             {
                 var path = hostingEnv.WebRootPath + "\\images";
@@ -96,6 +97,7 @@ namespace Concretar.Backend.Controllers
                     ViewData["Roles"] = us.GetRolesDropDown(model.ArrayRoles.Split(',').ToList());
                     return View(model);
                 }
+                emailUser = us.GetUsuarioById(model.UsuarioId).Email;
                 var usuario = new UsuarioViewModel()
                 {
                     Apellido = model.Apellido,
@@ -120,10 +122,11 @@ namespace Concretar.Backend.Controllers
             {
                 SetTempData(e.Message, "error");
             }
-            if (model.Email == User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value)
+            if (model.Email != emailUser)
             {
                 return RedirectToAction("LogOut", "Account");
-            }else
+            }
+            else
             {
                 SetTempData("Usuario editado correctamente", "success");
                 return RedirectToAction("Index");

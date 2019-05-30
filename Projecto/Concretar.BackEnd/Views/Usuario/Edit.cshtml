@@ -54,9 +54,11 @@
                         @Html.Label("Email")
                         <i class="form-group__bar"></i>
                     </div>
+                    <span>*Si edita el email será redirigido al login</span>
                     @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
                 </div>
             </div>
+            <br />
             <div class="row">
                 <div class="col-md-12 col-lg-12">
                     @Html.Label("Imagen")
