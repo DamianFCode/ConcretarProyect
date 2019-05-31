@@ -2,7 +2,7 @@
     ViewBag.Title = "Dashboard";
 }
 <style>
-    .alert-warning{
+    .alert-warning {
         color: black;
     }
 </style>
@@ -10,11 +10,53 @@
     <div>
         <div class="main-content" style="margin:0">
             <div class="page-content">
+                <div class="row">
+                    <div class="col-12 p-3 mb-2 bg-primary text-center">
+                        <h3 class="text-white">NOTIFICACIONES DEL MES</h3>
+                    </div>
+                </div>
+                <div class="row cent">
+                    <div class=" col-6 text-center">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-cumpleaños"><h4 class="text-white">Cumpleaños de clientes</h4></button>
+                    </div>
+                    <div class=" col-6 text-center">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-reuniones"><h4 class="text-white">Listado de reuniones</h4></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="modal-cumpleaños" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Lista de cumpleaños</h4>
+            </div>
+            <div class="modal-body">
+                Texto del modal
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-reuniones" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Lista de reuniones</h4>
+            </div>
+            <div class="modal-body">
+                Texto del modal
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts
     {
     <script src="~/js/Highcharts/highcharts.js"></script>
@@ -38,6 +80,5 @@
 
         })
     </script>
-
 }
 
