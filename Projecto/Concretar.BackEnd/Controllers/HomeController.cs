@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Concretar.Backend.Models;
 using Concretar.Helper;
+using Concretar.Services;
+using System;
 
 namespace Concretar.Backend.Controllers
 {
@@ -41,6 +43,14 @@ namespace Concretar.Backend.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        [HttpGet]
+        public ActionResult ListaCumpleanios()
+        {
+            ClienteService clienteService = new ClienteService(_logger);
+            var data = clienteService.GetByBirthday();
+            return Ok(Json(data));
+        }
+
 
     }
 }

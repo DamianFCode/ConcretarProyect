@@ -17,10 +17,10 @@
                 </div>
                 <div class="row cent">
                     <div class=" col-6 text-center">
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-cumpleaños"><h4 class="text-white">Cumpleaños de clientes</h4></button>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-cumpleaños" onclick="cumpleanosmes()"><h4 class="text-white">Cumpleaños de clientes</h4></button>
                     </div>
                     <div class=" col-6 text-center">
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-reuniones"><h4 class="text-white">Listado de reuniones</h4></button>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-reuniones" onclick="reunionesmes()"><h4 class="text-white">Listado de reuniones</h4></button>
                     </div>
                 </div>
             </div>
@@ -79,6 +79,25 @@
             }
 
         })
+        function cumpleanosmes() {
+            $.ajax({
+                type: "GET",
+                url: 'ListaCumpleanios',
+                data: null, 
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: true,
+                success: function (resultado) {
+                    console.log(resultado)
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) { 
+                    var error = eval("(" + XMLHttpRequest.responseText + ")");
+                    console.log(error.Message);
+                }
+            });
+
+        }
+
     </script>
 }
 

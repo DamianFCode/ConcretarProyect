@@ -79,7 +79,7 @@ namespace Concretar.Services
         public ClienteViewModel GetById(int id)
         {
             var model = _uow.ClienteRepository.Find(x => x.ClienteId == id);
-            var marca = new ClienteViewModel()
+            var cliente = new ClienteViewModel()
             {
                 ClienteId = model.ClienteId,
                 Nombre = model.Nombre,
@@ -93,7 +93,7 @@ namespace Concretar.Services
                 NumeroDomicilio = model.NumeroDomicilio,
                 Observacion = model.Observacion
             };
-            return marca;
+            return cliente;
         }
         public void Edit(ClienteViewModel model)
         {
@@ -141,6 +141,21 @@ namespace Concretar.Services
             }).OrderBy(x => x.Text);
 
             return listClientes;
+        }
+        public IQueryable<ClienteViewModel>  GetByBirthday()
+        {
+            DateTime fecha = DateTime.Now;
+            var shortfecha = fecha.ToString("MM");
+
+            var model = _uow.ClienteRepository.All();
+            model = model.Where(x => x.FechaNacimiento.ToString("MM") == shortfecha);
+            var cliente = model.Select(x => new ClienteViewModel()
+            {
+                Apellido = x.Apellido,
+                FechaNacimiento = Convert.ToDateTime(x.FechaNacimiento.ToString("dd/MM/yyyy")),
+                Nombre = x.Nombre,
+            });
+            return cliente;
         }
     }
 }
