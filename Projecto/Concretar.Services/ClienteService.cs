@@ -144,16 +144,15 @@ namespace Concretar.Services
         }
         public IQueryable<ClienteViewModel>  GetByBirthday()
         {
-            DateTime fecha = DateTime.Now;
-            var shortfecha = fecha.ToString("MM");
-
             var model = _uow.ClienteRepository.All();
-            model = model.Where(x => x.FechaNacimiento.ToString("MM") == shortfecha);
+            model = model.Where(x => x.FechaNacimiento.Month == DateTime.Now.Month);
             var cliente = model.Select(x => new ClienteViewModel()
             {
                 Apellido = x.Apellido,
                 FechaNacimiento = Convert.ToDateTime(x.FechaNacimiento.ToString("dd/MM/yyyy")),
                 Nombre = x.Nombre,
+                Telefono = x.Telefono,
+                Correo = x.Correo
             });
             return cliente;
         }

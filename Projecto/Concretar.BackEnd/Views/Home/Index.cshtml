@@ -27,8 +27,8 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal-cumpleaños" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-lg" id="modal-cumpleaños" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -37,9 +37,27 @@
                 <h4 class="modal-title" id="myModalLabel">Lista de cumpleaños</h4>
             </div>
             <div class="modal-body">
-                Texto del modal
+                <div class="row row-bordered">
+                    <div class="col-4">
+                        NOMBRE
+                    </div>
+                    <div class="col-4">
+                        TELÉFONO
+                    </div>
+                    <div class="col-4">
+                        CORREO
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4 clienteNombre">                        
+                    </div>
+                    <div class="col-4 clienteTelefono">
+                    </div>
+                    <div class="col-4 clienteCorreo">
+                    </div>
+                </div>
             </div>
-        </div>
     </div>
 </div>
 <div class="modal fade" id="modal-reuniones" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -80,6 +98,9 @@
 
         })
         function cumpleanosmes() {
+            $(".clienteNombre p").remove();
+            $(".clienteTelefono p").remove();
+            $(".clienteCorreo p").remove();
             $.ajax({
                 type: "GET",
                 url: 'ListaCumpleanios',
@@ -88,7 +109,11 @@
                 dataType: "json",
                 async: true,
                 success: function (resultado) {
-                    console.log(resultado)
+                    resultado.value.forEach(function (element) {
+                        $(".clienteNombre").append("<p>" + element.nombre + " " + element.apellido + "</p>");
+                        $(".clienteTelefono").append("<p>"+element.telefono+"</p>");
+                        $(".clienteCorreo").append("<p>" +element.correo + "</p>");
+                    });
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) { 
                     var error = eval("(" + XMLHttpRequest.responseText + ")");
