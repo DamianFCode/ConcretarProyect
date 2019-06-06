@@ -13,6 +13,10 @@ using Concretar.Services.Models;
 using Parametro = Concretar.Helper.Parametro;
 using Concretar.Helper.Exceptions;
 using Concretar.Helper;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Concretar.Services
 {
@@ -46,13 +50,35 @@ namespace Concretar.Services
             return listRoles;
         }
 
-        public string CreateUsuario(UsuarioViewModel model)
+        public string CreateUsuario(UsuarioViewModel model, IFormFile ImagenArchivo, string pathImagen)
         {
             var rolesList = model.ArrayRoles != null ? model.ArrayRoles.Split(',').ToList() : new List<string>();
             if (ValidarUsuario(model))
             {
                 try
                 {
+                    //Guardamos la foto del usuario
+                    long size = 0;
+                    if (ImagenArchivo != null)
+                    {
+                        var baseFilename = ContentDispositionHeaderValue
+                                        .Parse(ImagenArchivo.ContentDisposition)
+                                        .FileName
+                                        .Trim('"');
+                        var filename = string.Format("{0}\\{1}", (pathImagen).Replace("//", "\\"), baseFilename);
+                        size += ImagenArchivo.Length;
+                        using (FileStream fs = System.IO.File.Create(filename))
+                        {
+                            ImagenArchivo.CopyTo(fs);
+                            fs.Flush();
+                        }
+                        model.PathImagenPerfil = baseFilename;
+                    }
+                    else
+                    {
+                        model.PathImagenPerfil = Parametro.GetValue("ImgDefault");
+                    }
+
                     Random r = new Random();
                     int randNum = r.Next(1000000);
                     string sixDigitNumber = randNum.ToString("D6");
@@ -63,7 +89,8 @@ namespace Concretar.Services
                         Apellido = model.Apellido,
                         Nombre = model.Nombre,
                         Email = model.Email,
-                        Contrasena = encripted_password
+                        Contrasena = encripted_password,
+                        PathImagenPerfil = model.PathImagenPerfil
                     };
 
                     var result = _uow.UsuarioRepository.Create(usuario);
@@ -79,6 +106,7 @@ namespace Concretar.Services
                         _uow.UsuarioRolRepository.Create(usuarioRol);
                         _uow.UsuarioRolRepository.Save();
                     }
+
                     var tokenGuid = Guid.NewGuid().ToString();
                     var token = new UsuarioToken()
                     {
@@ -181,17 +209,33 @@ namespace Concretar.Services
             }
         }
 
-        public string EditUsuario(UsuarioViewModel model)
+        public string EditUsuario(UsuarioViewModel model, IFormFile ImagenArchivo, string pathImagen)
         {
             if (ValidarUsuario(model))
             {
                 try
                 {
                     var usuario = _uow.UsuarioRepository.Find(x => x.UsuarioId == model.UsuarioId);
+                    //Guardamos la foto del usuario
+                    long size = 0;
+                    if (ImagenArchivo != null)
+                    {
+                        var baseFilename = ContentDispositionHeaderValue
+                                        .Parse(ImagenArchivo.ContentDisposition)
+                                        .FileName
+                                        .Trim('"');
+                        var filename = string.Format("{0}\\{1}", (pathImagen).Replace("//", "\\"), baseFilename);
+                        size += ImagenArchivo.Length;
+                        using (FileStream fs = System.IO.File.Create(filename))
+                        {
+                            ImagenArchivo.CopyTo(fs);
+                            fs.Flush();
+                        }
+                        usuario.PathImagenPerfil = baseFilename;
+                    }
                     usuario.Apellido = model.Apellido;
                     usuario.Email = model.Email;
                     usuario.Nombre = model.Nombre;
-                    usuario.PathImagenPerfil = model.PathImagenPerfil;
 
                     var rolesList = _uow.UsuarioRolRepository
                         .FilterIncluding(x => x.UsuarioId == model.UsuarioId, y => y.Rol, z => z.Usuario).ToList();
