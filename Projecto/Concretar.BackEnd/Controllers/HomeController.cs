@@ -50,7 +50,14 @@ namespace Concretar.Backend.Controllers
             var data = clienteService.GetByBirthday();
             return Ok(Json(data));
         }
-
+        
+        [HttpGet]
+        public ActionResult ListaReunionesMes()
+        {
+            ReunionService reunionService = new ReunionService(_logger);
+            var data = reunionService.GetByMonth();
+            return Ok(Json(data));
+        }
 
     }
 }

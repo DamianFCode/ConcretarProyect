@@ -48,9 +48,8 @@
                         CORREO
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-4 clienteNombre">                        
+                    <div class="col-4 clienteNombre">
                     </div>
                     <div class="col-4 clienteTelefono">
                     </div>
@@ -58,10 +57,11 @@
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 </div>
-<div class="modal fade" id="modal-reuniones" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-lg" id="modal-reuniones" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -70,7 +70,25 @@
                 <h4 class="modal-title" id="myModalLabel">Lista de reuniones</h4>
             </div>
             <div class="modal-body">
-                Texto del modal
+                <div class="row row-bordered">
+                    <div class="col-4">
+                        Cliente
+                    </div>
+                    <div class="col-4">
+                        Motivo
+                    </div>
+                    <div class="col-4">
+                        Fecha
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 reunionCliente">
+                    </div>
+                    <div class="col-4 reunionMotivo">
+                    </div>
+                    <div class="col-4 reunionFecha">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -104,25 +122,49 @@
             $.ajax({
                 type: "GET",
                 url: 'ListaCumpleanios',
-                data: null, 
+                data: null,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: true,
                 success: function (resultado) {
                     resultado.value.forEach(function (element) {
                         $(".clienteNombre").append("<p>" + element.nombre + " " + element.apellido + "</p>");
-                        $(".clienteTelefono").append("<p>"+element.telefono+"</p>");
-                        $(".clienteCorreo").append("<p>" +element.correo + "</p>");
+                        $(".clienteTelefono").append("<p>" + element.telefono + "</p>");
+                        $(".clienteCorreo").append("<p>" + element.correo + "</p>");
                     });
                 },
-                error: function (XMLHttpRequest, textStatus, errorThrown) { 
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     var error = eval("(" + XMLHttpRequest.responseText + ")");
                     console.log(error.Message);
                 }
             });
-
         }
+    </script>
+    <script>
+        function reunionesmes() {
+            $(".reunionCliente p").remove();
+            $(".reunionMotivo p").remove();
+            $(".reunionFecha p").remove();
+            $.ajax({
+                type: "GET",
+                url: 'ListaReunionesMes',
+                data: null,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: true,
+                success: function (resultado) {
+                    resultado.value.forEach(function (element) {
+                        $(".reunionCliente").append("<p>" + element.cliente.nombre + " " + element.cliente.apellido + "</p>");
+                        $(".reunionMotivo").append("<p>" + element.motivo + "</p>");
+                        $(".reunionFecha").append("<p>" + element.fecha + "</p>");
+                    });
 
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    var error = eval("(" + XMLHttpRequest.responseText + ")");
+                    console.log(error.Message);
+                }
+            });
+        }
     </script>
 }
-
