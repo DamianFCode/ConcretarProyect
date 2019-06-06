@@ -32,7 +32,6 @@ namespace Concretar.Backend.Controllers
             try
             {
                 LoteService loteService = new LoteService(_logger);
-                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
                 _logger.LogInformation("Lotes  obtenido correctamente");
                 return View();
             }
@@ -53,7 +52,6 @@ namespace Concretar.Backend.Controllers
         public IActionResult Create()
         {
             ProyectoService proyectoService = new ProyectoService(_logger);
-            ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
             ViewData["Proyecto"] = proyectoService.GetProyectoDropDown();
             return View();
         }
@@ -79,7 +77,6 @@ namespace Concretar.Backend.Controllers
             try
             {
                 LoteService loteService = new LoteService(_logger);
-                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
                 var model = loteService.GetById(id);
                 ProyectoService proyectoService = new ProyectoService(_logger);
                 ViewData["Proyecto"] = proyectoService.GetProyectoDropDown();

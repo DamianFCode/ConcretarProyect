@@ -5,11 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Concretar.Backend.Models;
 using Concretar.Helper;
-using Concretar.Services;
-using System;
 
 namespace Concretar.Backend.Controllers
 {
+    [Authorize]
     [Route("[controller]/[action]")]
     public class HomeController : CommonController
     {
@@ -43,35 +42,6 @@ namespace Concretar.Backend.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        [HttpGet]
-        public ActionResult ListaCumpleanios()
-        {
-            try
-            {
-                ClienteService clienteService = new ClienteService(_logger);
-                var data = clienteService.GetByBirthday();
-                return Ok(Json(data));
-            }
-            catch (Exception e)
-            {
-                SetTempData("Ocurrio un error al listar los cumpleaños", "error");
-                return Ok(Json(e));
-            }
-        }
-        [HttpGet]
-        public ActionResult ListaReunionesMes()
-        {
-            try
-            {
-                ReunionService reunionService = new ReunionService(_logger);
-                var data = reunionService.GetByMonth();
-                return Ok(Json(data));
-            }
-            catch (Exception e)
-            {
-                SetTempData("Ocurrio un error al listar las reuniones", "error");
-                return Ok(Json(e));
-            }
-        }
+
     }
 }
