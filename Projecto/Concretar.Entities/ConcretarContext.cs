@@ -38,8 +38,6 @@ namespace Concretar.Entities
             //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             //Relationships
 
-            modelBuilder.Entity<Usuario>().HasQueryFilter(usuario => EF.Property<bool>(usuario, "Habilitado") == true);
-
             //rol-permiso
             modelBuilder.Entity<RolPermiso>()
             .HasKey(e => new { e.RolId, e.PermisoId });

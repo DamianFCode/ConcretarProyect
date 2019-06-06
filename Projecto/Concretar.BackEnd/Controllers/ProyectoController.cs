@@ -29,7 +29,6 @@ namespace Concretar.Backend.Controllers
             try
             {
                 ProyectoService proyectoService = new ProyectoService(_logger);
-                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
                 _logger.LogInformation("Listado de proyectos obtenido correctamente");
                 return View();
             }
@@ -50,7 +49,6 @@ namespace Concretar.Backend.Controllers
 
         public IActionResult Create()
         {
-            ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
             return View();
         }
         [HttpPost]
@@ -75,7 +73,6 @@ namespace Concretar.Backend.Controllers
             try
             {
                 ProyectoService proyectoService = new ProyectoService(_logger);
-                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
                 var model = proyectoService.GetById(id);
                 _logger.LogInformation("Proyecto obtenido para el Id: <{0}>", id);
                 return View(model);

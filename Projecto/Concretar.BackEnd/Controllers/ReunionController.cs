@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Concretar.Backend.Models;
-using Concretar.Helper;
 using Concretar.Services;
 using Concretar.Services.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +26,6 @@ namespace Concretar.Backend.Controllers
 
         public IActionResult Index()
         {
-            ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
             return View();
         }
 
@@ -56,7 +54,6 @@ namespace Concretar.Backend.Controllers
         {
             try
             {
-                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
                 ClienteService clienteService = new ClienteService(_logger);
                 UsuarioService usuarioService = new UsuarioService(_logger);
                 ViewData["Clientes"] = clienteService.GetClientesDropDown();
@@ -91,7 +88,6 @@ namespace Concretar.Backend.Controllers
         {
             try
             {
-                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
                 ReunionService reunionService = new ReunionService(_logger);
                 ClienteService clienteService = new ClienteService(_logger);
                 UsuarioService usuarioService = new UsuarioService(_logger);

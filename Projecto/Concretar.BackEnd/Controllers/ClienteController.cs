@@ -31,7 +31,6 @@ namespace Concretar.Backend.Controllers
             try
             {
                 ClienteService clienteService = new ClienteService(_logger);
-                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
                 _logger.LogInformation("Listado de clientes obtenido correctamente");
                 return View();
             }
@@ -52,7 +51,6 @@ namespace Concretar.Backend.Controllers
         }
         public IActionResult Create()
         {
-            ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
             return View();
         }
         [HttpPost]
@@ -69,7 +67,7 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("Ocurrio un error al crear el cliente. Error {0}", e);
-                return BadRequest("Ocurrio un error al crear el cliente");
+                return BadRequest("Ocurrio un error al crear la marca");
             }
         }
         public IActionResult Edit(int id)
@@ -77,7 +75,6 @@ namespace Concretar.Backend.Controllers
             try
             {
                 ClienteService clienteService = new ClienteService(_logger);
-                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
                 var model = clienteService.GetById(id);
                 _logger.LogInformation("Cliente obtenido para el Id: <{0}>", id);
                 return View(model);
@@ -118,7 +115,7 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("No se pudo eliminar el cliente para el Id: <{0}>. Error {1}", id, e);
-                return BadRequest("Ocurrio un error al borrar el cliente");
+                return BadRequest("Ocurrio un error el cliente la marca");
             }
         }
     }

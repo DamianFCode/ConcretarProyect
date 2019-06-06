@@ -2,7 +2,7 @@
     ViewBag.Title = "Dashboard";
 }
 <style>
-    .alert-warning {
+    .alert-warning{
         color: black;
     }
 </style>
@@ -10,89 +10,11 @@
     <div>
         <div class="main-content" style="margin:0">
             <div class="page-content">
-                <div class="row">
-                    <div class="col-12 p-3 mb-2 bg-primary text-center">
-                        <h3 class="text-white">NOTIFICACIONES DEL MES</h3>
-                    </div>
-                </div>
-                <div class="row cent">
-                    <div class=" col-6 text-center">
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-cumpleaños" onclick="cumpleanosmes()"><h4 class="text-white">Cumpleaños de clientes</h4></button>
-                    </div>
-                    <div class=" col-6 text-center">
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-reuniones" onclick="reunionesmes()"><h4 class="text-white">Listado de reuniones</h4></button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade bd-example-modal-lg" id="modal-cumpleaños" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Lista de cumpleaños</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row row-bordered">
-                    <div class="col-4">
-                        NOMBRE
-                    </div>
-                    <div class="col-4">
-                        TELÉFONO
-                    </div>
-                    <div class="col-4">
-                        CORREO
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 clienteNombre">
-                    </div>
-                    <div class="col-4 clienteTelefono">
-                    </div>
-                    <div class="col-4 clienteCorreo">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade bd-example-modal-lg" id="modal-reuniones" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Lista de reuniones</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row row-bordered">
-                    <div class="col-4">
-                        Cliente
-                    </div>
-                    <div class="col-4">
-                        Motivo
-                    </div>
-                    <div class="col-4">
-                        Fecha
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 reunionCliente">
-                    </div>
-                    <div class="col-4 reunionMotivo">
-                    </div>
-                    <div class="col-4 reunionFecha">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 @section Scripts
     {
     <script src="~/js/Highcharts/highcharts.js"></script>
@@ -115,56 +37,7 @@
             }
 
         })
-        function cumpleanosmes() {
-            $(".clienteNombre p").remove();
-            $(".clienteTelefono p").remove();
-            $(".clienteCorreo p").remove();
-            $.ajax({
-                type: "GET",
-                url: 'ListaCumpleanios',
-                data: null,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                async: true,
-                success: function (resultado) {
-                    resultado.value.forEach(function (element) {
-                        $(".clienteNombre").append("<p>" + element.nombre + " " + element.apellido + "</p>");
-                        $(".clienteTelefono").append("<p>" + element.telefono + "</p>");
-                        $(".clienteCorreo").append("<p>" + element.correo + "</p>");
-                    });
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    var error = eval("(" + XMLHttpRequest.responseText + ")");
-                    console.log(error.Message);
-                }
-            });
-        }
     </script>
-    <script>
-        function reunionesmes() {
-            $(".reunionCliente p").remove();
-            $(".reunionMotivo p").remove();
-            $(".reunionFecha p").remove();
-            $.ajax({
-                type: "GET",
-                url: 'ListaReunionesMes',
-                data: null,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                async: true,
-                success: function (resultado) {
-                    resultado.value.forEach(function (element) {
-                        $(".reunionCliente").append("<p>" + element.cliente.nombre + " " + element.cliente.apellido + "</p>");
-                        $(".reunionMotivo").append("<p>" + element.motivo + "</p>");
-                        $(".reunionFecha").append("<p>" + element.fecha + "</p>");
-                    });
 
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    var error = eval("(" + XMLHttpRequest.responseText + ")");
-                    console.log(error.Message);
-                }
-            });
-        }
-    </script>
 }
+
