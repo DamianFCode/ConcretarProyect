@@ -154,5 +154,17 @@ namespace Concretar.Services
                 throw;
             }
         }
+        public IQueryable<ReunionViewModel> GetByMonth()
+        {
+            var model = _uow.ReunionRepository.All();
+            model = model.Where(x => x.Fecha.Month == DateTime.Now.Month);
+            var reunion = model.Select(x => new ReunionViewModel()
+            {
+                Cliente = x.Cliente,
+                Fecha = x.Fecha,
+                Motivo = x.Motivo
+            });
+            return reunion;
+        }
     }
 }

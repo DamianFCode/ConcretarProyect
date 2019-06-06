@@ -13532,3 +13532,7 @@ table.table .action-cell {
     }
 
     .input-validation-error {border-color: #ff5652 ;}
+.row-bordered {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
