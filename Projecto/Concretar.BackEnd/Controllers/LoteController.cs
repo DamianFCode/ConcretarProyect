@@ -44,11 +44,19 @@ namespace Concretar.Backend.Controllers
         }
         public async Task<IActionResult> GridLote(string nombre = null, string ubicacion = null, string dimension = null, string precio = null, int? page = null, int? rows = null)
         {
-            LoteService loteService = new LoteService(_logger);
-            var model = new GridLoteModel();
-            var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
-            await Task.Run(() => model = loteService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
-            return PartialView("_GridIndex", model);
+            try
+            {
+                LoteService loteService = new LoteService(_logger);
+                var model = new GridLoteModel();
+                var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
+                await Task.Run(() => model = loteService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
+                return PartialView("_GridIndex", model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Ocurrio un error al obtener el listado de Lotes-ajax Error {0}", e);
+                return BadRequest("Ocurrio un error al obtener el listado de Lotes-ajax");
+            }
         }
         public IActionResult Create()
         {

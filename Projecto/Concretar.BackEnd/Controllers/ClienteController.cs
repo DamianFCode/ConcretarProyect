@@ -44,11 +44,19 @@ namespace Concretar.Backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GridClientes(string nombre = null, string apellido = null, string dni = null, int? page = null, int? rows = null)
         {
-            ClienteService clienteService = new ClienteService(_logger);
-            var model = new GridClienteModel();
-            var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
-            await Task.Run(() => model = clienteService.GetAll(rowsPerPages, nombre, apellido, dni, page, rows));
-            return PartialView("_GridIndex", model);
+            try
+            {
+                ClienteService clienteService = new ClienteService(_logger);
+                var model = new GridClienteModel();
+                var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
+                await Task.Run(() => model = clienteService.GetAll(rowsPerPages, nombre, apellido, dni, page, rows));
+                return PartialView("_GridIndex", model);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError("Ocurrio un error al listar los clientes-ajax. Error {0}", e);
+                return BadRequest("Ocurrio un error al listar los clientes-ajax");
+            }
         }
         public IActionResult Create()
         {
