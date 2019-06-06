@@ -41,11 +41,19 @@ namespace Concretar.Backend.Controllers
         }
         public async Task<IActionResult> GridProyecto(string nombre = null, string ubicacion = null, string dimension = null, string precio = null, int? page = null, int? rows = null)
         {
-            ProyectoService proyectoService = new ProyectoService(_logger);
-            var model = new GridProyectoModel();
-            var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
-            await Task.Run(() => model = proyectoService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
-            return PartialView("_GridIndex", model);
+            try
+            {
+                ProyectoService proyectoService = new ProyectoService(_logger);
+                var model = new GridProyectoModel();
+                var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
+                await Task.Run(() => model = proyectoService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
+                return PartialView("_GridIndex", model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Ocurrio un error al obtener el listado de Proyectos-ajax. Error {0}", e);
+                return BadRequest("Ocurrio un error al obtener el listado de proyectos-ajax");
+            }
         }
 
         public IActionResult Create()

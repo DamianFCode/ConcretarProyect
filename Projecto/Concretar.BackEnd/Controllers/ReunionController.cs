@@ -45,8 +45,8 @@ namespace Concretar.Backend.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError("Ocurrio un error al obtener el listado de reuniones. Error {0}", e);
-                SetTempData("Ocurrio un error al listar las reuniones", "error");
+                _logger.LogError("Ocurrio un error al obtener el listado de reuniones-ajax. Error {0}", e);
+                SetTempData("Ocurrio un error al listar las reuniones-ajax", "error");
                 return RedirectToAction("Index", "Home");
             }
         }
