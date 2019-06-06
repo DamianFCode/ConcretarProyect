@@ -161,9 +161,6 @@ namespace Concretar.Services
             var reunion = model.Select(x => new ReunionViewModel()
             {
                 Cliente = x.Cliente,
-                ClienteId = x.ClienteId,
-                Usuario = x.Usuario,
-                UsuarioId = x.UsuarioId,
                 Fecha = x.Fecha,
                 Motivo = x.Motivo
             });

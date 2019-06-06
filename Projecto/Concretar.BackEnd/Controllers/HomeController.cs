@@ -46,18 +46,32 @@ namespace Concretar.Backend.Controllers
         [HttpGet]
         public ActionResult ListaCumpleanios()
         {
-            ClienteService clienteService = new ClienteService(_logger);
-            var data = clienteService.GetByBirthday();
-            return Ok(Json(data));
+            try
+            {
+                ClienteService clienteService = new ClienteService(_logger);
+                var data = clienteService.GetByBirthday();
+                return Ok(Json(data));
+            }
+            catch (Exception e)
+            {
+                SetTempData("Ocurrio un error al listar los cumpleaños", "error");
+                return Ok(Json(e));
+            }
         }
-        
         [HttpGet]
         public ActionResult ListaReunionesMes()
         {
-            ReunionService reunionService = new ReunionService(_logger);
-            var data = reunionService.GetByMonth();
-            return Ok(Json(data));
+            try
+            {
+                ReunionService reunionService = new ReunionService(_logger);
+                var data = reunionService.GetByMonth();
+                return Ok(Json(data));
+            }
+            catch (Exception e)
+            {
+                SetTempData("Ocurrio un error al listar las reuniones", "error");
+                return Ok(Json(e));
+            }
         }
-
     }
 }
