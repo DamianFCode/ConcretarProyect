@@ -13,7 +13,7 @@ namespace Concretar.Services.Models
         [Required(ErrorMessage = "El campo Ubicacion es obligatorio")]
         public string Ubicacion { get; set; }
         [Required(ErrorMessage = "El campo Dimencion es obligatorio")]
-        public string Dimencion { get; set; }
+        public string Dimension { get; set; }
         [Required(ErrorMessage = "El campo Precio es obligatorio")]
         public string Precio { get; set; }
         public string Descripcion { get; set; }
