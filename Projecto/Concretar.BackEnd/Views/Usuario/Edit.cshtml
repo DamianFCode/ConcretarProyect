@@ -65,7 +65,7 @@
                     <div class="card img-card">
                         <div class="card-block">
                             <div class="col-md-12">
-                                <img class="img-responsive img-thumbnail img-logo" src="@(String.IsNullOrWhiteSpace(Model.PathImagenPerfil) ? @Url.Content("~/images/no-avatar.png") : Model.PathImagenPerfil)" style="max-height: 250px !important;">
+                                <img class="img-responsive img-thumbnail img-logo" src="@(String.IsNullOrWhiteSpace(Model.PathImagenPerfil) ? @Url.Content("~/images/Profile/default.png") : Model.PathImagenPerfil)" style="max-height: 250px !important;">
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" name="PathImagenPerfil" id="PathImagenPerfil" value="@Model.PathImagenPerfil" />

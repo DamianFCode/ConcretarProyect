@@ -39,12 +39,12 @@ namespace Concretar.Backend.Controllers
                 return BadRequest("Ocurrio un error al obtener el listado de proyectos");
             }
         }
-        public async Task<IActionResult> GridProyecto(string nombre = null, string ubicacion = null, string dimencion = null, string precio = null, int? page = null, int? rows = null)
+        public async Task<IActionResult> GridProyecto(string nombre = null, string ubicacion = null, string dimension = null, string precio = null, int? page = null, int? rows = null)
         {
             ProyectoService proyectoService = new ProyectoService(_logger);
             var model = new GridProyectoModel();
             var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
-            await Task.Run(() => model = proyectoService.GetAll(rowsPerPages, nombre, ubicacion, dimencion, precio, page, rows));
+            await Task.Run(() => model = proyectoService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
             return PartialView("_GridIndex", model);
         }
 

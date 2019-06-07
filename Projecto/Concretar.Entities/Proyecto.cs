@@ -10,7 +10,7 @@ namespace Concretar.Entities
         public int ProyectoId { get; set; }
         public string Nombre { get; set; }
         public string Ubicacion { get; set; }
-        public string Dimencion { get; set; }
+        public string Dimension { get; set; }
         public string Precio { get; set; }
         public string Descripcion { get; set; }
     }

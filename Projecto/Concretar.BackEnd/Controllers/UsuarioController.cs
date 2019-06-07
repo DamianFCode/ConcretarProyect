@@ -47,7 +47,7 @@ namespace Concretar.Backend.Controllers
             UsuarioService us = new UsuarioService(_logger);
             try
             {
-                var path = hostingEnv.WebRootPath + "\\images";
+                var path = hostingEnv.WebRootPath + "\\images\\Profile";
                 if (!ModelState.IsValid)
                 {
                     ViewData["Roles"] = us.GetRolesDropDown(model.ArrayRoles.Split(',').ToList());
@@ -91,7 +91,7 @@ namespace Concretar.Backend.Controllers
             var emailUser = string.Empty;
             try
             {
-                var path = hostingEnv.WebRootPath + "\\images";
+                var path = hostingEnv.WebRootPath + "\\images\\Profile";
                 if (!ModelState.IsValid)
                 {
                     ViewData["Roles"] = us.GetRolesDropDown(model.ArrayRoles.Split(',').ToList());
@@ -140,7 +140,8 @@ namespace Concretar.Backend.Controllers
             {
                 UsuarioService us = new UsuarioService(_logger);
                 var usuario = us.GetUsuarioById(id);
-                var path = Parametro.GetValue("BaseUrlBackend") + "images/";
+                var path = Parametro.GetValue("BaseUrlBackend");
+                var imgDefault = Parametro.GetValue("ImgDefault");
                 var model = new UsuarioViewModel()
                 {
                     Apellido = usuario.Apellido,
@@ -148,7 +149,7 @@ namespace Concretar.Backend.Controllers
                     UsuarioId = usuario.UsuarioId,
                     Email = usuario.Email,
                     ArrayRoles = usuario.ArrayRoles,
-                    PathImagenPerfil = usuario.PathImagenPerfil != null ? string.Format("{0}{1}", path, usuario.PathImagenPerfil) : null
+                    PathImagenPerfil = !String.IsNullOrEmpty(usuario.PathImagenPerfil) ? string.Format("{0}{1}", path, usuario.PathImagenPerfil) : string.Format("{0}{1}", path, imgDefault)
                 };
 
                 ViewData["Roles"] = us.GetRolesDropDown(usuario.ArrayRoles.Split(',').ToList());

@@ -72,7 +72,9 @@ namespace Concretar.Services
                             ImagenArchivo.CopyTo(fs);
                             fs.Flush();
                         }
-                        model.PathImagenPerfil = baseFilename;
+                        var nameFile = Path.GetFileName(baseFilename) + model.UsuarioId;
+                        var extensionFile = Path.GetExtension(baseFilename);
+                        model.PathImagenPerfil = string.Format("images\\Profile\\{0}", baseFilename);
                     }
                     else
                     {
@@ -231,7 +233,9 @@ namespace Concretar.Services
                             ImagenArchivo.CopyTo(fs);
                             fs.Flush();
                         }
-                        usuario.PathImagenPerfil = baseFilename;
+                        var nameFile = Path.GetFileName(baseFilename) + model.UsuarioId;
+                        var extensionFile = Path.GetExtension(baseFilename);
+                        usuario.PathImagenPerfil = string.Format("images\\Profile\\{0}", nameFile + extensionFile);
                     }
                     usuario.Apellido = model.Apellido;
                     usuario.Email = model.Email;

@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Http
 @{
     var fotoPerfil = User.Claims.FirstOrDefault(x => x.Type == "FotoPerfil").Value;
-    var baseUrl = Context.Session.GetString("urlBackend") + "images/";
+    var baseUrl = Context.Session.GetString("urlBackend");
 }
 
 <style>

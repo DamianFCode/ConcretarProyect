@@ -118,6 +118,7 @@ namespace Concretar.Backend.Controllers
                         }
 
                         var usuario = Authenticate(model);
+                        var imgDefault = Parametro.GetValue("ImgDefault");
                         if (usuario != null)
                         {
                             var claimsCookie = new List<Claim>
@@ -126,7 +127,7 @@ namespace Concretar.Backend.Controllers
                                 new Claim("FullName", usuario.Apellido),
                                 new Claim("Email", usuario.Email),
                                 new Claim("Usuario", usuario.Usuario),
-                                new Claim("FotoPerfil", usuario.PathImagenPerfil ?? ""),
+                                new Claim("FotoPerfil", !String.IsNullOrEmpty(usuario.PathImagenPerfil) ? usuario.PathImagenPerfil : imgDefault),
                             };
                             var claimsIdentity = new ClaimsIdentity(
                                 claimsCookie, CookieAuthenticationDefaults.AuthenticationScheme);

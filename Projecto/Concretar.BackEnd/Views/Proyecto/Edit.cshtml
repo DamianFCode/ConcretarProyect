@@ -32,21 +32,21 @@
                 <div class="col-md-3">
                     <div class="form-group form-group--float">
                         @Html.TextBoxFor(model => model.Ubicacion, new { @class = "form-control", tabindex = "1", autocomplete = "off" })
-                        <label>Ubicacion</label>
+                        <label>Ubicación</label>
                         <i class="form-group__bar"></i>
                     </div>
                     <span asp-validation-for="Ubicacion" id="text-nombre-error" class="text-danger"></span>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group form-group--float">
-                        @Html.TextBoxFor(model => model.Dimencion, new { type = "number", @class = "form-control", tabindex = "1", autocomplete = "off" })
-                        <label>Dimencion</label>
+                        @Html.TextBoxFor(model => model.Dimension, new { type = "number", @class = "form-control", tabindex = "1", autocomplete = "off" })
+                        <label>Dimensión</label>
                         <i class="form-group__bar"></i>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group form-group--float">
-                        @Html.TextBoxFor(model => model.Precio, new { @class = "form-control", type = "number", tabindex = "1", autocomplete = "off" })
+                        @Html.TextBoxFor(model => model.Precio, new { @class = "form-control", tabindex = "1", autocomplete = "off" })
                         <label>Precio</label>
                         <i class="form-group__bar"></i>
                     </div>
@@ -57,7 +57,7 @@
                 <div class="col-md-12">
                     <div class="form-group form-group--float">
                         @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", tabindex = "1", autocomplete = "off" })
-                        <label>Descripcion</label>
+                        <label>Descripción</label>
                         <i class="form-group__bar"></i>
                     </div>
                     <span asp-validation-for="Descripcion" id="text-nombre-error" class="text-danger"></span>
@@ -74,6 +74,7 @@
         </div>
     </div>
 </form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 <script>
     $("#submit-btn").click(function (event) {
         event.preventDefault();
@@ -84,4 +85,5 @@
             $("#ProyectoEditForm").submit();
         }
     });
+    $("#Precio").mask('#.##0,00', { reverse: true });
 </script>

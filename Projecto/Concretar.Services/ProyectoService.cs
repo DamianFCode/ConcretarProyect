@@ -18,7 +18,7 @@ namespace Concretar.Services
         {
             _logger = logger;
         }
-        public GridProyectoModel GetAll(int rowPerPages, string nombre = null, string ubicacion = null, string dimencion = null, string precio = null, int? page = null, int? rows = null)
+        public GridProyectoModel GetAll(int rowPerPages, string nombre = null, string ubicacion = null, string dimension = null, string precio = null, int? page = null, int? rows = null)
         {
             var model = _uow.ProyectoRepository.All();
             var gridProyectoModel = new GridProyectoModel();
@@ -30,9 +30,9 @@ namespace Concretar.Services
             {
                 model = model.Where(x => x.Ubicacion == ubicacion);
             }
-            if (!string.IsNullOrEmpty(dimencion))
+            if (!string.IsNullOrEmpty(dimension))
             {
-                model = model.Where(x => x.Dimencion == dimencion);
+                model = model.Where(x => x.Dimension == dimension);
             }
             if (!string.IsNullOrEmpty(precio))
             {
@@ -46,7 +46,7 @@ namespace Concretar.Services
                 ProyectoId = x.ProyectoId,
                 Nombre = x.Nombre,
                 Ubicacion = x.Ubicacion,
-                Dimencion = x.Dimencion,
+                Dimension = x.Dimension,
                 Precio = x.Precio,
             });
             gridProyectoModel.ListProyecto = proyecto.ToList();
@@ -73,7 +73,7 @@ namespace Concretar.Services
             {
                 Nombre = model.Nombre,
                 Ubicacion = model.Ubicacion,
-                Dimencion = model.Dimencion,
+                Dimension = model.Dimension,
                 Precio = model.Precio,
                 Descripcion = model.Descripcion
             };
@@ -88,7 +88,7 @@ namespace Concretar.Services
                 ProyectoId = model.ProyectoId,
                 Nombre = model.Nombre,
                 Ubicacion = model.Ubicacion,
-                Dimencion = model.Dimencion,
+                Dimension = model.Dimension,
                 Precio = model.Precio,
                 Descripcion = model.Descripcion
             };
@@ -99,7 +99,7 @@ namespace Concretar.Services
             var proyecto = _uow.ProyectoRepository.Find(x => x.ProyectoId == model.ProyectoId);
             proyecto.Nombre = model.Nombre;
             proyecto.Descripcion = model.Descripcion;
-            proyecto.Dimencion = model.Dimencion;
+            proyecto.Dimension = model.Dimension;
             proyecto.Precio = model.Precio;
             proyecto.Ubicacion = model.Ubicacion;
             _uow.ProyectoRepository.Update(proyecto);
