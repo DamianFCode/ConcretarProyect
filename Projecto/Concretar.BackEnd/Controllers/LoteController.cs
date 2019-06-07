@@ -39,16 +39,25 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("Ocurrio un error al obtener el listado de Lotes. Error {0}", e);
-                return BadRequest("Ocurrio un error al obtener el listado de Lotes");
+                SetTempData("Ocurrio un error al obtener el listado de Lotes", "error");
+                return RedirectToAction("Index", "Home");
             }
         }
         public async Task<IActionResult> GridLote(string nombre = null, string ubicacion = null, string dimension = null, string precio = null, int? page = null, int? rows = null)
         {
-            LoteService loteService = new LoteService(_logger);
-            var model = new GridLoteModel();
-            var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
-            await Task.Run(() => model = loteService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
-            return PartialView("_GridIndex", model);
+            try
+            {
+                LoteService loteService = new LoteService(_logger);
+                var model = new GridLoteModel();
+                var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
+                await Task.Run(() => model = loteService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
+                return PartialView("_GridIndex", model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Ocurrio un error al obtener el listado de Lotes-ajax Error {0}", e);
+                return BadRequest("Ocurrio un error al obtener el listado de Lotes-ajax");
+            }
         }
         public IActionResult Create()
         {
@@ -71,7 +80,8 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("Ocurrio un error al crear el lote. Error {0}", e);
-                return BadRequest("Ocurrio un error al crear la lote");
+                SetTempData("Ocurrio un error al crear el lote", "error");
+                return RedirectToAction("Index", "Lote");
             }
         }
         public IActionResult Edit(int id)
@@ -88,8 +98,9 @@ namespace Concretar.Backend.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError("No se pudo obtener el Lote para el Id: <{0}>", id);
-                return BadRequest("Ocurrio un error al obtener el Lote");
+                _logger.LogError("No se pudo obtener el Lote para el Id: <{0}>. {1}", id, e);
+                SetTempData("Ocurrio un error al obtener el Lote", "error");
+                return RedirectToAction("Index", "Lote");
             }
         }
         [HttpPost]
@@ -106,7 +117,8 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("No se pudo editar el Lote. Error <{0}>", e);
-                return BadRequest("Ocurrio un error al editar el Lote");
+                SetTempData("Ocurrio un error al editar el Lote", "error");
+                return RedirectToAction("Index", "Lote");
             }
         }
         public IActionResult Delete(int id)
@@ -122,10 +134,9 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("No se pudo eliminar el lote para el Id: <{0}>. Error {1}", id, e);
-                return BadRequest("Ocurrio un error en el lote");
+                SetTempData("Ocurrio un error en el lote", "error");
+                return RedirectToAction("Index", "Lote");
             }
         }
-
-
     }
 }

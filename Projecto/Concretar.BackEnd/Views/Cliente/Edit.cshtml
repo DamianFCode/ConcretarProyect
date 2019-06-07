@@ -2,7 +2,7 @@
 @using Concretar.Services.Models
 @model Concretar.Services.Models.ClienteViewModel
 @{
-    ViewBag.Title = "Nuevo cliente";
+    ViewBag.Title = "Editar cliente";
 }
 
 <header class="content__title">
@@ -40,7 +40,7 @@
                             <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                             <div class="form-group">
                                 <div class="input-filtro" id="select-date">
-                                    <input type="text" class="form-control input-filtro" Name="FechaNacimiento" id="FechaNacimiento" placeholder="Fecha Nacimiento.." value="@Model.FechaNacimiento.ToString("dd/MM/yyyy")" readonly>
+                                    <input type="text" class="form-control input-filtro" Name="FechaNacimiento" id="FechaNacimiento" placeholder="Fecha Nacimiento.." value="@Model.FechaNacimiento.Date" readonly>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
     $(document).ready(function () {
         $('#select-date input').datepicker({
             format: "dd/mm/yyyy",
-            endDate: '@DateTime.Now.ToString("dd/MM/yyyy")',
+            endDate: '@DateTime.Now.Date',
             toggleActive: true
         });
     });

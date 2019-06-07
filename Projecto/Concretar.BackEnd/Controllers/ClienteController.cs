@@ -38,17 +38,25 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("Ocurrio un error al obtener el listado de Clientes. Error {0}", e);
-                return BadRequest("Ocurrio un error al obtener el listado de clientes");
+                SetTempData("Ocurrio un error al obtener el listado de clientes", "error");
+                return RedirectToAction("Index", "Home");
             }
         }
-        [HttpGet]
         public async Task<IActionResult> GridClientes(string nombre = null, string apellido = null, string dni = null, int? page = null, int? rows = null)
         {
-            ClienteService clienteService = new ClienteService(_logger);
-            var model = new GridClienteModel();
-            var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
-            await Task.Run(() => model = clienteService.GetAll(rowsPerPages, nombre, apellido, dni, page, rows));
-            return PartialView("_GridIndex", model);
+            try
+            {
+                ClienteService clienteService = new ClienteService(_logger);
+                var model = new GridClienteModel();
+                var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
+                await Task.Run(() => model = clienteService.GetAll(rowsPerPages, nombre, apellido, dni, page, rows));
+                return PartialView("_GridIndex", model);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError("Ocurrio un error al listar los clientes-ajax. Error {0}", e);
+                return BadRequest("Ocurrio un error al listar los clientes-ajax");
+            }
         }
         public IActionResult Create()
         {
@@ -69,7 +77,8 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("Ocurrio un error al crear el cliente. Error {0}", e);
-                return BadRequest("Ocurrio un error al crear el cliente");
+                SetTempData("Ocurrio un error al crear el cliente", "error");
+                return RedirectToAction("Index", "Cliente");
             }
         }
         public IActionResult Edit(int id)
@@ -85,7 +94,8 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("No se pudo obtener el cliente para el Id: <{0}>", id);
-                return BadRequest("Ocurrio un error al obtener el cliente");
+                SetTempData("Ocurrio un error al obtener el cliente", "error");
+                return RedirectToAction("Index", "Cliente");
             }
         }
         [HttpPost]
@@ -102,7 +112,8 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("No se pudo editar el cliente. Error <{0}>", e);
-                return BadRequest("Ocurrio un error al editar el cliente");
+                SetTempData("Ocurrio un error al editar el cliente", "error");
+                return RedirectToAction("Index", "Cliente");
             }
         }
         public IActionResult Delete(int id)
@@ -118,7 +129,8 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("No se pudo eliminar el cliente para el Id: <{0}>. Error {1}", id, e);
-                return BadRequest("Ocurrio un error al borrar el cliente");
+                SetTempData("Ocurrio un error al borrar el cliente", "error");
+                return RedirectToAction("Index", "Cliente");
             }
         }
     }

@@ -36,16 +36,25 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("Ocurrio un error al obtener el listado de Proyectos. Error {0}", e);
-                return BadRequest("Ocurrio un error al obtener el listado de proyectos");
+                SetTempData("Ocurrio un error al obtener el listado de proyectos", "error");
+                return RedirectToAction("Index", "Home");
             }
         }
         public async Task<IActionResult> GridProyecto(string nombre = null, string ubicacion = null, string dimension = null, string precio = null, int? page = null, int? rows = null)
         {
-            ProyectoService proyectoService = new ProyectoService(_logger);
-            var model = new GridProyectoModel();
-            var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
-            await Task.Run(() => model = proyectoService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
-            return PartialView("_GridIndex", model);
+            try
+            {
+                ProyectoService proyectoService = new ProyectoService(_logger);
+                var model = new GridProyectoModel();
+                var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
+                await Task.Run(() => model = proyectoService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
+                return PartialView("_GridIndex", model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Ocurrio un error al obtener el listado de Proyectos-ajax. Error {0}", e);
+                return BadRequest("Ocurrio un error al obtener el listado de proyectos-ajax");
+            }
         }
 
         public IActionResult Create()
@@ -67,7 +76,8 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("Ocurrio un error al crear el Proyecto. Error {0}", e);
-                return BadRequest("Ocurrio un error al crear el Proyecto");
+                SetTempData("Ocurrio un error al crear el Proyecto", "error");
+                return RedirectToAction("Index", "Proyecto");
             }
         }
         public IActionResult Edit(int id)
@@ -82,8 +92,9 @@ namespace Concretar.Backend.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError("No se pudo obtener el Proyecto para el Id: <{0}>", id);
-                return BadRequest("Ocurrio un error al obtener el Proyecto");
+                _logger.LogError("No se pudo obtener el Proyecto para el Id: <{0}>. Error {1}", id, e);
+                SetTempData("Ocurrio un error al obtener el Proyecto", "error");
+                return RedirectToAction("Index", "Proyecto");
             }
         }
         [HttpPost]
@@ -100,7 +111,8 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("No se pudo editar el proyecto. Error <{0}>", e);
-                return BadRequest("Ocurrio un error al editar el proyecto");
+                SetTempData("Ocurrio un error al editar el proyecto", "error");
+                return RedirectToAction("Index", "Proyecto");
             }
         }
         public IActionResult Delete(int id)
@@ -116,7 +128,8 @@ namespace Concretar.Backend.Controllers
             catch (Exception e)
             {
                 _logger.LogError("No se pudo eliminar el proyecto para el Id: <{0}>. Error {1}", id, e);
-                return BadRequest("Ocurrio un error en el proyecto");
+                SetTempData("Ocurrio un error al eliminar el proyecto", "error");
+                return RedirectToAction("Index", "Proyecto");
             }
         }
     }
