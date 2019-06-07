@@ -31,7 +31,6 @@ namespace Concretar.Backend.Controllers
             return View();
         }
 
-        [HttpGet]
         public async Task<IActionResult> GridReunion(string FechaCreacionDesde = null, string FechaCreacionHasta = null, int? page = null, int? rows = null)
         {
             try
@@ -65,6 +64,7 @@ namespace Concretar.Backend.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError("{0}", e);
                 return RedirectToAction("Index", "Reunion");
             }
         }
@@ -81,6 +81,7 @@ namespace Concretar.Backend.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError("{0}", e);
                 SetTempData("Ocurrio un error al crear la reunion", "error");
                 return RedirectToAction("Index", "Reunion");
             }
@@ -102,6 +103,7 @@ namespace Concretar.Backend.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError("{0}", e);
                 SetTempData("Ocurrio un error al obtener la reunion", "error");
                 return RedirectToAction("Index", "Reunion");
             }
@@ -119,6 +121,7 @@ namespace Concretar.Backend.Controllers
             }
             catch(Exception e)
             {
+                _logger.LogError("{0}", e);
                 SetTempData("Ocurrio un error al editar la reunion", "error");
                 return RedirectToAction("Index", "Reunion");
             }
@@ -135,6 +138,7 @@ namespace Concretar.Backend.Controllers
             }
             catch(Exception e)
             {
+                _logger.LogError("{0}", e);
                 SetTempData("Ocurrio un error al eliminar la reunion", "error");
                 return RedirectToAction("Index", "Reunion");
             }

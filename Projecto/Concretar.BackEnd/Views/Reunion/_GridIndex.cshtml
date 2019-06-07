@@ -12,7 +12,7 @@
                 columns.Add(m => m.Cliente.Nombre + " " + m.Cliente.Apellido).Titled("Cliente");
                 columns.Add(m => m.Usuario.Nombre + " " + m.Usuario.Apellido).Titled("Usuario");
                 columns.Add(m => m.Fecha).Titled("Fecha");
-                //columns.Add(m => m.Resultado).Titled("Resultado");
+                columns.Add(m => m.Resultado).Titled("Resultado");
                 columns.Add(m => Html.ActionLink("", "Edit", "Reunion", new { Id = m.ReunionId }, new { @class = "zmdi zmdi-edit text-warning", @title = "Editar" })).Css("action-cell " + edit).Titled("Editar");
                 columns.Add(m => Html.ActionLink("", "Delete", "Reunion", new { Id = m.ReunionId }, new { @class = "zmdi zmdi-delete text-danger swal-delete", @title = "Eliminar" })).Css("action-cell " + delete).Titled("Eliminar");
             })

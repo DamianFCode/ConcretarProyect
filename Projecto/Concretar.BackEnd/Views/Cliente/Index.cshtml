@@ -71,8 +71,6 @@
 <script>
     $("#btn-clean").click(function () {
         $(".input-filtro").val(null).removeClass("form-control--active");
-        $("#Sucursal").attr('disabled', true);
-        $("#Sucursal").val(null);
         $('.select2').val(null).trigger('change');
         reloadGrid();
     });
@@ -83,8 +81,6 @@
         }
     });
     function borrarFiltro(btn) {
-        $("#Sucursal").prop('disabled', false);
-        $("#Sucursal").val(null);
         $(".input-filtro").val(null).removeClass("form-control--active");
         reloadGrid(btn, "<i class='zmdi zmdi-close'></i> Borrar");
     }
@@ -107,5 +103,6 @@
     }
     $(document).ready(function () {
         $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
+        reloadGrid();
     });
 </script>

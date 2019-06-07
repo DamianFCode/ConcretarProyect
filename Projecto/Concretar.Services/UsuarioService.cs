@@ -235,7 +235,7 @@ namespace Concretar.Services
                         }
                         var nameFile = Path.GetFileName(baseFilename) + model.UsuarioId;
                         var extensionFile = Path.GetExtension(baseFilename);
-                        usuario.PathImagenPerfil = string.Format("images\\Profile\\{0}", nameFile + extensionFile);
+                        usuario.PathImagenPerfil = string.Format("images\\Profile\\{0}", baseFilename);
                     }
                     usuario.Apellido = model.Apellido;
                     usuario.Email = model.Email;

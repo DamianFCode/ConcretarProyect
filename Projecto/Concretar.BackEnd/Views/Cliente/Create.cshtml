@@ -125,7 +125,7 @@
     $(document).ready(function () {
         $('#select-date input').datepicker({
             format: "dd/mm/yyyy",
-            endDate: '@DateTime.Now.ToString("dd/MM/yyyy")',
+            endDate: '@DateTime.Now.Date',
             toggleActive: true
         });
     });
