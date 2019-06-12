@@ -17,26 +17,15 @@ namespace Concretar.Services
         {
             _logger = logger;
         }
-        public GridLoteModel GetAll(int rowPerPages, string nombre = null, string ubicacion = null, string dimencion = null, string precio = null, int? page = null, int? rows = null)
+        public GridLoteModel GetAll(int rowPerPages, string nombre = null, int? page = null, int? rows = null)
         {
             var model = _uow.LoteRepository.All();
             var gridLoteModel = new GridLoteModel();
             if (!string.IsNullOrEmpty(nombre))
             {
-                model = model.Where(x => x.Nombre == nombre);
+                model = model.Where(x => x.Nombre.Contains(nombre));
             }
-            if (!string.IsNullOrEmpty(ubicacion))
-            {
-                model = model.Where(x => x.Ubicacion == ubicacion);
-            }
-            if (!string.IsNullOrEmpty(dimencion))
-            {
-                model = model.Where(x => x.Dimension == dimencion);
-            }
-            if (!string.IsNullOrEmpty(precio))
-            {
-                model = model.Where(x => x.Precio == precio);
-            }
+            
             var totalRows = model.Count();
             model = model.Skip((page - 1 ?? 0) * (rows ?? rowPerPages)).Take(rows ?? rowPerPages);
             gridLoteModel.TotalRows = totalRows;

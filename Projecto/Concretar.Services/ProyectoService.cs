@@ -18,26 +18,15 @@ namespace Concretar.Services
         {
             _logger = logger;
         }
-        public GridProyectoModel GetAll(int rowPerPages, string nombre = null, string ubicacion = null, string dimension = null, string precio = null, int? page = null, int? rows = null)
+        public GridProyectoModel GetAll(int rowPerPages, string nombre = null, int? page = null, int? rows = null)
         {
             var model = _uow.ProyectoRepository.All();
             var gridProyectoModel = new GridProyectoModel();
             if (!string.IsNullOrEmpty(nombre))
             {
-                model = model.Where(x => x.Nombre == nombre);
+                model = model.Where(x => x.Nombre.Contains(nombre));
             }
-            if (!string.IsNullOrEmpty(ubicacion))
-            {
-                model = model.Where(x => x.Ubicacion == ubicacion);
-            }
-            if (!string.IsNullOrEmpty(dimension))
-            {
-                model = model.Where(x => x.Dimension == dimension);
-            }
-            if (!string.IsNullOrEmpty(precio))
-            {
-                model = model.Where(x => x.Precio == precio);
-            }
+            
             var totalRows = model.Count();
             model = model.Skip((page - 1 ?? 0) * (rows ?? rowPerPages)).Take(rows ?? rowPerPages);
             gridProyectoModel.TotalRows = totalRows;

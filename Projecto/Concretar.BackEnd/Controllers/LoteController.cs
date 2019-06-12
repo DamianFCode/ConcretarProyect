@@ -43,14 +43,14 @@ namespace Concretar.Backend.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
-        public async Task<IActionResult> GridLote(string nombre = null, string ubicacion = null, string dimension = null, string precio = null, int? page = null, int? rows = null)
+        public async Task<IActionResult> GridLote(string nombre = null, int? page = null, int? rows = null)
         {
             try
             {
                 LoteService loteService = new LoteService(_logger);
                 var model = new GridLoteModel();
                 var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
-                await Task.Run(() => model = loteService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
+                await Task.Run(() => model = loteService.GetAll(rowsPerPages, nombre, page, rows));
                 return PartialView("_GridIndex", model);
             }
             catch (Exception e)

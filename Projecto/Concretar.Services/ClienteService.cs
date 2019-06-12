@@ -24,11 +24,11 @@ namespace Concretar.Services
             var gridClienteModel = new GridClienteModel();
             if (!string.IsNullOrEmpty(nombre))
             {
-                model = model.Where(x => x.Nombre == nombre);
+                model = model.Where(x => x.Nombre.Contains(nombre));
             }
             if (!string.IsNullOrEmpty(apellido))
             {
-                model = model.Where(x => x.Apellido == apellido);
+                model = model.Where(x => x.Apellido.Contains(apellido));
             }
             if (!string.IsNullOrEmpty(dni))
             {

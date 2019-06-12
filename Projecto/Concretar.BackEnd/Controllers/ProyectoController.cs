@@ -40,14 +40,14 @@ namespace Concretar.Backend.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
-        public async Task<IActionResult> GridProyecto(string nombre = null, string ubicacion = null, string dimension = null, string precio = null, int? page = null, int? rows = null)
+        public async Task<IActionResult> GridProyecto(string nombre = null, int? page = null, int? rows = null)
         {
             try
             {
                 ProyectoService proyectoService = new ProyectoService(_logger);
                 var model = new GridProyectoModel();
                 var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
-                await Task.Run(() => model = proyectoService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
+                await Task.Run(() => model = proyectoService.GetAll(rowsPerPages, nombre, page, rows));
                 return PartialView("_GridIndex", model);
             }
             catch (Exception e)
