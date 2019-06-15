@@ -19,8 +19,11 @@ namespace Concretar.Entities
 		IRepository<UsuarioToken> UsuarioTokenRepository {get;}
         IRepository<Cliente> ClienteRepository { get; }
         IRepository<Lote> LoteRepository { get; }
-        IRepository<Proyecto> Proyecto { get; }
+        IRepository<Proyecto> ProyectoRepository { get; }
         IRepository<Reunion> ReunionRepository { get; }
+        IRepository<Venta> VentaRepository { get; }
+        IRepository<Cuota> CuotaRepository { get; }
+        IRepository<Pago> PagoRepository { get; }
         int Save();
 	}
 }

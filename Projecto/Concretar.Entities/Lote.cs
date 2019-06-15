@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Concretar.Entities.Repository.Interface;
+using Newtonsoft.Json;
 
 namespace Concretar.Entities
 {
@@ -14,5 +15,10 @@ namespace Concretar.Entities
         public string Dimension { get; set; }
         public string Descripcion { get; set; }
         public int ProyectId { get; set; }
+        public DateTime TSCreado { set; get; }
+        public DateTime? TSModificado { set; get; }
+        public DateTime? TSEliminado { set; get; }
+        [JsonIgnore]
+        public virtual Venta Venta { get; set; }
     }
 }

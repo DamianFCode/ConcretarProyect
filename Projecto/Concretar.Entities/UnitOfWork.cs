@@ -161,8 +161,6 @@ namespace Concretar.Entities
             }
         }
 
-        public IRepository<Proyecto> Proyecto => throw new NotImplementedException();
-
         private Repository<Reunion> reunionRepository;
         public IRepository<Reunion> ReunionRepository
         {
@@ -173,6 +171,45 @@ namespace Concretar.Entities
                     this.reunionRepository = new Repository<Reunion>(context);
                 }
                 return reunionRepository;
+            }
+        }
+
+        private Repository<Venta> ventaRepository;
+        public IRepository<Venta> VentaRepository
+        {
+            get
+            {
+                if (this.ventaRepository == null)
+                {
+                    this.ventaRepository = new Repository<Venta>(context);
+                }
+                return ventaRepository;
+            }
+        }
+
+        private Repository<Cuota> cuotaRepository;
+        public IRepository<Cuota> CuotaRepository
+        {
+            get
+            {
+                if (this.cuotaRepository == null)
+                {
+                    this.cuotaRepository = new Repository<Cuota>(context);
+                }
+                return cuotaRepository;
+            }
+        }
+
+        private Repository<Pago> pagoRepository;
+        public IRepository<Pago> PagoRepository
+        {
+            get
+            {
+                if (this.pagoRepository == null)
+                {
+                    this.pagoRepository = new Repository<Pago>(context);
+                }
+                return pagoRepository;
             }
         }
 

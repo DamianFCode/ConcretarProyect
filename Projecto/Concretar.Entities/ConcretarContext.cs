@@ -30,6 +30,10 @@ namespace Concretar.Entities
         public DbSet<Cliente> Cliente { set; get; }
         public DbSet<Proyecto> Proyecto { set; get; }
         public DbSet<Reunion> Reunion { get; set; }
+        public DbSet<Pago> Pago { set; get; }
+        public DbSet<Venta> Venta { get; set; }
+        public DbSet<Cuota> Cuota { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

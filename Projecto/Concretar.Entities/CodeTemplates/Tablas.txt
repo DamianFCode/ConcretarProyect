@@ -1,0 +1,13 @@
+﻿Parametro
+Usuario
+Vista
+Rol
+Permiso
+RolPermiso
+UsuarioRol
+Cliente
+Pago
+Venta
+Cuota
+Lote
+Proyecto

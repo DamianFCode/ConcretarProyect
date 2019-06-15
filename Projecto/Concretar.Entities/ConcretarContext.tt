@@ -42,13 +42,7 @@ namespace <#=proyecto#>.Entities
             base.OnModelCreating(modelBuilder);
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-
             
-            //Habilitado
-            modelBuilder.Entity<Auditoria>()
-           .HasQueryFilter(auditoria => EF.Property<bool>(auditoria, "Habilitado") == true);
-            modelBuilder.Entity<Usuario>()
-           .HasQueryFilter(usuario => EF.Property<bool>(usuario, "Habilitado") == true);
 
             //Relationships
 
@@ -75,13 +69,7 @@ namespace <#=proyecto#>.Entities
             .HasOne(x => x.Rol)
             .WithMany(x => x.UsuarioRoles)
             .HasForeignKey(x => x.RolId);
-
-			//producto - archivo
-            modelBuilder.Entity<ArchivoProducto>()
-                .HasOne(x => x.Producto)
-                .WithMany(x => x.Archivos)
-                .HasForeignKey(x => x.ProductoId);
+			
         }
-
     }
 }

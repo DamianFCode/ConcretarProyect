@@ -6,18 +6,16 @@ using System.Text;
 
 namespace Concretar.Entities
 {
-    public class Proyecto : IEntity
+    public class Pago: IEntity
     {
-        public int ProyectoId { get; set; }
-        public string Nombre { get; set; }
-        public string Ubicacion { get; set; }
-        public string Dimension { get; set; }
-        public string Precio { get; set; }
-        public string Descripcion { get; set; }
+        public int PagoId { get; set; }
+        public DateTime Fecha { get; set; }
         public DateTime TSCreado { set; get; }
         public DateTime? TSModificado { set; get; }
         public DateTime? TSEliminado { set; get; }
+        public string NumeroComprobante { get; set; }
+        public int CuotaId { get; set; }
         [JsonIgnore]
-        public virtual Venta Venta { get; set; }
+        public virtual Cuota Cuota { get; set; }
     }
 }
