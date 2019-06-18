@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Concretar.Services.Models
 {
-    class VentaViewMode
+    public class VentaViewModel
     {
         public int VentaId { get; set; }
         public string Interes { get; set; }

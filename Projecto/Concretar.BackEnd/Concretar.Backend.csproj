@@ -64,6 +64,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Venta\_GridIndex.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="wwwroot\js\Highcharts\exporting.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

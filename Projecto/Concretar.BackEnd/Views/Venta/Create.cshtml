@@ -1,0 +1,205 @@
+﻿@using Concretar.Backend.Models
+@using Concretar.Services.Models
+@model Concretar.Services.Models.VentaViewModel
+@{
+    //var selectProyecto = (IEnumerable<SelectListItem>)ViewData["Venta"];
+    ViewBag.Title = "Nueva Venta";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+<link href="~/css/rol_style.css" rel="stylesheet" />
+<header class="content__title">
+    <h1>@ViewBag.Title</h1>
+    <div class="actions">
+        <a href="@Url.Action("Index", "Venta")" class="actions__item zmdi zmdi-arrow-left text-danger" title="Volver"></a>
+    </div>
+</header>
+<div class="card filter-cliente">
+    <div class="card-block">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-3">
+                <h5>Seleccione el cliente</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-12">
+                <div class="form-group">
+                    <label for="numTran-filtro">Nombre</label>
+                    <input type="text" placeholder="Ej.: Luis..." id="Nombre" name="Nombre" class="form-control input-filtro" required pattern="^([a-zA-Z\u00C0-\u017F]+[,.]?[ ]?|[a-zA-Z\u00C0-\u017F]+)+$" />
+                    <i class="form-group__bar"></i>
+                    @Html.Hidden("nombre")
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-12">
+                <div class="form-group">
+                    <label for="numTran-filtro">Apellido</label>
+                    <input type="text" placeholder="Ej.: Garcia..." id="Apellido" name="Apellido" class="form-control input-filtro" required pattern="^([a-zA-Z\u00C0-\u017F]+[,.]?[ ]?|[a-zA-Z\u00C0-\u017F]+)+$" />
+                    <i class="form-group__bar"></i>
+                    @Html.Hidden("apellido")
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-12">
+                <div class="form-group">
+                    <label for="numTran-filtro">DNI</label>
+                    <input type="text" placeholder="Ej.: 21222333..." id="DNI" name="DNI" class="form-control input-filtro" required pattern="^([a-zA-Z\u00C0-\u017F]+[,.]?[ ]?|[a-zA-Z\u00C0-\u017F]+)+$" />
+                    <i class="form-group__bar"></i>
+                    @Html.Hidden("dni")
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-12">
+                <a id="btn-clean" class="btn btn-danger btn--icon-text waves-effect text-white">
+                    <i class="zmdi zmdi-close"></i>
+                    Borrar
+                </a>
+                <a id="btn-filter" onclick="reloadGrid(this)" class="btn btn-dark btn--icon-text waves-effect text-white">
+                    <i class="zmdi zmdi-filter-list"></i>
+                    Filtrar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card table-cliente">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.AjaxGrid(Url.Action("GridClientes", "Venta"))
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card datos-clientes d-none">
+    <div class="card-block">
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Apellido</label>
+                            <input class="form-control" id="Apellido" name="Apellido" tabindex="1" type="text" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input class="form-control" id="Nombre" name="Nombre" tabindex="1" type="text" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>DNI</label>
+                            <input class="form-control" id="DNI" name="DNI" tabindex="1" type="text" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Calle</label>
+                            <input class="form-control" id="Calle" name="Calle" tabindex="1" type="text" value="" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card radio-venta d-none">
+    <div class="card-block">
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Seleccione la venta a realizar:</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="tipo-venta" value="lote">Lote
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="tipo-venta" value="proyecto">Proyecto
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <input class="form-control" id="ClienteId" name="ClienteId" tabindex="1" type="hidden" value="">
+                <button id="submit-btn" onclick="return step2()"class="btn btn-primary btn--icon-text waves-effect float-right" tabindex="2">
+                    <i class="zmdi zmdi-save"></i>
+                    Siguiente
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#btn-clean").click(function () {
+        $(".input-filtro").val(null).removeClass("form-control--active");
+        $('.select2').val(null).trigger('change');
+        reloadGrid();
+    });
+    $(".input-filtro").keypress(function (event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            filtrar($("#btn-filter"));
+        }
+    });
+    function borrarFiltro(btn) {
+        $(".input-filtro").val(null).removeClass("form-control--active");
+        reloadGrid(btn, "<i class='zmdi zmdi-close'></i> Borrar");
+    }
+    function reloadGrid(btn, text) {
+        $('.mvc-grid').mvcgrid({
+            requestType: 'get',
+            query: 'nombre=' + $("#Nombre").val() + '&apellido=' + $("#Apellido").val() + '&dni=' + $("#DNI").val(),
+            reloadStarted: function () {
+                $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
+                $("#btn-clean, #btn-filter").addClass("disabled");
+                $("#btn-filter").html("<i class='zmdi zmdi-spinner fa-spin'></i> Procesando");
+            },
+            reloadEnded: function () {
+                $("#btn-clean, #btn-filter").removeClass("disabled");
+                $("#btn-filter").html("<i class='zmdi zmdi-filter-list'></i> Filtrar");
+            },
+            showLoading: true,
+            reload: true
+        });
+    }
+    $(document).ready(function () {
+        $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
+        reloadGrid();
+    });
+    function DatosInputsCliente(data) {
+        $(".filter-cliente").addClass("d-none");
+        $(".table-cliente").addClass("d-none");
+        $(".datos-clientes").removeClass("d-none");
+        $(".radio-venta").removeClass("d-none");
+        $('.datos-clientes #DNI').val(data.dni);
+        $('#ClienteId').val(data.clienteId);
+        $('.datos-clientes #Apellido').val(data.apellido);
+        $('.datos-clientes #Nombre').val(data.nombre);
+        $('.datos-clientes #Calle').val(data.domicilio + " " + data.numeroDomicilio);
+    }
+    function step2() {
+        var ClienteId = $('#ClienteId').val();
+        var TipoVenta = $("input[name='tipo-venta']:checked").val();
+        if (TipoVenta == null) {
+            alert("Por favor, seleccione la venta que va a realizar");
+        } else {
+            var origin = window.location.origin;
+            if( TipoVenta == 'proyecto'){
+            window.location.href = origin + "/Venta/Proyecto?ClienteId=" + ClienteId;
+            }else{
+            window.location.href = origin + "/Venta/Lote?ClienteId=" + ClienteId;
+            }
+        }
+    }
+</script>

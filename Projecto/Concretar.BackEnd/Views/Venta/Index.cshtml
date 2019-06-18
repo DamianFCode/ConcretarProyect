@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Concretar.Services.Models.LoteViewModel>
+@using NonFactors.Mvc.Grid
+@using Concretar.Backend.Extensions
+@{
+    var Email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+    var edit = Html.ColumnTablePermission("Edit", "Venta", Email);
+    var delete = Html.ColumnTablePermission("Delete", "Venta", Email);
+    ViewData["Title"] = "Venta";
+}
+<header class="content__title">
+    <h1>@ViewData["Title"]</h1>
+    <div class="actions">
+        @Html.ActionLinkRole("Realizar nueva venta", "btn btn-success text-white float-right", "Create", "Venta", Email)
+    </div>
+</header>
