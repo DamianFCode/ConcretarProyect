@@ -1,0 +1,40 @@
+﻿@model Concretar.Services.Models.GridClienteModel
+@{
+    var Email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+}
+
+@(Html.Grid(Model.ListClientes)
+        .Build(columns =>
+        {
+            columns.Add(m => m.Nombre).Titled("Nombre");
+            columns.Add(m => m.Apellido).Titled("Apellido");
+            columns.Add(m => m.DNI).Titled("DNI");
+            columns.Add(m => m.Telefono).Titled("Teléfono");
+            columns.Add(m => m.Correo).Titled("Correo");
+            columns.Add(m => m.ClienteId).Titled("Seleccionar").Encoded(false).RenderedAs(m => "<a class='zmdi zmdi-check text-success' onclick='return ClienteSeleccionado("+ m.ClienteId + "); ' title='Seleccionar'></a>");
+        })
+        .Pageable(pager =>
+        {
+            pager.ProcessorType = GridProcessorType.Manual;
+            pager.RowsPerPage = AppSettings.Value.Paging.RowsPerPage;
+            pager.TotalRows = Model.TotalRows;
+        })
+        .Empty("No se encontró ningún registro")
+        .Css("table table-hover")
+)
+<script>
+    function ClienteSeleccionado(n){
+        $.ajax({
+            url: '/Venta/Cliente/'+n,
+            type: 'GET',
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                DatosInputsCliente(result)
+            },
+            error: function (result) {
+                alert(result)
+            }
+        });
+    }
+</script>

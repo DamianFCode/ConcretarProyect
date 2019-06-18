@@ -1,0 +1,17 @@
+﻿@using Concretar.Backend.Models
+@using Concretar.Services.Models
+@model Concretar.Services.Models.VentaViewModel
+@{
+    //var selectProyecto = (IEnumerable<SelectListItem>)ViewData["Venta"];
+    ViewBag.Title = "Venta - Proyecto";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+<link href="~/css/rol_style.css" rel="stylesheet" />
+<header class="content__title">
+    <h1>@ViewBag.Title</h1>
+    <div class="actions">
+        <a href="@Url.Action("Create", "Venta")" class="actions__item zmdi zmdi-arrow-left text-danger" title="Volver"></a>
+    </div>
+</header>
