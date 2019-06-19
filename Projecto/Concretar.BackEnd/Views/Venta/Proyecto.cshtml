@@ -1,8 +1,7 @@
 ﻿@using Concretar.Backend.Models
 @using Concretar.Services.Models
-@model Concretar.Services.Models.VentaViewModel
+@model Concretar.Services.Models.ClienteViewModel
 @{
-    //var selectProyecto = (IEnumerable<SelectListItem>)ViewData["Venta"];
     ViewBag.Title = "Venta - Proyecto";
 }
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -15,3 +14,187 @@
         <a href="@Url.Action("Create", "Venta")" class="actions__item zmdi zmdi-arrow-left text-danger" title="Volver"></a>
     </div>
 </header>
+<div class="card datos-cliente d-none">
+    <div class="card-block">
+        <p>Datos del cliente</p>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", disabled = "disabled" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Apellido</label>
+                    @Html.TextBoxFor(model => model.Apellido, new { @class = "form-control", disabled = "disabled" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>DNI</label>
+                    @Html.TextBoxFor(model => model.DNI, new { @class = "form-control", disabled = "disabled" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Calle</label>
+                    @Html.TextBoxFor(model => model.Domicilio, new { @class = "form-control", disabled = "disabled" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card filter-proyecto">
+    <div id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="card-header" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordionGeneral" href="#collapseGeneral" aria-expanded="true" aria-controls="collapseGeneral" style="cursor: pointer;">
+            <h3 class="card-title">Filtros&nbsp;&nbsp;<i class="icon zmdi zmdi-chevron-up zmdi-hc-lg"></i></h3>
+        </div>
+        <div id="collapseGeneral" class="collapse show" role="tabpanel" aria-labelledby="headingGeneral">
+            <div class="card-block fix-padding">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="form-group">
+                            <label for="numTran-filtro">Nombre</label>
+                            <input type="text" placeholder="Ej.: Tirasso" id="Nombre" name="Nombre" class="form-control input-filtro" required pattern="^([a-zA-Z\u00C0-\u017F]+[,.]?[ ]?|[a-zA-Z\u00C0-\u017F]+)+$" />
+                            <i class="form-group__bar"></i>
+                            @Html.Hidden("nombre")
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="col-auto float-right">
+                        <a id="btn-clean" class="btn btn-danger btn--icon-text waves-effect text-white">
+                            <i class="zmdi zmdi-close"></i>
+                            Borrar
+                        </a>
+                        <a id="btn-filter" onclick="reloadGrid(this)" class="btn btn-dark btn--icon-text waves-effect text-white">
+                            <i class="zmdi zmdi-filter-list"></i>
+                            Filtrar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card table-proyecto">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.AjaxGrid(Url.Action("GridProyecto", "Venta"))
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card datos-proyecto d-none">
+    <div class="card-block">
+        <p>Datos del proyecto</p>
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input class="form-control" id="Nombre" name="Nombre" tabindex="1" type="text" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Ubicación</label>
+                            <input class="form-control" id="Ubicacion" name="Ubicacion" tabindex="1" type="text" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Precio</label>
+                            <input class="form-control" id="Precio" name="Precio" tabindex="1" type="text" value="" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card datos-venta d-none">
+    <div class="card-block">
+        <p>Datos de de la venta</p>
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Entrega</label>
+                            <input class="form-control" id="Entrega" name="Entrega" type="number" value="">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Cantidad de cuitas</label>
+                            <input class="form-control" id="CantidadCuotas" name="CantidadCuotas" type="number" value="">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Interes (%)</label>
+                            <input class="form-control" id="Interes" name="Interes" type="number" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#btn-clean").click(function () {
+        $(".input-filtro").val(null).removeClass("form-control--active");
+        $('.select2').val(null).trigger('change');
+        reloadGrid();
+    });
+    $(".input-filtro").keypress(function (event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            filtrar($("#btn-filter"));
+        }
+    });
+    function borrarFiltro(btn) {
+        $(".input-filtro").val(null).removeClass("form-control--active");
+        reloadGrid(btn, "<i class='zmdi zmdi-close'></i> Borrar");
+    }
+    function reloadGrid(btn, text) {
+        $('.mvc-grid').mvcgrid({
+            requestType: 'get',
+            query: 'nombre=' + $(".filter-proyecto #Nombre").val(),
+            reloadStarted: function () {
+                $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
+                $("#btn-clean, #btn-filter").addClass("disabled");
+                $("#btn-filter").html("<i class='zmdi zmdi-spinner fa-spin'></i> Procesando");
+            },
+            reloadEnded: function () {
+                $("#btn-clean, #btn-filter").removeClass("disabled");
+                $("#btn-filter").html("<i class='zmdi zmdi-filter-list'></i> Filtrar");
+            },
+            showLoading: true,
+            reload: true
+        });
+    }
+    $(document).ready(function () {
+        $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
+        reloadGrid();
+    });
+    function DatosInputsProyecto(data) {
+        $(".filter-proyecto").addClass("d-none");
+        $(".table-proyecto").addClass("d-none");
+        $(".datos-proyecto").removeClass("d-none");
+        $(".datos-cliente").removeClass("d-none");
+        $(".datos-venta").removeClass("d-none");
+
+        $('.datos-proyecto #Precio').val(data.precio);
+        $('.datos-proyecto #Nombre').val(data.nombre);
+        $('.datos-proyecto #Ubicacion').val(data.ubicacion);
+
+    }
+
+</script>

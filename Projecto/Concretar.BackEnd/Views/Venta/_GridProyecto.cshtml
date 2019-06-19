@@ -1,19 +1,18 @@
-﻿@model Concretar.Services.Models.GridLoteModel
+﻿@model Concretar.Services.Models.GridProyectoModel
 @{
     var Email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
-    var edit = Html.ColumnTablePermission("Edit", "Lote", Email);
-    var delete = Html.ColumnTablePermission("Delete", "Lote", Email);
+    var edit = Html.ColumnTablePermission("Edit", "Proyecto", Email);
+    var delete = Html.ColumnTablePermission("Delete", "Proyecto", Email);
 }
 
-@(Html.Grid(Model.ListLote)
+@(Html.Grid(Model.ListProyecto)
                     .Build(columns =>
                     {
                         columns.Add(m => m.Nombre).Titled("Nombre");
                         columns.Add(m => m.Dimension).Titled("Dimensión en m2");
                         columns.Add(m => m.Ubicacion).Titled("Ubicación");
                         columns.Add(m => "$ " + m.Precio).Titled("Precio");
-                        columns.Add(m => m.LoteId).Titled("Seleccionar").Encoded(false).RenderedAs(m => "<a class='zmdi zmdi-check text-success' onclick='return LoteSeleccionado(" + m.LoteId + "); ' title='Seleccionar'></a>");
-
+                        columns.Add(m => m.ProyectoId).Titled("Seleccionar").Encoded(false).RenderedAs(m => "<a class='zmdi zmdi-check text-success' onclick='return ProyectoSeleccionado(" + m.ProyectoId + "); ' title='Seleccionar'></a>");
                     })
                     .Pageable(pager =>
                     {
@@ -25,14 +24,14 @@
                     .Css("table table-hover")
 )
 <script>
-    function LoteSeleccionado(n) {
+    function ProyectoSeleccionado(n) {
         $.ajax({
-            url: '/Venta/SearchLote/' + n,
+            url: '/Venta/SearchProyecto/' + n,
             type: 'GET',
             processData: false,
             contentType: false,
             success: function (result) {
-                DatosInputsLote(result)
+                DatosInputsProyecto(result)
             },
             error: function (result) {
                 alert(result)

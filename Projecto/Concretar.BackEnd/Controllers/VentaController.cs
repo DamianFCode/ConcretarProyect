@@ -80,8 +80,22 @@ namespace Concretar.Backend.Controllers
                 return BadRequest("Ocurrio un error al obtener el listado de Lotes-ajax");
             }
         }
-
-
+        public async Task<IActionResult> GridProyecto(string nombre = null, string ubicacion = null, string dimension = null, string precio = null, int? page = null, int? rows = null)
+        {
+            try
+            {
+                ProyectoService proyectoService = new ProyectoService(_logger);
+                var model = new GridProyectoModel();
+                var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
+                await Task.Run(() => model = proyectoService.GetAll(rowsPerPages, nombre, ubicacion, dimension, precio, page, rows));
+                return PartialView("_GridProyecto", model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Ocurrio un error al obtener el listado de Proyectos-ajax. Error {0}", e);
+                return BadRequest("Ocurrio un error al obtener el listado de proyectos-ajax");
+            }
+        }
         public IActionResult Create()
         {
             ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
@@ -89,16 +103,38 @@ namespace Concretar.Backend.Controllers
         }
         public IActionResult Proyecto(int ClienteId)
         {
-            ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
-            return View();
+            try
+            {
+                ClienteService clienteService = new ClienteService(_logger);
+                var model = clienteService.GetById(ClienteId);
+                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("No se pudo completar la venta");
+                SetTempData("No se pudo completar la venta", "error");
+                return RedirectToAction("Index", "Venta");
+            }
+
         }
         public IActionResult Lote(int ClienteId)
         {
-            ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
-            return View();
+            try
+            {
+                ClienteService clienteService = new ClienteService(_logger);
+                var model = clienteService.GetById(ClienteId);
+                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("No se pudo completar la venta");
+                SetTempData("No se pudo completar la venta", "error");
+                return RedirectToAction("Index", "Venta");
+            }
+
         }
-
-
         public IActionResult Cliente(int id)
         {
             try
@@ -123,6 +159,23 @@ namespace Concretar.Backend.Controllers
                 LoteService loteService = new LoteService(_logger);
                 ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
                 var model = loteService.GetById(id);
+                _logger.LogInformation("Lote obtenido para el Id: <{0}>", id);
+                return Json(model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("No se pudo obtener el Lote para el Id: <{0}>. {1}", id, e);
+                SetTempData("Ocurrio un error al obtener el Lote", "error");
+                return RedirectToAction("Index", "Lote");
+            }
+        }
+        public IActionResult SearchProyecto(int id)
+        {
+            try
+            {
+                ProyectoService proyectoService = new ProyectoService(_logger);
+                ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
+                var model = proyectoService.GetById(id);
                 _logger.LogInformation("Lote obtenido para el Id: <{0}>", id);
                 return Json(model);
             }
