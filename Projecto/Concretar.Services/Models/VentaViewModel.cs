@@ -14,9 +14,9 @@ namespace Concretar.Services.Models
         public DateTime Fecha { get; set; }
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
-        public int ProyectoId { get; set; }
+        public int? ProyectoId { get; set; }
         public Proyecto Proyecto { get; set; }
-        public int LoteId { get; set; }
+        public int? LoteId { get; set; }
         public Lote Lote { get; set; }
         public int CuotaId { get; set; }
         public Cuota Cuota { get; set; }

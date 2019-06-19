@@ -11,6 +11,7 @@ namespace Concretar.Entities
         public int VentaId { get; set; }
         public string Interes { get; set; }
         public int CantidadCuotas { get; set; }
+        public string Anticipo { get; set; }
         public DateTime Fecha { get; set; }
         public DateTime TSCreado { set; get; }
         public DateTime? TSModificado { set; get; }
@@ -18,10 +19,10 @@ namespace Concretar.Entities
         public int ClienteId { get; set; }
         [JsonIgnore]
         public virtual Cliente Cliente { get; set; }
-        public int ProyectoId { get; set; }
+        public int? ProyectoId { get; set; }
         [JsonIgnore]
         public virtual Proyecto Proyecto { get; set; }
-        public int LoteId { get; set; }
+        public int? LoteId { get; set; }
         [JsonIgnore]
         public virtual Lote Lote { get; set; }
         public int CuotaId { get; set; }
