@@ -15,10 +15,10 @@ namespace Concretar.Backend.Controllers
 {
     public class VentaController : CommonController
     {
-        private readonly ILogger<ReunionController> _logger;
+        private readonly ILogger<VentaController> _logger;
         private readonly IOptions<AppSettings> _appSettings;
         private readonly IConfiguration _configuration;
-        public VentaController(ILogger<ReunionController> logger, IConfiguration configuration, IOptions<AppSettings> options)
+        public VentaController(ILogger<VentaController> logger, IConfiguration configuration, IOptions<AppSettings> options)
         {
             _logger = logger;
             _appSettings = options;
@@ -30,6 +30,24 @@ namespace Concretar.Backend.Controllers
             ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
             return View();
         }
+
+        public async Task<IActionResult> GridIndex(string DNI = null, string Lote = null, string Proyecto = null, int? page = null, int? rows = null)
+        {
+            try
+            {
+                VentaService ventaService = new VentaService(_logger);
+                var rowsPerPages = _appSettings.Value.Paging.RowsPerPage;
+                var model = new GridVentaModel();
+                await Task.Run(() => model = ventaService.GetAll(rowsPerPages, DNI, Lote, Proyecto, page, rows));
+                return PartialView("_GridVenta", model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Ocurrio un error al listar los clientes-ajax. Error {0}", e);
+                return BadRequest();
+            }
+        }
+
         public async Task<IActionResult> GridClientes(string nombre = null, string apellido = null, string dni = null, int? page = null, int? rows = null)
         {
             try
