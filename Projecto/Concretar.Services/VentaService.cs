@@ -48,8 +48,6 @@ namespace Concretar.Services
                 Proyecto = x.Proyecto,
                 ClienteId = x.ClienteId,
                 LoteId = x.LoteId,
-                Cuota = x.Cuota,
-                CuotaId = x.CuotaId,
                 CantidadCuotas = x.CantidadCuotas,
                 Fecha = x.Fecha,
                 ProyectoId = x.ProyectoId,

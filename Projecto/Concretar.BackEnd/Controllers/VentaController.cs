@@ -183,7 +183,23 @@ namespace Concretar.Backend.Controllers
             {
                 _logger.LogError("No se pudo obtener el Lote para el Id: <{0}>. {1}", id, e);
                 SetTempData("Ocurrio un error al obtener el Lote", "error");
-                return RedirectToAction("Index", "Lote");
+                return RedirectToAction("Index", "Venta");
+            }
+        }
+        public IActionResult FechaVencimiento(string fechavencimiento, int cantidadcuotas)
+        {
+            var model = new List<string>();
+            try
+            {
+                for (int i =1; i <= cantidadcuotas; i++)
+                {
+                    model.Add(Convert.ToDateTime(fechavencimiento).AddMonths(i).ToString("dd/MM/yyyy"));                    
+                }
+                return Json(model);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Falló la previsualización de la venta");
             }
         }
     }

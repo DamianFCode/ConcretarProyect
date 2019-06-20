@@ -25,8 +25,6 @@ namespace Concretar.Entities
         public int? LoteId { get; set; }
         [JsonIgnore]
         public virtual Lote Lote { get; set; }
-        public int CuotaId { get; set; }
-        [JsonIgnore]
-        public virtual Cuota Cuota { get; set; }
+        public virtual ICollection<Cuota> Cuota { get; set; }
     }
 }

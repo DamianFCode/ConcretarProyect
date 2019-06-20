@@ -11,6 +11,7 @@ namespace Concretar.Services.Models
         public int VentaId { get; set; }
         public string Interes { get; set; }
         public int CantidadCuotas { get; set; }
+        public string Anticipo { get; set; }
         public DateTime Fecha { get; set; }
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
