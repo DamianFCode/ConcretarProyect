@@ -57,20 +57,47 @@ namespace Concretar.Services
         }
         public void Create(VentaViewModel model)
         {
-
-            var venta = new Venta()
+            var venta = new Venta();
+            if (model.ProyectoId.HasValue)
             {
-                Interes = model.Interes,
-                CantidadCuotas = model.CantidadCuotas,
-                Anticipo = model.Anticipo,
-                ClienteId = model.ClienteId,
-                ProyectoId = model.ProyectoId,
-                Fecha = DateTime.Now
-            };
-            _uow.VentaRepository.Create(venta);
+                venta = new Venta()
+                {
+                    Interes = model.Interes,
+                    CantidadCuotas = model.CantidadCuotas,
+                    Anticipo = model.Anticipo,
+                    ClienteId = model.ClienteId,
+                    ProyectoId = model.ProyectoId,
+                    Fecha = DateTime.Now
+                };
+            }
+            else
+            {
+                venta = new Venta()
+                {
+                    Interes = model.Interes,
+                    CantidadCuotas = model.CantidadCuotas,
+                    Anticipo = model.Anticipo,
+                    ClienteId = model.ClienteId,
+                    LoteId = model.LoteId,
+                    Fecha = DateTime.Now
+                };
+            }
+            var ultimaventa = _uow.VentaRepository.Create(venta);
             _uow.VentaRepository.Save();
 
-        }
+            for (int i = 1; i <= model.CantidadCuotas; i++)
+            {
+                var cuota = new Cuota()
+                {
+                    VentaId = ultimaventa.VentaId,
+                    NumeroCuota = i,
+                    Estado = "PENDIENTE",
+                    Precio = model.Precio,
+                    FechaVencimiento = Convert.ToDateTime(model.FechaVencimiento).AddMonths(i)               
+                };
+                _uow.CuotaRepository.Create(cuota);
+                _uow.CuotaRepository.Save();
+            }
 
         public VentaViewModel GetById (int ventaId)
         {

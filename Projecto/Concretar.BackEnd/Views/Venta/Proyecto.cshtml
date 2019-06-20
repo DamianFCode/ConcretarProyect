@@ -194,13 +194,14 @@
             </div>
             <div class="modal-footer">
                 <form asp-action="Create" asp-controller="Venta" method="post" id="ProyectoForm">
-                    @Html.TextBoxFor(model => model.ClienteId, new { @class = "form-control", type = "hidden"})
+                    @Html.TextBoxFor(model => model.ClienteId, new { @class = "form-control", type = "hidden" })
                     <input class="form-control" id="ProyectoId" name="ProyectoId" type="hidden" value="">
                     <input class="form-control" id="Interes" name="Interes" type="hidden" value="">
                     <input class="form-control" id="CantidadCuotas" name="CantidadCuotas" type="hidden" value="">
                     <input class="form-control" id="FechaVencimiento" name="FechaVencimiento" type="hidden" value="">
                     <input class="form-control" id="Anticipo" name="Anticipo" type="hidden" value="">
-                    <button type="submit" class="btn btn-primary">Confirmar venta</button>
+                    <input class="form-control" id="Precio" name="Precio" type="hidden" value="">
+                    -<button type="submit" class="btn btn-primary">Confirmar venta</button>
                 </form>
             </div>
         </div>
@@ -256,7 +257,6 @@
         $('.datos-proyecto #Nombre').val(data.nombre);
         $('.datos-proyecto #Ubicacion').val(data.ubicacion);
         $('#ProyectoForm #ProyectoId').val(data.proyectoId);
-
     }
     $("#FechaVencimiento").flatpickr({
         dateFormat: "Y/m/d",
@@ -275,11 +275,22 @@
     });
 
     function cuotapreview() {
+        //remover datos anteriores
+        $(".numeroCuota p").remove();
+        $(".precioCuota p").remove();
+        $(".fechaVencimiento p").remove();
+
         var precio = $('.datos-proyecto #Precio').val();
         var anticipo = $('.datos-venta #Anticipo').val();
         var cantidadcuotas = $('.datos-venta #CantidadCuotas').val();
         var interes = $('.datos-venta #Interes').val();
         var fechavencimiento = $('.datos-venta #FechaVencimiento').val();
+
+        if (fechavencimiento == "" || anticipo == "" || cantidadcuotas == "" || interes == "") {
+            nError("Por favor, complete los datos para continuar");
+            return false;
+        }
+
         //calculo para mostrar en el modal
         var subtotal = precio - anticipo;
         var porcentaje = (subtotal * interes) / 100;
@@ -291,6 +302,7 @@
         $('#ProyectoForm #Interes').val(interes);
         $('#ProyectoForm #CantidadCuotas').val(cantidadcuotas);
         $('#ProyectoForm #FechaVencimiento').val(fechavencimiento);
+        $('#ProyectoForm #Anticipo').val(anticipo);
 
         var ncuota = 1;
         $.ajax({
@@ -302,7 +314,7 @@
                     $(".fechaVencimiento").append("<p>" + fecha + "</p>");
                     ncuota++;
                 });
-                var cantidadcuotas = $('#CantidadCuotas').val();
+                $('#ProyectoForm #Precio').val(totalcuota);
                 $('#modalpreviucuotas').modal('show')
             },
             error: function (result) {

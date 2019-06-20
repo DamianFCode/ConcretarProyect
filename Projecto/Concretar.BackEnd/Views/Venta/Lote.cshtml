@@ -123,29 +123,91 @@
         <div class="card">
             <div class="card-block">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label>Entrega</label>
-                            <input class="form-control" id="Entrega" name="Entrega" type="number" value="">
+                            <label>Anticipo</label>
+                            <input class="form-control" id="Anticipo" name="Anticipo" type="number" value="">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label>Cantidad de cuitas</label>
+                            <label>Cantidad de cuotas</label>
                             <input class="form-control" id="CantidadCuotas" name="CantidadCuotas" type="number" value="">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>Interes (%)</label>
                             <input class="form-control" id="Interes" name="Interes" type="number" value="">
                         </div>
                     </div>
+                    <div class="col-md-">
+                        <div class="form-group">
+                            <label>Fecha de vencimiento</label>
+                            <input data-date-format="Y/m/d" class="form-control flatpickr-input input-filtro fecha" id="FechaVencimiento" placeholder="Click aquí" type="date" name="FechaVencimiento">
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto">
+                <button onclick="return cuotapreview()" class="btn btn-primary btn--icon-text waves-effect float-right">
+                    <i class="zmdi zmdi-receipt"></i>
+                    Previsualización
+                </button>
             </div>
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="modalpreviucuotas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Cantidad de cuotas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row row-bordered">
+                    <div class="col-4">
+                        Número de la cuota
+                    </div>
+                    <div class="col-3">
+                        Precio de la cuota
+                    </div>
+                    <div class="col-4">
+                        Fecha de vencimiento
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 numeroCuota">
+                    </div>
+                    <div class="col-4 precioCuota">
+                    </div>
+                    <div class="col-4 fechaVencimiento">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <form asp-action="Create" asp-controller="Venta" method="post" id="LoteForm">
+                    @Html.TextBoxFor(model => model.ClienteId, new { @class = "form-control", type = "hidden" })
+                    <input class="form-control" id="LoteId" name="LoteId" type="hidden" value="">
+                    <input class="form-control" id="Interes" name="Interes" type="hidden" value="">
+                    <input class="form-control" id="CantidadCuotas" name="CantidadCuotas" type="hidden" value="">
+                    <input class="form-control" id="FechaVencimiento" name="FechaVencimiento" type="hidden" value="">
+                    <input class="form-control" id="Anticipo" name="Anticipo" type="hidden" value="">
+                    <input class="form-control" id="Precio" name="Precio" type="hidden" value="">
+                    -<button type="submit" class="btn btn-primary">Confirmar venta</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
     $("#btn-clean").click(function () {
@@ -194,7 +256,70 @@
         $('.datos-lote #Precio').val(data.precio);
         $('.datos-lote #Nombre').val(data.nombre);
         $('.datos-lote #Ubicacion').val(data.ubicacion);
-        //$('#ClienteId').val(data.clienteId);
+        $('#LoteForm #LoteId').val(data.loteId);
     }
 
+    $("#FechaVencimiento").flatpickr({
+        dateFormat: "Y/m/d",
+        minDate: 'today',
+        locale: {
+            weekdays: {
+                shorthand: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                longhand: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+            },
+            months: {
+                shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nob', 'Dic'],
+                longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            },
+            firstDayOfWeek: 1,
+        },
+    });
+    function cuotapreview() {
+        //remover datos anteriores
+        $(".numeroCuota p").remove();
+        $(".precioCuota p").remove();
+        $(".fechaVencimiento p").remove();
+
+        var precio = $('.datos-lote #Precio').val();
+        var anticipo = $('.datos-venta #Anticipo').val();
+        var cantidadcuotas = $('.datos-venta #CantidadCuotas').val();
+        var interes = $('.datos-venta #Interes').val();
+        var fechavencimiento = $('.datos-venta #FechaVencimiento').val();
+
+        if (fechavencimiento == "" || anticipo == "" || cantidadcuotas == "" || interes == "") {
+            nError("Por favor, complete los datos para continuar");
+            return false;
+        }
+
+        //calculo para mostrar en el modal
+        var subtotal = precio - anticipo;
+        var porcentaje = (subtotal * interes) / 100;
+        var subtotal = porcentaje + subtotal;
+        var totalcuota = subtotal / cantidadcuotas;
+        var totalcuota = Math.round(totalcuota);
+        //valores para el form hidden
+        $('#LoteForm #Anticipo').val(anticipo);
+        $('#LoteForm #Interes').val(interes);
+        $('#LoteForm #CantidadCuotas').val(cantidadcuotas);
+        $('#LoteForm #FechaVencimiento').val(fechavencimiento);
+        $('#LoteForm #Anticipo').val(anticipo);
+
+        var ncuota = 1;
+        $.ajax({
+            url: '@Url.Action("FechaVencimiento", "Venta")?fechavencimiento=' + fechavencimiento + '&cantidadcuotas='+ cantidadcuotas,
+            success: function (result) {
+                $.each(result, function (i, fecha) {
+                    $(".numeroCuota").append("<p>" + ncuota + "</p>");
+                    $(".precioCuota").append("<p> $" + totalcuota + "</p>");
+                    $(".fechaVencimiento").append("<p>" + fecha + "</p>");
+                    ncuota++;
+                });
+                $('#LoteForm #Precio').val(totalcuota);
+                $('#modalpreviucuotas').modal('show')
+            },
+            error: function (result) {
+                alert(result)
+            }
+        });
+    }
 </script>
