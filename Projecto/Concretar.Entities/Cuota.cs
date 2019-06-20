@@ -10,14 +10,13 @@ namespace Concretar.Entities
     {
         public int CuotaId { get; set; }
         public string Precio { get; set; }
-        public string TotalPagado { get; set; }
         public string SubTotal { get; set; }
-        public bool Confirmado { get; set; }
+        public string Estado { get; set; }
         public int NumeroCuota { get; set; }
         public bool Mora { get; set; }
         public DateTime FechaVencimiento { get; set; }
         public string MontoMora { get; set; }
-        public DateTime TSCreado { set; get; }
+        public DateTime TSCreate { set; get; }
         public DateTime? TSModificado { set; get; }
         public DateTime? TSEliminado { set; get; }
         [JsonIgnore]
@@ -25,6 +24,5 @@ namespace Concretar.Entities
         public int VentaId { get; set; }
         [JsonIgnore]
         public virtual Venta Venta { get; set; }
-
     }
 }

@@ -10,10 +10,11 @@ namespace Concretar.Entities
     {
         public int PagoId { get; set; }
         public DateTime Fecha { get; set; }
-        public DateTime TSCreado { set; get; }
+        public DateTime TSCreate { set; get; }
         public DateTime? TSModificado { set; get; }
         public DateTime? TSEliminado { set; get; }
         public string NumeroComprobante { get; set; }
+        public string TotalPagado { get; set; }
         public int CuotaId { get; set; }
         [JsonIgnore]
         public virtual Cuota Cuota { get; set; }

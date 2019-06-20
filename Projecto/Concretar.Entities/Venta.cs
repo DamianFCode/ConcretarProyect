@@ -13,7 +13,7 @@ namespace Concretar.Entities
         public int CantidadCuotas { get; set; }
         public string Anticipo { get; set; }
         public DateTime Fecha { get; set; }
-        public DateTime TSCreado { set; get; }
+        public DateTime TSCreate { set; get; }
         public DateTime? TSModificado { set; get; }
         public DateTime? TSEliminado { set; get; }
         public int ClienteId { get; set; }
