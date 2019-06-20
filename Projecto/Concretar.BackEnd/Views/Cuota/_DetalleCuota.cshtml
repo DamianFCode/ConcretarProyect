@@ -1,0 +1,60 @@
+﻿@model Concretar.Services.Models.CuotaViewModel
+
+<form asp-action="PagarCuota" asp-controller="Cuota" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnConfirm">
+    <input type="hidden" asp-for="CuotaId" class="form-control" />
+    <input type="hidden" asp-for="VentaId" class="form-control" />
+
+    <div class="card">
+        <h3></h3>
+        <div class="card-block">
+            <h5>Info. de la Cuota</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>N° Cuota</label>
+                        <input type="text" value="@Model.NumeroCuota" class="form-control" readonly />
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Estado Cuota</label>
+                        <input type="text" value="@Model.Estado" class="form-control" readonly />
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Monto Total</label>
+                        <input type="text" value="$ @String.Format("{0:N2}",Model.Precio)" class="form-control" readonly />
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Fecha Vencimiento</label>
+                        <input type="text" value="@Model.FechaVencimiento" class="form-control" readonly />
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" id="btn-confirm" onclick="pagarCuota(this)" name="Confirmar" value="Confirmar" class="btn btn-success btn--icon-text waves-effect float-right">
+                <i class="zmdi zmdi-check"></i>
+                Confirmar
+            </button>&nbsp;
+        </div>
+    </div>
+</form>
+<script>
+    function pagarCuota(btn) {
+        $("#btn-confirm, #btn-refuse").addClass("disabled");
+        $(btn).html("<i class='zmdi zmdi-spinner fa-spin'></i> Procesando...");
+        document.getElementById("btn-confirm").style.pointerEvents = 'none';
+    }
+</script>
