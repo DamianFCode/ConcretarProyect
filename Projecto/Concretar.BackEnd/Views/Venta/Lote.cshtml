@@ -1,6 +1,6 @@
 ﻿@using Concretar.Backend.Models
 @using Concretar.Services.Models
-@model Concretar.Services.Models.VentaViewModel
+@model Concretar.Services.Models.ClienteViewModel
 @{
     //var selectProyecto = (IEnumerable<SelectListItem>)ViewData["Venta"];
     ViewBag.Title = "Venta - Lote";
@@ -15,7 +15,38 @@
         <a href="@Url.Action("Create", "Venta")" class="actions__item zmdi zmdi-arrow-left text-danger" title="Volver"></a>
     </div>
 </header>
-<div class="card">
+<div class="card datos-cliente d-none">
+    <div class="card-block">
+        <p>Datos del cliente</p>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", disabled = "disabled" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Apellido</label>
+                    @Html.TextBoxFor(model => model.Apellido, new { @class = "form-control", disabled = "disabled" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>DNI</label>
+                    @Html.TextBoxFor(model => model.DNI, new { @class = "form-control", disabled = "disabled" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Calle</label>
+                    @Html.TextBoxFor(model => model.Domicilio, new { @class = "form-control", disabled = "disabled" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card filter-lote">
     <div id="accordion" role="tablist" aria-multiselectable="true">
         <div class="card-header" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordionGeneral" href="#collapseGeneral" aria-expanded="true" aria-controls="collapseGeneral" style="cursor: pointer;">
             <h3 class="card-title">Filtros&nbsp;&nbsp;<i class="icon zmdi zmdi-chevron-up zmdi-hc-lg"></i></h3>
@@ -48,7 +79,7 @@
         </div>
     </div>
 </div>
-<div class="card">
+<div class="card table-lote">
     <div class="card-block">
         <div class="row">
             <div class="col-md-12">
@@ -57,6 +88,65 @@
         </div>
     </div>
 </div>
+<div class="card datos-lote d-none">
+    <div class="card-block">
+        <p>Datos del lote</p>
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input class="form-control" id="Nombre" name="Nombre" tabindex="1" type="text" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Ubicación</label>
+                            <input class="form-control" id="Ubicacion" name="Ubicacion" tabindex="1" type="text" value="" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Precio</label>
+                            <input class="form-control" id="Precio" name="Precio" tabindex="1" type="text" value="" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card datos-venta d-none">
+    <div class="card-block">
+        <p>Datos de de la venta</p>
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Entrega</label>
+                            <input class="form-control" id="Entrega" name="Entrega" type="number" value="">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Cantidad de cuitas</label>
+                            <input class="form-control" id="CantidadCuotas" name="CantidadCuotas" type="number" value="">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Interes (%)</label>
+                            <input class="form-control" id="Interes" name="Interes" type="number" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $("#btn-clean").click(function () {
         $(".input-filtro").val(null).removeClass("form-control--active");
@@ -76,7 +166,7 @@
     function reloadGrid(btn, text) {
         $('.mvc-grid').mvcgrid({
             requestType: 'get',
-            query: 'nombre=' + $("#Nombre").val(),
+            query: 'nombre=' + $(".filter-lote #Nombre").val(),
             reloadStarted: function () {
                 $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
                 $("#btn-clean, #btn-filter").addClass("disabled");
@@ -94,5 +184,17 @@
         $(".mvc-grid").html("<br><i class='zmdi-hc-li zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-3x loader-table'></i>");
         reloadGrid();
     });
+    function DatosInputsLote(data) {
+        $(".filter-lote").addClass("d-none");
+        $(".table-lote").addClass("d-none");
+        $(".datos-lote").removeClass("d-none");
+        $(".datos-cliente").removeClass("d-none");
+        $(".datos-venta").removeClass("d-none");
+
+        $('.datos-lote #Precio').val(data.precio);
+        $('.datos-lote #Nombre').val(data.nombre);
+        $('.datos-lote #Ubicacion').val(data.ubicacion);
+        //$('#ClienteId').val(data.clienteId);
+    }
+
 </script>
-    
