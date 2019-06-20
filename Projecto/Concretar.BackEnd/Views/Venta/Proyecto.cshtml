@@ -194,13 +194,13 @@
             </div>
             <div class="modal-footer">
                 <form asp-action="Create" asp-controller="Venta" method="post" id="ProyectoForm">
-                    @Html.TextBoxFor(model => model.ClienteId, new { @class = "form-control", type = "hidden", disabled = "disabled" })
+                    @Html.TextBoxFor(model => model.ClienteId, new { @class = "form-control", type = "hidden"})
                     <input class="form-control" id="ProyectoId" name="ProyectoId" type="hidden" value="">
                     <input class="form-control" id="Interes" name="Interes" type="hidden" value="">
                     <input class="form-control" id="CantidadCuotas" name="CantidadCuotas" type="hidden" value="">
                     <input class="form-control" id="FechaVencimiento" name="FechaVencimiento" type="hidden" value="">
                     <input class="form-control" id="Anticipo" name="Anticipo" type="hidden" value="">
-                    <button type="button" class="btn btn-primary">Confirmar venta</button>
+                    <button type="submit" class="btn btn-primary">Confirmar venta</button>
                 </form>
             </div>
         </div>
@@ -255,8 +255,7 @@
         $('.datos-proyecto #Precio').val(data.precio);
         $('.datos-proyecto #Nombre').val(data.nombre);
         $('.datos-proyecto #Ubicacion').val(data.ubicacion);
-
-        $('#ProyectoForm #ProyectoId').val(data.proyectoid);
+        $('#ProyectoForm #ProyectoId').val(data.proyectoId);
 
     }
     $("#FechaVencimiento").flatpickr({
@@ -277,20 +276,26 @@
 
     function cuotapreview() {
         var precio = $('.datos-proyecto #Precio').val();
-        var anticipo = $('#Anticipo').val();
-        var cantidadcuotas = $('#CantidadCuotas').val();
-        var interes = $('#Interes').val();
-        var fechavencimiento = $('#FechaVencimiento').val();
+        var anticipo = $('.datos-venta #Anticipo').val();
+        var cantidadcuotas = $('.datos-venta #CantidadCuotas').val();
+        var interes = $('.datos-venta #Interes').val();
+        var fechavencimiento = $('.datos-venta #FechaVencimiento').val();
+        //calculo para mostrar en el modal
         var subtotal = precio - anticipo;
         var porcentaje = (subtotal * interes) / 100;
         var subtotal = porcentaje + subtotal;
         var totalcuota = subtotal / cantidadcuotas;
         var totalcuota = Math.round(totalcuota);
+        //valores para el form hidden
+        $('#ProyectoForm #Anticipo').val(anticipo);
+        $('#ProyectoForm #Interes').val(interes);
+        $('#ProyectoForm #CantidadCuotas').val(cantidadcuotas);
+        $('#ProyectoForm #FechaVencimiento').val(fechavencimiento);
+
         var ncuota = 1;
         $.ajax({
             url: '@Url.Action("FechaVencimiento", "Venta")?fechavencimiento=' + fechavencimiento + '&cantidadcuotas='+ cantidadcuotas,
             success: function (result) {
-                console.log(result);
                 $.each(result, function (i, fecha) {
                     $(".numeroCuota").append("<p>" + ncuota + "</p>");
                     $(".precioCuota").append("<p> $" + totalcuota + "</p>");

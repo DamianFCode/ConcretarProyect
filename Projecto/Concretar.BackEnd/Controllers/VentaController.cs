@@ -101,6 +101,25 @@ namespace Concretar.Backend.Controllers
             ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
             return View();
         }
+        [HttpPost]
+        public IActionResult Create(VentaViewModel ventaModel)
+        {
+            try
+            {
+                VentaService ventaService = new VentaService(_logger);
+                ventaService.Create(ventaModel);
+                SetTempData("Venta Creada.");
+                _logger.LogInformation("Venta Creada correctamente");
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Ocurrio un error al crear la venta. Error {0}", e);
+                SetTempData("Ocurrio un error al crear la venta", "error");
+                return RedirectToAction("Index", "Venta");
+            }
+        }
+
         public IActionResult Proyecto(int ClienteId)
         {
             try

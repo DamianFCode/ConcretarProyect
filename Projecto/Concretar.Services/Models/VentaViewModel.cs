@@ -19,7 +19,5 @@ namespace Concretar.Services.Models
         public Proyecto Proyecto { get; set; }
         public int? LoteId { get; set; }
         public Lote Lote { get; set; }
-        public int CuotaId { get; set; }
-        public Cuota Cuota { get; set; }
     }
 }

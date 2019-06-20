@@ -55,5 +55,22 @@ namespace Concretar.Services
             }).ToList();
             return gridVenta;
         }
+        public void Create(VentaViewModel model)
+        {
+
+            var venta = new Venta()
+            {
+                Interes = model.Interes,
+                CantidadCuotas = model.CantidadCuotas,
+                Anticipo = model.Anticipo,
+                ClienteId = model.ClienteId,
+                ProyectoId = model.ProyectoId,
+                Fecha = DateTime.Now
+            };
+            _uow.VentaRepository.Create(venta);
+            _uow.VentaRepository.Save();
+
+        }
+
     }
 }

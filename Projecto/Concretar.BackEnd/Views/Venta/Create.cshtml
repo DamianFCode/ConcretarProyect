@@ -193,7 +193,7 @@
         var ClienteId = $('#ClienteId').val();
         var TipoVenta = $("input[name='tipo-venta']:checked").val();
         if (TipoVenta == null) {
-            alert("Por favor, seleccione la venta que va a realizar");
+            nError("Por favor, seleccione la venta que va a realizar");
         } else {
             var origin = window.location.origin;
             if( TipoVenta == 'proyecto'){
