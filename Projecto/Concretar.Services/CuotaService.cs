@@ -37,10 +37,23 @@ namespace Concretar.Services
             return cuotas;
         }
 
+        public CuotaViewModel GetCuota (int cuotaId, int ventaId)
+        {
+            var cuota = _uow.CuotaRepository.Find(x => x.CuotaId == cuotaId && x.VentaId == ventaId);
+            return new CuotaViewModel()
+            {
+                NumeroCuota = cuota.NumeroCuota.ToString(),
+                FechaVencimiento = cuota.FechaVencimiento,
+                Estado = cuota.Estado,
+                Precio = cuota.Precio,
+                CuotaId = cuota.CuotaId,
+                VentaId = cuota.VentaId
+            };
+        }
+
         public void PagarCuota (int cuotaId, int ventaId)
         {
             var cuota = _uow.CuotaRepository.Find(x => x.CuotaId == cuotaId && x.VentaId == x.VentaId);
-
             var pago = new Pago()
             {
                 CuotaId = cuota.CuotaId,
