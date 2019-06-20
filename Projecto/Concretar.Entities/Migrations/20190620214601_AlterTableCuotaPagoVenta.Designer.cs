@@ -11,9 +11,10 @@ using System;
 namespace Concretar.Entities.Migrations
 {
     [DbContext(typeof(ConcretarContext))]
-    partial class ConcretarContextModelSnapshot : ModelSnapshot
+    [Migration("20190620214601_AlterTableCuotaPagoVenta")]
+    partial class AlterTableCuotaPagoVenta
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

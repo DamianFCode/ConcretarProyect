@@ -1,4 +1,5 @@
 ﻿using Concretar.Entities;
+using Concretar.Helper;
 using Concretar.Services.Models;
 using Microsoft.Extensions.Logging;
 using System;
@@ -22,14 +23,13 @@ namespace Concretar.Services
             var model = _uow.CuotaRepository.FilterIncluding(x => x.VentaId == ventaId, c => c.Venta);
             var cuotas = model.Select(x => new CuotaViewModel()
             {
-                Confirmado = x.Confirmado,
+                Estado = x.Estado,
                 CuotaId = x.CuotaId,
                 MontoMora = x.MontoMora,
                 Mora = x.Mora,
                 NumeroCuota = x.NumeroCuota.ToString(),
                 Precio = x.Precio,
                 SubTotal = x.SubTotal,
-                TotalPagado = x.TotalPagado,
                 VentaId = x.VentaId,
                 Venta = x.Venta,
                 FechaVencimiento = x.FechaVencimiento
@@ -50,7 +50,7 @@ namespace Concretar.Services
             _uow.PagoRepository.Save();
             if (pagoInsert != null)
             {
-                cuota.Confirmado = true;
+                cuota.Estado = EstadosHelper.EstadoCuota.PAGADO.ToString();
                 _uow.CuotaRepository.Update(cuota);
                 _uow.CuotaRepository.Save();
             }

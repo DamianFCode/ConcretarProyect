@@ -44,5 +44,12 @@ namespace Concretar.Helper
             [Description("Pedido de póliza")]
             PEDIDO_POLIZA = 2
         }
+
+        public enum EstadoCuota : int
+        {
+            PENDIENTE = 0,
+            PAGADO = 1,
+            ANULADO = 2
+        }
     }
 }
