@@ -257,7 +257,6 @@
         $('.datos-proyecto #Nombre').val(data.nombre);
         $('.datos-proyecto #Ubicacion').val(data.ubicacion);
         $('#ProyectoForm #ProyectoId').val(data.proyectoId);
-
     }
     $("#FechaVencimiento").flatpickr({
         dateFormat: "Y/m/d",
@@ -286,6 +285,12 @@
         var cantidadcuotas = $('.datos-venta #CantidadCuotas').val();
         var interes = $('.datos-venta #Interes').val();
         var fechavencimiento = $('.datos-venta #FechaVencimiento').val();
+
+        if (fechavencimiento == "" || anticipo == "" || cantidadcuotas == "" || interes == "") {
+            nError("Por favor, complete los datos para continuar");
+            return false;
+        }
+
         //calculo para mostrar en el modal
         var subtotal = precio - anticipo;
         var porcentaje = (subtotal * interes) / 100;
