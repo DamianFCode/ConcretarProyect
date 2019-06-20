@@ -9,11 +9,10 @@
             {
                 columns.Add(m => m.VentaId).Titled("N°");
                 columns.Add(m => m.Cliente.Nombre + " " + m.Cliente.Apellido).Titled("Cliente");
-                columns.Add(m => m.Lote == null ? "--" : m.Lote.Nombre).Titled("Lote");
-                columns.Add(m => m.Proyecto == null ? "--" : m.Proyecto.Nombre).Titled("Proyecto");
+                columns.Add(m => m.Lote == null ? "-" : m.Lote.Nombre).Titled("Lote");
+                columns.Add(m => m.Proyecto == null ? "-" : m.Proyecto.Nombre).Titled("Proyecto");
                 columns.Add(m => m.Fecha.ToString("dd/MM/yyyy")).Titled("Fecha");
-                //columns.Add(m => Html.ActionLink("", "Edit", "Cliente", new { Id = m.ClienteId }, new { @class = "zmdi zmdi-edit text-warning", @title = "Editar" })).Css("action-cell " + edit).Titled("Editar");
-                //columns.Add(m => Html.ActionLink("", "Delete", "Cliente", new { Id = m.ClienteId }, new { @class = "zmdi zmdi-delete text-danger swal-delete", @title = "Eliminar" })).Css("action-cell " + delete).Titled("Eliminar");
+                columns.Add(m => Html.ActionLink("", "Index", "Cuota", new { ventaId = m.VentaId }, new { @class = "zmdi zmdi-info-outline zmdi-hc-2x text-primary", @title = "Detalles" })).Css("action-cell ").Titled("Detalle");
             })
             .Pageable(pager =>
             {

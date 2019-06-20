@@ -25,6 +25,5 @@ namespace Concretar.Entities
         public int VentaId { get; set; }
         [JsonIgnore]
         public virtual Venta Venta { get; set; }
-
     }
 }
