@@ -67,10 +67,22 @@ namespace Concretar.Services
                 ProyectoId = model.ProyectoId,
                 Fecha = DateTime.Now
             };
-            _uow.VentaRepository.Create(venta);
+            var ultimaventa = _uow.VentaRepository.Create(venta);
             _uow.VentaRepository.Save();
+            for (int i = 1; i <= model.CantidadCuotas; i++)
+            {
+                var cuota = new Cuota()
+                {
+                    VentaId = ultimaventa.VentaId,
+                    NumeroCuota = i,
+                    Estado = "PENDIENTE",
+                    Precio = model.Precio,
+                    FechaVencimiento = Convert.ToDateTime(model.FechaVencimiento).AddMonths(i)               
+                };
+                _uow.CuotaRepository.Create(cuota);
+                _uow.CuotaRepository.Save();
+            }
 
         }
-
     }
 }
