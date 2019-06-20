@@ -1,9 +1,24 @@
-﻿@model List<Concretar.Services.Models.CuotaViewModel>
+﻿@model Concretar.Services.Models.VentaViewModel
 @{ 
     var Email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
     ViewData["Title"] = "Cuotas";
 }
 
+<style>
+    .successlight {
+        background-color: #a6f6c8 !important;
+    }
+        .successlight:hover {
+            background-color: #46e88b !important;
+        }
+    .dangerlight {
+        background-color: #ffc0c0 !important;
+    }
+        .dangerlight:hover {
+            background-color: #ff6d6d !important;
+            color: aliceblue;
+        }
+</style>
 <header class="content__title">
     <h1>@ViewData["Title"]</h1>
     <div class="actions">
@@ -15,23 +30,52 @@
     <div class="card-block">
         <div class="row">
             <div class="col-md-12">
-                @(Html.Grid(Model)
-                    .Build(columns =>
-                    {
-                        columns.Add(m => m.NumeroCuota).Titled("N°");
-                        columns.Add(m => m.Precio).Titled("Precio");
-                        columns.Add(m => m.FechaVencimiento).Titled("Fecha Vencimiento");
-                        columns.Add(m => Html.ActionLink("", "Pagarcuota", "Cuota", new { cuotaId = m.CuotaId }, new { @class = "zmdi zmdi-money zmdi-hc-2x text-primary", @title = "Pagar Cuota" })).Css("action-cell ").Titled("Pagar");
-                    })
-                    .Pageable(pager =>
-                    {
-                        pager.RowsPerPage = AppSettings.Value.Paging.RowsPerPage;
-                        pager.PagesToDisplay = 10;
-                    })
-                    .Empty("No se encontró ningún registro")
-                    .Css("table table-hover")
-                )
+                @Html.AjaxGrid(Url.Action("IndexGrid", "Cuota", new { ventaId = Model.VentaId }))
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade bd-example-modal-lg" id="VerDetalleCuota" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="title" id="LargeModalTitle"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div>
+            <div class="modal-body modal-body-detail" id="VerDetalle">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function VerDetalles(cuotaId, ventaId){
+        $.ajax({
+            url: '@Url.Action("GetCuota", "Cuota")',
+            data: { cuotaId: cuotaId, ventaId: ventaId },
+            success: function(data){
+                $("#VerDetalle").html(data);
+                $("#VerDetalleCuota").modal('show');
+            },
+            error: function(msg){
+                nError(msg);
+            }
+        });
+    }
+
+    function OnConfirm(data) {
+        obj = JSON.parse(data);
+        var id = obj.id;
+        $('.modal').modal('hide');
+        $(".row-" + id).removeClass().addClass("row-" + id + " successlight");
+        nSuccess("Cuota número " + obj.action + " pagada exitosamente");
+
+        //Actualizacion de tabla conservando la página actual...
+        var grid = $('.mvc-grid').data('mvc-grid');
+        grid.queryRemove(grid, grid.name + '-Page');
+        $('.mvc-grid').mvcgrid({
+            reload: true
+        });
+    }
+</script>

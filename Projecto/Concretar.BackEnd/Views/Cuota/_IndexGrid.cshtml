@@ -1,0 +1,41 @@
+﻿@model List<Concretar.Services.Models.CuotaViewModel>
+@{
+    var Email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+    ViewData["Title"] = "Cuotas";
+}
+
+@(Html.Grid(Model)
+            .Build(columns =>
+            {
+                columns.Add(m => m.NumeroCuota).Titled("N°");
+                columns.Add(m => m.Precio).Titled("Precio");
+                columns.Add(m => m.FechaVencimiento.ToString("dd/MM/yyyy")).Titled("Fecha Vencimiento");
+                columns.Add(m => m.Estado).Titled("Estado");
+                columns.Add(m =>
+                    ((m.Estado == Concretar.Helper.EstadosHelper.EstadoCuota.PENDIENTE.ToString())) ? 
+
+                    Html.Raw("<div class='actions listview__actions'><a class='actions__item zmdi zmdi-money zmdi-hc-2x text-success' title='Pagar Cuota' onclick='VerDetalles(" + m.CuotaId + "," + m.VentaId + ")'></a>" +
+                        "</div>")
+                    : Html.Raw("<div class='actions listview__actions'><i class='zmdi zmdi-check zmdi-hc-2x text-success'></i>" +
+                        "</div>")).Css("action-cell").Titled("Acciones");
+            })
+            .Pageable(pager =>
+            {
+                pager.RowsPerPage = AppSettings.Value.Paging.RowsPerPage;
+                pager.PagesToDisplay = 10;
+            })
+            .RowCss(columns =>
+            {
+                if (columns.Estado == Concretar.Helper.EstadosHelper.EstadoCuota.PAGADO.ToString())
+                {
+                    return "row-" + columns.CuotaId.ToString() + " successlight";
+                }
+                else if (columns.Estado == Concretar.Helper.EstadosHelper.EstadoCuota.ANULADO.ToString())
+                {
+                    return "row-" + columns.CuotaId.ToString() + " dangerlight";
+                }
+                return "row-" + columns.CuotaId.ToString();
+            })
+            .Empty("No se encontró ningún registro")
+            .Css("table table-hover")
+)

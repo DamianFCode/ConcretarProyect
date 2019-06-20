@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Concretar.Backend.Models;
+using Concretar.Helper;
 using Concretar.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace Concretar.Backend.Controllers
 {
@@ -25,17 +27,49 @@ namespace Concretar.Backend.Controllers
 
         public IActionResult Index(int ventaId)
         {
-            CuotaService cuotaService = new CuotaService(_logger);
-            var model = cuotaService.GetCuotaByVenta(ventaId);
+            ViewData["AppTitle"] = Parametro.GetValue("AppTitle").ToString();
+            VentaService ventaService = new VentaService(_logger);
+            var model = ventaService.GetById(ventaId);
             return View(model);
         }
+        public IActionResult IndexGrid (int ventaId)
+        {
+            try
+            {
+                CuotaService cuotaService = new CuotaService(_logger);
+                var model = cuotaService.GetCuotaByVenta(ventaId);
+                return PartialView("_IndexGrid", model);
+            }
+            catch (Exception e)
+            {
+                SetTempData("Ocurrio un error al obtener las cuotas de la venta", "error");
+                _logger.LogError("Ocurrio un error al obtener las cuotas de la venta. Error {0}", e);
+                return RedirectToAction("Index", "Venta");
+            }
+        }
 
-        public IActionResult Pagarcuota (int cuotaId, int ventaId)
+        public IActionResult GetCuota (int cuotaId, int ventaId)
         {
             CuotaService cuotaService = new CuotaService(_logger);
-            cuotaService.PagarCuota(cuotaId, ventaId);
-            SetTempData("Cuota Pagada");
-            return RedirectToAction("Index", "Cuota", new { ventaId = ventaId });
+            var model = cuotaService.GetCuota(cuotaId, ventaId);
+            return PartialView("_DetalleCuota", model);
+        }
+
+        [HttpPost]
+        public IActionResult Pagarcuota (int cuotaId, int ventaId)
+        {
+            try
+            {
+                CuotaService cuotaService = new CuotaService(_logger);
+                cuotaService.PagarCuota(cuotaId, ventaId);
+                SetTempData("Cuota Pagada");
+                return Ok(JsonConvert.SerializeObject(new { id = cuotaId }));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Ocurrio un error al pagar la cuota con id <{0}>. Error {1}", cuotaId, e);
+                return BadRequest("Ocurrio un error al pagar la cuota");
+            }
         }
     }
 }

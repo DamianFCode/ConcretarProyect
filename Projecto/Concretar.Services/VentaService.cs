@@ -72,5 +72,13 @@ namespace Concretar.Services
 
         }
 
+        public VentaViewModel GetById (int ventaId)
+        {
+            var model = _uow.VentaRepository.Find(x => x.VentaId == ventaId);
+            return new VentaViewModel()
+            {
+                VentaId = model.VentaId
+            };
+        }
     }
 }
