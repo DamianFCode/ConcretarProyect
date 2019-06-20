@@ -51,7 +51,7 @@ namespace Concretar.Services
             };
         }
 
-        public void PagarCuota (int cuotaId, int ventaId)
+        public CuotaViewModel PagarCuota (int cuotaId, int ventaId)
         {
             var cuota = _uow.CuotaRepository.Find(x => x.CuotaId == cuotaId && x.VentaId == x.VentaId);
             var pago = new Pago()
@@ -67,6 +67,11 @@ namespace Concretar.Services
                 _uow.CuotaRepository.Update(cuota);
                 _uow.CuotaRepository.Save();
             }
+            return new CuotaViewModel()
+            {
+                CuotaId = cuota.CuotaId,
+                NumeroCuota = cuota.NumeroCuota.ToString()
+            };
         }
     }
 }

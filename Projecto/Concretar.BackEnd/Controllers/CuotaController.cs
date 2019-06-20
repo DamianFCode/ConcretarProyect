@@ -61,9 +61,9 @@ namespace Concretar.Backend.Controllers
             try
             {
                 CuotaService cuotaService = new CuotaService(_logger);
-                cuotaService.PagarCuota(cuotaId, ventaId);
+                var cuota = cuotaService.PagarCuota(cuotaId, ventaId);
                 SetTempData("Cuota Pagada");
-                return Ok(JsonConvert.SerializeObject(new { id = cuotaId }));
+                return Ok(JsonConvert.SerializeObject(new { id = cuota.CuotaId, numeroCuota = cuota.NumeroCuota }));
             }
             catch (Exception e)
             {
