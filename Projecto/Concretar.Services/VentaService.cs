@@ -93,12 +93,12 @@ namespace Concretar.Services
                     NumeroCuota = i,
                     Estado = "PENDIENTE",
                     Precio = model.Precio,
-                    FechaVencimiento = Convert.ToDateTime(model.FechaVencimiento).AddMonths(i)               
+                    FechaVencimiento = Convert.ToDateTime(model.FechaVencimiento).AddMonths(i)
                 };
                 _uow.CuotaRepository.Create(cuota);
                 _uow.CuotaRepository.Save();
             }
-
+        }
         public VentaViewModel GetById (int ventaId)
         {
             var model = _uow.VentaRepository.Find(x => x.VentaId == ventaId);

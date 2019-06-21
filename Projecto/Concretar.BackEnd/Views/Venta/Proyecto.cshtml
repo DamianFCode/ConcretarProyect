@@ -126,7 +126,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Anticipo</label>
-                            <input class="form-control" id="Anticipo" name="Anticipo" type="number" value="">
+                            <input class="form-control" id="Anticipo" name="Anticipo" type="text" value="">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -207,9 +207,12 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
+    $(".datos-proyecto #Precio").mask('#.##0,00', { reverse: true });
+    $(".datos-venta #Anticipo").mask('#.##0,00', { reverse: true });
+
     $("#btn-clean").click(function () {
         $(".input-filtro").val(null).removeClass("form-control--active");
         $('.select2').val(null).trigger('change');
@@ -291,12 +294,6 @@
             return false;
         }
 
-        //calculo para mostrar en el modal
-        var subtotal = precio - anticipo;
-        var porcentaje = (subtotal * interes) / 100;
-        var subtotal = porcentaje + subtotal;
-        var totalcuota = subtotal / cantidadcuotas;
-        var totalcuota = Math.round(totalcuota);
         //valores para el form hidden
         $('#ProyectoForm #Anticipo').val(anticipo);
         $('#ProyectoForm #Interes').val(interes);
@@ -306,21 +303,22 @@
 
         var ncuota = 1;
         $.ajax({
-            url: '@Url.Action("FechaVencimiento", "Venta")?fechavencimiento=' + fechavencimiento + '&cantidadcuotas='+ cantidadcuotas,
+            url: '@Url.Action("FechaVencimiento", "Venta")?fechavencimiento=' + fechavencimiento + '&cantidadcuotas=' + cantidadcuotas + '&anticipo=' + anticipo + '&precio=' + precio + '&interes=' + interes,
             success: function (result) {
-                $.each(result, function (i, fecha) {
+                obj = JSON.parse(result);
+                $.each(obj.model, function (i, model) {
                     $(".numeroCuota").append("<p>" + ncuota + "</p>");
-                    $(".precioCuota").append("<p> $" + totalcuota + "</p>");
-                    $(".fechaVencimiento").append("<p>" + fecha + "</p>");
+                    $(".precioCuota").append("<p> $" + model.totalcuota + "</p>");
+                    $(".fechaVencimiento").append("<p>" + model.fechavencimiento + "</p>");
                     ncuota++;
                 });
-                $('#ProyectoForm #Precio').val(totalcuota);
+                $('#ProyectoForm #Precio').val(obj.totalcuota);
                 $('#modalpreviucuotas').modal('show')
             },
             error: function (result) {
                 alert(result)
             }
-        });     
+        });
     }
 
 </script>

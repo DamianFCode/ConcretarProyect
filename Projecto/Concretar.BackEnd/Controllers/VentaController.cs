@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -205,16 +206,21 @@ namespace Concretar.Backend.Controllers
                 return RedirectToAction("Index", "Venta");
             }
         }
-        public IActionResult FechaVencimiento(string fechavencimiento, int cantidadcuotas)
+        public IActionResult FechaVencimiento(string fechavencimiento, int cantidadcuotas,string anticipo, string precio,string interes)
         {
-            var model = new List<string>();
+            var model = new List<DatosCuota>();
+
+            var subtotal = Convert.ToDecimal(precio) - Convert.ToDecimal(anticipo);
+            var porcentaje = (subtotal * Convert.ToDecimal(interes)) / 100;
+            subtotal = porcentaje + subtotal;
+            var totalcuota = subtotal / cantidadcuotas;
             try
             {
                 for (int i =1; i <= cantidadcuotas; i++)
                 {
-                    model.Add(Convert.ToDateTime(fechavencimiento).AddMonths(i).ToString("dd/MM/yyyy"));                    
+                    model.Add( new DatosCuota() {fechavencimiento= Convert.ToDateTime(fechavencimiento).AddMonths(i).ToString("dd/MM/yyyy") , totalcuota = totalcuota });                    
                 }
-                return Json(model);
+                return Json(JsonConvert.SerializeObject(new { model, totalcuota }));
             }
             catch (Exception e)
             {
