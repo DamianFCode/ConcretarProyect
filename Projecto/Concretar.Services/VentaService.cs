@@ -99,7 +99,6 @@ namespace Concretar.Services
                 _uow.CuotaRepository.Save();
             }
         }
-
         public VentaViewModel GetById (int ventaId)
         {
             var model = _uow.VentaRepository.Find(x => x.VentaId == ventaId);
