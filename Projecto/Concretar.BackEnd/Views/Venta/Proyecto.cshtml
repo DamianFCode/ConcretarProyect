@@ -316,7 +316,7 @@
                 $('#modalpreviucuotas').modal('show')
             },
             error: function (result) {
-                alert(result)
+                nError(result.responseText);
             }
         });
     }
