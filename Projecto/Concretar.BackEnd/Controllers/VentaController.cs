@@ -208,6 +208,10 @@ namespace Concretar.Backend.Controllers
         }
         public IActionResult FechaVencimiento(string fechavencimiento, int cantidadcuotas,string anticipo, string precio,string interes)
         {
+            if (Convert.ToDecimal(precio) <= Convert.ToDecimal(anticipo))
+            {
+                return BadRequest("El anticipo ingresado es mayor o igual al precio del artículo a vender.");
+            }
             var model = new List<DatosCuota>();
 
             var subtotal = Convert.ToDecimal(precio) - Convert.ToDecimal(anticipo);
