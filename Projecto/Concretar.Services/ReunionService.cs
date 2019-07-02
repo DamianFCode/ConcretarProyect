@@ -54,6 +54,7 @@ namespace Concretar.Services
                 ClienteId = x.ClienteId,
                 Usuario = x.Usuario,
                 UsuarioId = x.UsuarioId,
+                Fecha = x.Fecha,
                 Motivo = x.Motivo,
                 Resultado = x.Resultado,
                 ReunionId = x.ReunionId
