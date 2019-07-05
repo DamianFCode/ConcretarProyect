@@ -14,7 +14,7 @@
                 columns.Add(m =>
                     ((m.Estado == Concretar.Helper.EstadosHelper.EstadoCuota.PENDIENTE.ToString())) ? 
 
-                    Html.Raw("<div class='actions listview__actions'><a class='actions__item zmdi zmdi-money zmdi-hc-2x text-success' title='Pagar Cuota' onclick='VerDetalles(" + m.CuotaId + "," + m.VentaId + ")'></a>" +
+                    Html.Raw("<div class='actions listview__actions'><a class='actions__item zmdi zmdi-money zmdi-hc-2x text-success " + (m.EnablePay ? "" : "isDisabled") + "' title='Pagar Cuota'"+ (m.EnablePay ? "onclick='VerDetalles(" + m.CuotaId + "," + m.VentaId + ")" : "") + "'></a>" +
                         "</div>")
                     : Html.Raw("<div class='actions listview__actions'><i class='zmdi zmdi-check zmdi-hc-2x text-success'></i>" +
                         "</div>")).Css("action-cell").Titled("Acciones");

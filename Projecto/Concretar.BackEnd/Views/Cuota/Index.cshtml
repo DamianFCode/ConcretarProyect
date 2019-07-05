@@ -1,5 +1,5 @@
 ﻿@model Concretar.Services.Models.VentaViewModel
-@{ 
+@{
     var Email = User.Claims.FirstOrDefault(x => x.Type == "Usuario").Value;
     ViewData["Title"] = "Cuotas";
 }
@@ -8,16 +8,26 @@
     .successlight {
         background-color: #a6f6c8 !important;
     }
+
         .successlight:hover {
             background-color: #46e88b !important;
         }
+
     .dangerlight {
         background-color: #ffc0c0 !important;
     }
+
         .dangerlight:hover {
             background-color: #ff6d6d !important;
             color: aliceblue;
         }
+
+    .isDisabled {
+        color: currentColor;
+        cursor: not-allowed;
+        opacity: 0.5;
+        text-decoration: none;
+    }
 </style>
 <header class="content__title">
     <h1>@ViewData["Title"]</h1>
@@ -70,6 +80,7 @@
         $('.modal').modal('hide');
         $(".row-" + id).removeClass().addClass("row-" + id + " successlight");
         nSuccess("Cuota número " + obj.numeroCuota + " pagada exitosamente");
+        window.open('@Url.Action("Recibo", "Cuota")?CuotaId=' + id + '&VentaId=' + @Model.VentaId, "_blank");
 
         //Actualizacion de tabla conservando la página actual...
         var grid = $('.mvc-grid').data('mvc-grid');

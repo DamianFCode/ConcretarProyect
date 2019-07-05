@@ -15,6 +15,7 @@ using Concretar.Backend.Models;
 using Serilog;
 using Serilog.Filters;
 using Concretar.BackEnd.Authorization;
+using Rotativa.AspNetCore;
 
 namespace Concretar.Backend
 {
@@ -112,6 +113,7 @@ namespace Concretar.Backend
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            RotativaConfiguration.Setup(env);
         }
     }
 }

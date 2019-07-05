@@ -18,5 +18,7 @@ namespace Concretar.Services.Models
         public int VentaId { get; set; }
         public Venta Venta { get; set; }
         public DateTime FechaVencimiento { get; set; }
+        public Pago Pago { get; set; }
+        public bool EnablePay { get; set; }
     }
 }

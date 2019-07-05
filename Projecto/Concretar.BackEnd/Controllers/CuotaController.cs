@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Concretar.Backend.Models;
 using Concretar.Helper;
 using Concretar.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Rotativa.AspNetCore;
 
 namespace Concretar.Backend.Controllers
 {
@@ -62,7 +64,6 @@ namespace Concretar.Backend.Controllers
             {
                 CuotaService cuotaService = new CuotaService(_logger);
                 var cuota = cuotaService.PagarCuota(cuotaId, ventaId);
-                SetTempData("Cuota Pagada");
                 return Ok(JsonConvert.SerializeObject(new { id = cuota.CuotaId, numeroCuota = cuota.NumeroCuota }));
             }
             catch (Exception e)
@@ -70,6 +71,14 @@ namespace Concretar.Backend.Controllers
                 _logger.LogError("Ocurrio un error al pagar la cuota con id <{0}>. Error {1}", cuotaId, e);
                 return BadRequest("Ocurrio un error al pagar la cuota");
             }
+        }
+
+        [AllowAnonymous]
+        public ActionResult Recibo(int CuotaId, int VentaId)
+        {
+            CuotaService cuotaService = new CuotaService(_logger);
+            var model = cuotaService.GetCuotaForRecibo(CuotaId, VentaId);
+            return new ViewAsPdf("_Recibo", model);
         }
     }
 }
