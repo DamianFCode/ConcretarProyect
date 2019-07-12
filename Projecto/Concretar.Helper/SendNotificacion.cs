@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net.Mail;
 using Concretar.Helper.Models;
+using Concretar.Entities;
 
 namespace Concretar.Helper
 {
@@ -36,6 +37,19 @@ namespace Concretar.Helper
             try
             {
                 var mail = ArmadoMailNewUsuario(usuario);
+                EmailHelper.SendMail(mail);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al enviar el mail de nuevo usuario");
+                throw;
+            }
+        }
+        public void SendMailPagoRealizado(Cuota cuota, DateTime? nextVencimiento)
+        {
+            try
+            {
+                var mail = PagoRealizado(cuota, nextVencimiento);
                 EmailHelper.SendMail(mail);
             }
             catch (Exception ex)
@@ -134,6 +148,23 @@ namespace Concretar.Helper
             {
                 throw new ArgumentNullException("to", "Debe contar con al menos un destinatario para enviar el mail");
             }
+        }
+
+        private MailMessage PagoRealizado(Cuota cuota, DateTime? nextVencimiento)
+        {
+            string body = File.ReadAllText(path + "/pagoRealizado.html");
+            string subject = "Cuota Pagada Correctamente";
+            string from = Parametro.GetValue("Remitente");
+            string fromName = Parametro.GetValue("RemitenteNombre");
+
+            body = body.Replace("[@monto]", cuota.Precio.ToString());
+            body = body.Replace("[@nombre]", cuota.Venta.Lote != null ? cuota.Venta.Lote.Nombre : cuota.Venta.Proyecto.Nombre);
+            body = body.Replace("[@fecha]", cuota.Pago.Fecha.ToString());
+            body = body.Replace("[@ubicacion]", cuota.Venta.Lote != null ? cuota.Venta.Lote.Ubicacion : cuota.Venta.Proyecto.Ubicacion);
+            body = body.Replace("[@numeroCuota]", cuota.NumeroCuota.ToString());
+            body = body.Replace("[@proxVencimiento]", nextVencimiento.HasValue ? nextVencimiento.ToString() : "-");
+
+            return CreateMailMessage(from, fromName, subject, body, cuota.Venta.Cliente.Correo);
         }
     }
 }
