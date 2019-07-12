@@ -102,7 +102,7 @@
                     <div class="row">
                         <div class="col-6 font" style="background-color:black">
 
-                            <p style="color:white">Próximo Vencimiento @(Model.NextVencimiento.ToString("dddd").First().ToString().ToUpper() + Model.NextVencimiento.ToString("dddd").Substring(1)), @Model.NextVencimiento.Day de @(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.NextVencimiento.Month).First().ToString().ToUpper() + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.NextVencimiento.Month).Substring(1)) de @Model.NextVencimiento.Year</p>
+                            <p style="color:white">Próximo Vencimiento @(Model.NextVencimiento.Value.ToString("dddd").First().ToString().ToUpper() + Model.NextVencimiento.Value.ToString("dddd").Substring(1)), @Model.NextVencimiento.Value.Day de @(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.NextVencimiento.Value.Month).First().ToString().ToUpper() + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.NextVencimiento.Value.Month).Substring(1)) de @Model.NextVencimiento.Value.Year</p>
                         </div>
                     </div>
                 }
