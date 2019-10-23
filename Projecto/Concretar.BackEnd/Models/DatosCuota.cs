@@ -8,6 +8,6 @@ namespace Concretar.Backend.Models
     public class DatosCuota
     {
         public string fechavencimiento { get; set; }
-        public decimal totalcuota { get; set; }
+        public string totalcuota { get; set; }
     }
 }

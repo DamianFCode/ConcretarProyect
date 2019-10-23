@@ -206,28 +206,30 @@ namespace Concretar.Backend.Controllers
                 return RedirectToAction("Index", "Venta");
             }
         }
-        public IActionResult FechaVencimiento(string fechavencimiento, int cantidadcuotas,string anticipo, string precio,string interes)
+        public IActionResult FechaVencimiento(string fechavencimiento, int cantidadcuotas, string anticipo, string precio, string interes)
         {
-            if (Convert.ToDecimal(precio) <= Convert.ToDecimal(anticipo))
+            if (FunctionsHelper.ConvertToDecimal(precio.Replace(",", "").Replace(".", "")) <= FunctionsHelper.ConvertToDecimal(anticipo.Replace(",", "").Replace(".", "")))
             {
                 return BadRequest("El anticipo ingresado es mayor o igual al precio del artículo a vender.");
             }
             var model = new List<DatosCuota>();
 
-            var subtotal = Convert.ToDecimal(precio) - Convert.ToDecimal(anticipo);
+            var subtotal = FunctionsHelper.ConvertToDecimal(precio.Replace(",", "").Replace(".", "")) - FunctionsHelper.ConvertToDecimal(anticipo.Replace(",", "").Replace(".", ""));
             var porcentaje = (subtotal * Convert.ToDecimal(interes)) / 100;
             subtotal = porcentaje + subtotal;
-            var totalcuota = subtotal / cantidadcuotas;
+            var totalcuotas = subtotal / cantidadcuotas;
+            var totalcuota = totalcuotas.ToString();
             try
             {
-                for (int i =1; i <= cantidadcuotas; i++)
+                for (int i = 1; i <= cantidadcuotas; i++)
                 {
-                    model.Add( new DatosCuota() {fechavencimiento= Convert.ToDateTime(fechavencimiento).AddMonths(i).ToString("dd/MM/yyyy") , totalcuota = totalcuota });                    
+                    model.Add(new DatosCuota() { fechavencimiento = Convert.ToDateTime(fechavencimiento).AddMonths(i).ToString("dd/MM/yyyy"), totalcuota = totalcuota });
                 }
                 return Json(JsonConvert.SerializeObject(new { model, totalcuota }));
             }
             catch (Exception e)
             {
+                _logger.LogError("{0}",e);
                 return BadRequest("Falló la previsualización de la venta");
             }
         }
