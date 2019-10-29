@@ -88,35 +88,54 @@ namespace Concretar.Services
         }
         public ReciboModel GetCuotaForRecibo (int CuotaId, int VentaId)
         {
-            var venta = _uow.VentaRepository.FilterIncluding(x => x.VentaId == VentaId, y => y.Cliente, l => l.Lote, p => p.Proyecto).FirstOrDefault();
-            var model = _uow.CuotaRepository.AllIncluding(p => p.Pago).FirstOrDefault(x => x.VentaId == VentaId && x.CuotaId == CuotaId);
-            var cuota = new CuotaViewModel() {
-                Estado = model.Estado,
-                FechaVencimiento = model.FechaVencimiento,
-                NumeroCuota = model.NumeroCuota.ToString(),
-                Precio = model.Precio,
-                SubTotal = model.SubTotal,
-                VentaId = model.VentaId,
-                Pago = model.Pago,
-                Venta = venta
-            };
-            return new ReciboModel()
+            try
             {
-                Cuota = cuota,
-                NextVencimiento = GetProximoVencimiento(CuotaId, VentaId)
-            };
+                var venta = _uow.VentaRepository.FilterIncluding(x => x.VentaId == VentaId, y => y.Cliente, l => l.Lote, p => p.Proyecto).FirstOrDefault();
+                var model = _uow.CuotaRepository.AllIncluding(p => p.Pago).FirstOrDefault(x => x.VentaId == VentaId && x.CuotaId == CuotaId);
+                var cuota = new CuotaViewModel()
+                {
+                    Estado = model.Estado,
+                    FechaVencimiento = model.FechaVencimiento,
+                    NumeroCuota = model.NumeroCuota.ToString(),
+                    Precio = model.Precio,
+                    SubTotal = model.SubTotal,
+                    VentaId = model.VentaId,
+                    Pago = model.Pago,
+                    Venta = venta
+                };
+                _logger.LogInformation("[Recibo] - Modelo para el recibo generado correctamente.");
+                return new ReciboModel()
+                {
+                    Cuota = cuota,
+                    NextVencimiento = GetProximoVencimiento(CuotaId, VentaId)
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("[Recibo] - {0}", e);
+                return new ReciboModel();
+            }
         }
         public DateTime? GetProximoVencimiento (int CuotaId, int VentaId)
         {
-            var cuotaPagada = _uow.CuotaRepository.Find(x => x.VentaId == VentaId && x.CuotaId == CuotaId);
-            var cuotasXVenta = _uow.CuotaRepository.FilterIncluding(x => x.VentaId == VentaId, p => p.Pago);
-            if (GetLastCuota(VentaId) == cuotaPagada.NumeroCuota)
+            try 
             {
+                var cuotaPagada = _uow.CuotaRepository.Find(x => x.VentaId == VentaId && x.CuotaId == CuotaId);
+                var cuotasXVenta = _uow.CuotaRepository.FilterIncluding(x => x.VentaId == VentaId, p => p.Pago);
+                if (GetLastCuota(VentaId) == cuotaPagada.NumeroCuota)
+                {
+                    return null;
+                }
+                cuotasXVenta = cuotasXVenta.Where(x => x.Estado != EstadosHelper.EstadoCuota.PAGADO.ToString()).OrderBy(x => x.NumeroCuota);
+                var nextCuota = cuotasXVenta.FirstOrDefault(x => x.NumeroCuota == (cuotaPagada.NumeroCuota + 1));
+                _logger.LogInformation("[RECIBO] - Fecha para el proximo vencimiento obtenida correctamente");
+                return nextCuota.FechaVencimiento;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("[RECIBO] - Ocurrio un error mientras se intentaba obtener el proximo vencimiento. Error {0}", e);
                 return null;
             }
-            cuotasXVenta = cuotasXVenta.Where(x => x.Estado != EstadosHelper.EstadoCuota.PAGADO.ToString()).OrderBy(x => x.NumeroCuota);
-            var nextCuota = cuotasXVenta.FirstOrDefault(x => x.NumeroCuota == (cuotaPagada.NumeroCuota + 1));
-            return nextCuota.FechaVencimiento;
         }
         public int GetLastCuota (int VentaId)
         {
