@@ -74,19 +74,19 @@ namespace Concretar.Backend.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Recibo(int CuotaId, int VentaId)
+        public IActionResult Recibo(int CuotaId, int VentaId)
         {
             try
             {
                 CuotaService cuotaService = new CuotaService(_logger);
                 var model = cuotaService.GetCuotaForRecibo(CuotaId, VentaId);
-                _logger.LogInformacion("[RECIBO] - Modelo para el recibo obtenido correctamente. Objeto: {0}", JsonConvert.SerializeObject(model));
-                return new ViewAsPdf("_Recibo", model);
+                _logger.LogInformation("[RECIBO] - Modelo para el recibo obtenido correctamente. Objeto: {0}", JsonConvert.SerializeObject(model));
+                return PartialView("_Recibo", model);
             }
             catch (Exception e)
             {
                 _logger.LogError("{0}", e);
-                return RedirectToAction("Index", VentaId);
+                return BadRequest();
             }
         }
     }

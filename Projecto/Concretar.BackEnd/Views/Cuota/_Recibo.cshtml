@@ -2,113 +2,115 @@
 @using System.IO
 @using System.Globalization
 @{
-    Layout = null;
+    //Layout = null;
     var path = Directory.GetCurrentDirectory();
     var Today = DateTime.Now;
 }
-<html>
-<head>
-    <link href="@(path + "/wwwroot/template/css/app.min.css")" rel="stylesheet" />
-    <link href="@(path + "/wwwroot/template/bootstrap/dist/css/bootstrap.min.css")" />
-    <style>
-        hr {
-            display: block;
-            border-style: double;
-            border-width: 2px;
-        }
+@*<html>
+    <head>
+        <link href="@(path + "/wwwroot/template/css/app.min.css")" rel="stylesheet" />
+        <link href="@(path + "/wwwroot/template/bootstrap/dist/css/bootstrap.min.css")" />
+        <style>
+            hr {
+                display: block;
+                border-style: double;
+                border-width: 2px;
+            }
 
-        .date {
-            margin-left: 45rem;
-        }
+            .date {
+                margin-left: 45rem;
+            }
 
-        .font {
-            font-size: 15px;
-        }
-    </style>
-</head>
-<body>
-    @for (var i = 1; i < 3; i++)
-    {
-        <div style=" border: solid">
-            <div class="card-block">
-                <div class="row">
-                    <div>
-                        <h1>CONCRETAR S.R.L.</h1>
-                        <h5 style="font-weight:bold">Pellegrini 177 - San Rafael Mza.</h5>
-                    </div>
+            .font {
+                font-size: 15px;
+            }
+        </style>
+    </head>
+    <body>*@
+@for (var i = 1; i < 3; i++)
+{
+    <div style=" border: solid">
+        <div class="card-block">
+            <div class="row">
+                <div>
+                    <h1>CONCRETAR S.R.L.</h1>
+                    <h5 style="font-weight:bold">Pellegrini 177 - San Rafael Mza.</h5>
                 </div>
-                <hr />
-                <br />
-                <div class="row">
-                    <div class="date font">
-                        <p>San Rafael, @(Today.ToString("dddd").First().ToString().ToUpper() + Today.ToString("dddd").Substring(1)), @Today.Day de @(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Today.Month).First().ToString().ToUpper() + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Today.Month).Substring(1)) de @Today.Year</p>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-7 font" style="float: left">
-                        <p>Recibimos de: @Model.Cuota.Venta.Cliente.Nombre @Model.Cuota.Venta.Cliente.Apellido</p>
-                    </div>
-                    <div class="col-5 font" style="float: right">
-                        <p>DNI N°: @Model.Cuota.Venta.Cliente.DNI</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 font">
-                        <p>La cantidad de pesos: $ @String.Format("{0:N2}", Model.Cuota.Precio)</p>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-12 font" style="font-weight: bold">
-                        <p>A cuenta valor terreno sin urbanizar </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 font">
-                        <p>Para aplicar al pago de: <b>Cuota Capitalizadora n° @Model.Cuota.NumeroCuota Barrio @(Model.Cuota.Venta.Lote != null ? Model.Cuota.Venta.Lote.Nombre : Model.Cuota.Venta.Proyecto.Nombre)</b></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 font">
-                        <p>Ubicación: @(Model.Cuota.Venta.Lote != null ? Model.Cuota.Venta.Lote.Ubicacion : Model.Cuota.Venta.Proyecto.Ubicacion)</p>
-                    </div>
-                </div>
-                <br />
-
-                <div class="row">
-                    <div style="font-size: 20px; margin-left:4rem; float:left">
-                        <p>Son: </p>
-                    </div>
-                    <div class="col-2" style="border: solid; background-color:#b7b3b3; float:right; margin-right:45rem;">
-                        <p style="color:black">$ @String.Format("{0:N2}", Model.Cuota.Precio)</p>
-                    </div>
-                </div>
-                <br /><br />
-                <div class="row">
-                    <div class="col-12">
-                        <p style="float:right">_______________________________________</p>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-12" style="text-align:center;">
-                        <p style="float:right">p/Concretar SRL</p>
-                    </div>
-                </div>
-                @if (Model.NextVencimiento != null)
-                {
-                    <br />
-                    <div class="row">
-                        <div class="col-6 font" style="background-color:black">
-
-                            <p style="color:white">Próximo Vencimiento @(Model.NextVencimiento.Value.ToString("dddd").First().ToString().ToUpper() + Model.NextVencimiento.Value.ToString("dddd").Substring(1)), @Model.NextVencimiento.Value.Day de @(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.NextVencimiento.Value.Month).First().ToString().ToUpper() + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.NextVencimiento.Value.Month).Substring(1)) de @Model.NextVencimiento.Value.Year</p>
-                        </div>
-                    </div>
-                }
             </div>
+            <hr />
+            <br />
+            <div class="row">
+                <div class="date font">
+                    <p>San Rafael, @(Today.ToString("dddd").First().ToString().ToUpper() + Today.ToString("dddd").Substring(1)), @Today.Day de @(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Today.Month).First().ToString().ToUpper() + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Today.Month).Substring(1)) de @Today.Year</p>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-7 font" style="float: left">
+                    <p>Recibimos de: @Model.Cuota.Venta.Cliente.Nombre @Model.Cuota.Venta.Cliente.Apellido</p>
+                </div>
+                <div class="col-5 font" style="float: right">
+                    <p>DNI N°: @Model.Cuota.Venta.Cliente.DNI</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 font">
+                    <p>La cantidad de pesos: $ @String.Format("{0:N2}", Model.Cuota.Precio)</p>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12 font" style="font-weight: bold">
+                    <p>A cuenta valor terreno sin urbanizar </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 font">
+                    <p>Para aplicar al pago de: <b>Cuota Capitalizadora n° @Model.Cuota.NumeroCuota Barrio @(Model.Cuota.Venta.Lote != null ? Model.Cuota.Venta.Lote.Nombre : Model.Cuota.Venta.Proyecto.Nombre)</b></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 font">
+                    <p>Ubicación: @(Model.Cuota.Venta.Lote != null ? Model.Cuota.Venta.Lote.Ubicacion : Model.Cuota.Venta.Proyecto.Ubicacion)</p>
+                </div>
+            </div>
+            <br />
+
+            <div class="row">
+                <div style="font-size: 20px; margin-left:4rem; float:left">
+                    <p>Son: </p>
+                </div>
+                <div class="col-2" style="border: solid; background-color:#b7b3b3; float:right; margin-right:45rem;">
+                    <p style="color:black">$ @String.Format("{0:N2}", Model.Cuota.Precio)</p>
+                </div>
+            </div>
+            <br /><br />
+            <div class="row">
+                <div class="col-12">
+                    <p style="float:right">_______________________________________</p>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12" style="text-align:center;">
+                    <p style="float:right">p/Concretar SRL</p>
+                </div>
+            </div>
+            @if (Model.NextVencimiento != null)
+            {
+                <br />
+                <div class="row">
+                    <div class="col-6 font" style="background-color:black">
+
+                        <p style="color:white">Próximo Vencimiento @(Model.NextVencimiento.Value.ToString("dddd").First().ToString().ToUpper() + Model.NextVencimiento.Value.ToString("dddd").Substring(1)), @Model.NextVencimiento.Value.Day de @(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.NextVencimiento.Value.Month).First().ToString().ToUpper() + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.NextVencimiento.Value.Month).Substring(1)) de @Model.NextVencimiento.Value.Year</p>
+                    </div>
+                </div>
+            }
         </div>
-        <br /><br /><br />
-    }
-</body>
-</html>
+    </div>
+    <br />
+    <br />
+    <br />
+}
+@*</body>
+    </html>*@

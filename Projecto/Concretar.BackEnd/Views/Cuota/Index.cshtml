@@ -28,6 +28,22 @@
         opacity: 0.5;
         text-decoration: none;
     }
+    @@media print {
+        #printQR {
+            -webkit-print-color-adjust: exact;
+            font-family: Gotham !important;
+        }
+
+        .card-deck {
+            opacity: 1 !important;
+        }
+    }
+    @@media screen {
+        .card-deck {
+            position: fixed !important;
+            opacity: 0;
+        }
+    }
 </style>
 <header class="content__title">
     <h1>@ViewData["Title"]</h1>
@@ -59,6 +75,9 @@
         </div>
     </div>
 </div>
+<div class="card-deck" id="recibo">
+
+</div>
 <script>
     function VerDetalles(cuotaId, ventaId){
         $.ajax({
@@ -74,7 +93,7 @@
         });
     }
 
-    function OnConfirm(data) {
+    @*function OnConfirm(data) {
         obj = JSON.parse(data);
         var id = obj.id;
         $('.modal').modal('hide');
@@ -87,6 +106,22 @@
         grid.queryRemove(grid, grid.name + '-Page');
         $('.mvc-grid').mvcgrid({
             reload: true
+        });
+    }*@
+
+    function Recibo(cuotaId, ventaId) {
+        $.ajax({
+            url: '@Url.Action("Recibo", "Cuota")',
+            data: { CuotaId: cuotaId, VentaId: ventaId },
+            success: function (data) {
+                $("#recibo").html(data);
+                setTimeout(function () {
+                    $("#recibo").print();
+                }, 500);
+            },
+            error: function (data) {
+                nError("Ocurrio un error al intenar mostrar el recibo.");
+            }
         });
     }
 </script>
