@@ -79,9 +79,18 @@ namespace Concretar.Backend.Controllers
             try
             {
                 CuotaService cuotaService = new CuotaService(_logger);
-                var model = cuotaService.GetCuotaForRecibo(CuotaId, VentaId);
-                _logger.LogInformation("[RECIBO] - Modelo para el recibo obtenido correctamente. Objeto: {0}", JsonConvert.SerializeObject(model));
-                return PartialView("_Recibo", model);
+                if (cuotaService.IsCuotaPago(CuotaId, VentaId))
+                {
+                    var model = cuotaService.GetCuotaForRecibo(CuotaId, VentaId);
+
+                    _logger.LogInformation("[RECIBO] - Modelo para el recibo obtenido correctamente. Objeto: {0}", JsonConvert.SerializeObject(model));
+                    return PartialView("_Recibo", model);
+                }
+                else
+                {
+                    _logger.LogError("[CUOTA] - La cuota no esta pagada aún, no se puede mostrar o generar el recibo");
+                    return BadRequest();
+                }
             }
             catch (Exception e)
             {

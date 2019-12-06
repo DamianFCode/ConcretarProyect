@@ -180,5 +180,18 @@ namespace Concretar.Services
                 }
             }
         }
+
+        public bool IsCuotaPago (int cuotaId, int ventaId)
+        {
+            var cuota = _uow.CuotaRepository.Find(x => x.CuotaId == cuotaId && x.VentaId == ventaId);
+            if (cuota.Estado != EstadosHelper.EstadoCuota.PAGADO.ToString())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

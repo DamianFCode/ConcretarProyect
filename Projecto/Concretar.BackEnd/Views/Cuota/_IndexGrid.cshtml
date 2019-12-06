@@ -18,7 +18,7 @@
                         "</div>")
                     : Html.Raw("<div class='actions listview__actions'><i class='zmdi zmdi-check zmdi-hc-2x text-success'></i>" +
                         "</div>")).Css("action-cell").Titled("Acciones");
-                columns.Add(m => Html.Raw("<div onclick='Recibo(" + m.CuotaId + "," + m.VentaId + ");'  title='Recibo'><i class='zmdi zmdi-forward text-primary'></i><i class='zmdi zmdi-file text-primary'></div>")).Css("action-cell").Titled("Recibo");
+                columns.Add(m => Html.Raw("<div "+ (m.Estado == Concretar.Helper.EstadosHelper.EstadoCuota.PAGADO.ToString() ? "onclick='Recibo(" + m.CuotaId + "," + m.VentaId + ")" : "") + "'title='Recibo'><i class='zmdi zmdi-file text-primary " + (m.Estado == Concretar.Helper.EstadosHelper.EstadoCuota.PAGADO.ToString() ? "" : "isDisabled") + "'></i></div>")).Css("action-cell").Titled("Recibo");
             })
             .Pageable(pager =>
             {
